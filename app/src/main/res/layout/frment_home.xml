@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/ray_mainhand"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fiftydp"
+        android:background="@color/colormainren">
+
+
+        <ImageView
+            android:id="@+id/imgbtn_search"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fortydp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/tendp"
+            android:layout_marginRight="@dimen/tendp"
+            android:src="@mipmap/class_search" />
+
+    </RelativeLayout>
+
+
+    <com.huashi.app.view.PullDownScrollview
+        android:id="@+id/refresh_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ray_mainhand"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+
+            >
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.huashi.app.view.SlideShowView
+                    android:id="@+id/sidview"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    >
+
+                </com.huashi.app.view.SlideShowView>
+                <LinearLayout
+                    android:id="@+id/ly_recomend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/sidview"
+                    android:background="@color/colorgray"
+                    android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/img_imgrecomend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/fivedp"
+                    android:src="@mipmap/ico_recomend" />
+                </LinearLayout>
+
+                <com.huashi.app.view.HorizontalListview
+                    android:id="@+id/hzl_recomend"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_below="@id/ly_recomend">
+
+                </com.huashi.app.view.HorizontalListview>
+
+
+                <LinearLayout
+                    android:id="@+id/lay_huahua"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/hzl_recomend"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorgray"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:padding="@dimen/fivedp"
+                            android:src="@mipmap/ico_heart" />
+                    </LinearLayout>
+
+                    <include  layout="@layout/cargo__include"></include>
+                </LinearLayout>
+
+                //集团采购
+
+                <LinearLayout
+                    android:id="@+id/lay_jituan"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/lay_huahua"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorgray"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:padding="@dimen/fivedp"
+                            android:src="@mipmap/ico_purchase" />
+                    </LinearLayout>
+
+                    <include layout="@layout/purchase_include"></include>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lay_like"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lay_jituan"
+                    android:background="@color/colorgray"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                       android:layout_gravity="center_horizontal"
+                        android:padding="@dimen/fivedp"
+                        android:src="@mipmap/ico_like"
+                        />
+                </LinearLayout>
+
+
+                <com.huashi.app.view.HomeGridview
+                    android:id="@+id/grv_commodity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/lay_like"
+                    android:numColumns="2"
+                    android:scrollbars="none"></com.huashi.app.view.HomeGridview>
+
+            </RelativeLayout>
+        </ScrollView>
+
+
+    </com.huashi.app.view.PullDownScrollview>
+
+</RelativeLayout>

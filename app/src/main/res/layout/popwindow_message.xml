@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorblack"
+        android:alpha="0.6"
+        android:id="@+id/rl_message"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/messageshape"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/fifteendp"
+        android:layout_marginRight="@dimen/fifteendp"
+        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/twentydp"
+        android:layout_marginLeft="@dimen/tendp"
+        android:layout_marginRight="@dimen/tendp"
+        android:textSize="@dimen/fifteensp"
+        android:lineSpacingMultiplier="1.5"
+        android:textColor="@color/colorblack"
+        android:text="@string/message"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/thirtydp"
+    android:layout_marginBottom="@dimen/fifteendp"
+    android:orientation="horizontal">
+    <Button
+        android:id="@+id/btn_msgconfirm"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/fifteendp"
+        android:layout_marginRight="@dimen/fifteendp"
+        android:background="@color/colordarkgrey"
+        android:text="@string/confirmname"
+       />
+    <Button
+        android:id="@+id/btn_msgcancel"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/fifteendp"
+        android:layout_marginRight="@dimen/fifteendp"
+        android:background="@color/colordarkgrey"
+        android:text="@string/cancel"
+        />
+</LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

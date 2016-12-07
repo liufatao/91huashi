@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colormainren">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/tendp"
+            android:src="@mipmap/ico_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="关于我们"
+            android:textColor="@color/colorwite"
+            android:textSize="@dimen/fifteensp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/img_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/ico_login_huashi"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="5dp"
+            android:textSize="@dimen/fifteendp"
+            android:layout_below="@id/img_top"
+            android:layout_marginLeft="@dimen/fivedp"
+            android:layout_marginRight="@dimen/fivedp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/fiftydp"
+            android:lineSpacingMultiplier="2"
+            android:text="@string/aboutconten" />
+
+        <TextView
+            android:id="@+id/txt_botton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/txt_botton"
+            android:paddingBottom="@dimen/tendp"
+            android:text="Copyright 2015 91huashi.com" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/txt_botton"
+            android:layout_marginBottom="@dimen/fivedp"
+            android:textSize="@dimen/fifteendp"
+            android:text="重庆中壤农资有限公司 版权所有" />
+
+
+
+    </RelativeLayout>
+
+</LinearLayout>

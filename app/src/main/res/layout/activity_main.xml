@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+<FrameLayout
+    android:id="@+id/frmelay_maincontent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@+id/lay_bottom"></FrameLayout>
+   //底部按钮
+
+    <LinearLayout
+        android:id="@+id/lay_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="@dimen/tendp"
+        android:background="@drawable/border"
+       >
+
+        <ImageView
+            android:id="@+id/img_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/tendp"
+            android:paddingTop="@dimen/tendp"
+            android:layout_weight="1"
+            android:src="@mipmap/ico_btn_home_focus"/>
+
+        <ImageView
+            android:id="@+id/img_class"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/tendp"
+            android:layout_weight="1"
+            android:src="@mipmap/ico_btn_class"/>
+
+        <ImageView
+            android:id="@+id/img_shopcart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/tendp"
+            android:layout_weight="1"
+            android:src="@mipmap/ico_btn_shopcart"/>
+        <com.huashi.app.view.DragPointView
+            android:id="@+id/dp_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="-30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textSize="8sp"
+            android:gravity="center"
+            android:textColor="@color/colorwite"
+            />
+        <ImageView
+            android:id="@+id/img_me"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/tendp"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/tendp"
+            android:src="@mipmap/ico_button_me"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/lay_popwoindow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorgray"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_photograph"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorwite"
+            android:text="拍照" />
+
+        <Button
+            android:id="@+id/btn_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/onedp"
+            android:background="@color/colorwite"
+            android:text="从手机相册选取" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tendp"
+            android:background="@color/colorwite"
+            android:text="取消" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/ray_popwindow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/lay_popwoindow"
+        android:alpha="0.5"
+        android:background="@color/colorblack">
+
+    </RelativeLayout>
+
+</RelativeLayout>

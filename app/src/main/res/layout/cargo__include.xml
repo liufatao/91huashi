@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="2"
+    android:orientation="horizontal"
+    android:background="@color/colordarkgrey"
+    android:id="@+id/grdlay_huashi">
+
+        <ImageView
+            android:id="@+id/img_giftbox"
+            android:layout_marginRight="@dimen/onedp"
+            android:background="@mipmap/ico_lihe"
+            android:layout_gravity="fill"
+            />
+        <ImageView
+            android:id="@+id/img_horticultre"
+            android:layout_gravity="fill"
+            android:layout_rowSpan="2"
+            android:background="@mipmap/ico_yuanyi"
+            />
+        <ImageView
+            android:id="@+id/img_petproducts"
+            android:background="@mipmap/ico_chongwu"
+            android:layout_marginRight="@dimen/onedp"
+            android:layout_marginTop="@dimen/onedp"
+            android:layout_gravity="fill"
+
+            />
+        <ImageView
+            android:id="@+id/img_fishinggear"
+            android:background="@mipmap/ico_yuju"
+            android:layout_marginTop="@dimen/onedp"
+            android:layout_marginRight="@dimen/onedp"
+            />
+        <ImageView
+            android:id="@+id/img_specialty"
+            android:background="@mipmap/ico_techan"
+            android:layout_marginTop="@dimen/onedp"
+            android:layout_gravity="fill"
+            />
+
+
+    </GridLayout>

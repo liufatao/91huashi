@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.huashi.app.view.city.McoyScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/product_scrollview"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#f1f1f5"
+    android:fadeScrollbars="true"
+    android:focusable="false"
+    android:fillViewport="true" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.huashi.app.view.SlideShowView
+                android:id="@+id/sidview"
+                android:layout_width="match_parent"
+                android:layout_height="300dp">
+
+            </com.huashi.app.view.SlideShowView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorwite">
+
+                <TextView
+                    android:id="@+id/txt_commodity_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/tendp"
+                    android:ellipsize="end"
+                    android:maxEms="5"
+                    android:singleLine="true"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/twentydp"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/tendp">
+
+                    <TextView
+                        android:id="@+id/txt_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/tendp"
+                        android:textColor="@color/colormainren"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/txt_promotionprice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/fivedp"
+                        android:background="@color/colormainren"
+                        android:textColor="@color/colorwite"
+                        android:textSize="10sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/txt_originalprice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/tendp"
+                        android:textColor="@color/colorsmoke"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/txt_sales"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/tendp"
+                        android:textColor="@color/colorsmoke"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tendp"
+                android:background="@drawable/whiteandgrayselector">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/twentydp"
+                    android:text="@string/deliverytitle" />
+
+                <TextView
+                    android:id="@+id/txt_postage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/tendp"
+                    />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/ry_evaluate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tendp"
+                android:background="@drawable/whiteandgrayselector">
+
+                <TextView
+                    android:id="@+id/txt_evaluate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingBottom="@dimen/fifteendp"
+                    android:paddingLeft="@dimen/twentydp"
+                    android:paddingTop="@dimen/fifteendp"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/tendp"
+                    android:src="@mipmap/ico_right" />
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorwite"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/lv_comments"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="@dimen/onedp"
+                    android:background="@color/colorwite">
+
+                </ListView>
+                <TextView
+                    android:id="@+id/txt_comments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/codeborder"
+                    android:padding="@dimen/fivedp"
+                    android:text="查看更多评论"
+                    android:layout_marginBottom="@dimen/tendp"
+                    android:visibility="gone"
+                    android:textColor="@color/colormainren"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/tendp"
+                android:drawableLeft="@mipmap/ico_up"
+                android:drawablePadding="@dimen/fivedp"
+                android:text="@string/lookdetails" />
+        </LinearLayout>
+
+
+
+
+</com.huashi.app.view.city.McoyScrollView>

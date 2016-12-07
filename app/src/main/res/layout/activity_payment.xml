@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorgray"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/ry_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colormainren">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/tendp"
+            android:src="@mipmap/ico_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="选择配送支付方式"
+            android:textColor="@color/colorwite"
+            android:textSize="@dimen/fifteensp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ry_payment"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@id/ry_top"
+        android:background="@color/colorwite"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_payment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/tendp"
+            android:layout_marginTop="@dimen/tendp"
+            android:drawableLeft="@mipmap/ico_payment"
+            android:drawablePadding="@dimen/tendp"
+            android:text="支付方式" />
+
+
+        <RadioGroup
+            android:id="@+id/rg_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_payment"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/thirtydp"
+                android:layout_marginTop="@dimen/twentydp"
+                android:gravity="center"
+                android:button="@drawable/checkbox_selector"
+                android:background="@mipmap/ico_prong_bore"
+                android:text="在线支付" />
+
+            <RadioButton
+                android:id="@+id/rb_payfor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/twentydp"
+                android:layout_toRightOf="@+id/txt_pay"
+                android:button="@drawable/checkbox_selector"
+                android:background="@mipmap/ico_prong_bore"
+                android:gravity="center"
+                android:text="货到付款" />
+        </RadioGroup>
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@id/ry_payment"
+        android:layout_marginTop="@dimen/onedp"
+        android:background="@color/colorwite"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_indistribution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/tendp"
+            android:layout_marginTop="@dimen/tendp"
+            android:drawableLeft="@mipmap/ico_delivery"
+            android:drawablePadding="@dimen/tendp"
+            android:text="配送方式" />
+
+        <RadioGroup
+            android:id="@+id/rg_logistics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_indistribution"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true">
+
+            <RadioButton
+                android:id="@+id/rb_fastdelivery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/thirtydp"
+                android:layout_marginTop="@dimen/twentydp"
+                android:gravity="center"
+                android:button="@drawable/checkbox_selector"
+                android:background="@mipmap/ico_prong_bore"
+                android:text="快速配送" />
+
+            <RadioButton
+                android:id="@+id/rb_homedelivery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/twentydp"
+                android:layout_toRightOf="@+id/txt_pay"
+                android:gravity="center"
+                android:button="@drawable/checkbox_selector"
+                android:background="@mipmap/ico_prong_bore"
+                android:text="送货上门" />
+        </RadioGroup>
+
+
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colormainren"
+        android:text="@string/confirmname"
+        android:textColor="@color/colorwite" />
+</RelativeLayout>

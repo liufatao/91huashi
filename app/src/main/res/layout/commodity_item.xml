@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorgray"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/onedp"
+        android:layout_marginRight="@dimen/onedp"
+        android:layout_marginTop="2dp"
+        android:background="@color/colorwite">
+
+        <ImageView
+            android:id="@+id/img_commodity"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:padding="@dimen/tendp"
+            android:src="@mipmap/load"
+             />
+
+        <TextView
+            android:id="@+id/txt_commodityname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_commodity"
+            android:padding="@dimen/fivedp"
+            android:maxEms="15"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text="99朵玫瑰花重庆鲜花速递" />
+
+        <TextView
+            android:id="@+id/txt_commoditypic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_commodityname"
+            android:layout_marginLeft="@dimen/fivedp"
+            android:paddingBottom="@dimen/tendp"
+            android:text="￥180.00"
+            android:textColor="@color/colormainren" />
+    </RelativeLayout>
+
+
+</LinearLayout>

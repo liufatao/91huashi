@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ly_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorgray"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_comment_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/tendp"
+            android:layout_marginRight="@dimen/tendp"
+            android:layout_marginTop="@dimen/thirtydp"
+            android:background="@drawable/shopcart_delete_shope"
+            android:text="删除"
+            android:textColor="@color/colorwite" />
+
+
+        <Button
+            android:id="@+id/btn_comment_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/tendp"
+            android:layout_marginLeft="@dimen/tendp"
+            android:layout_marginRight="@dimen/tendp"
+            android:layout_marginTop="@dimen/thirtydp"
+            android:background="@drawable/shopcart_cancel_shape"
+            android:text="取消"
+            android:textColor="@color/colorwite" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/ry_powin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ly_comment">
+
+    </RelativeLayout>
+
+</RelativeLayout>

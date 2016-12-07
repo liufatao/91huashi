@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_evaluate"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colordarkgrey"
+    tools:context="com.huashi.app.activity.EvaluateActivity">
+    <RelativeLayout
+        android:id="@+id/ry_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colormainren">
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/tendp"
+            android:paddingRight="@dimen/tendp"
+            android:paddingBottom="@dimen/tendp"
+            android:paddingTop="@dimen/tendp"
+            android:src="@mipmap/ico_back"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/colorwite"
+            android:textSize="@dimen/fifteensp"
+            android:text="商品评价"/>
+    </RelativeLayout>
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/colorwite"
+        android:gravity="top"
+        android:textSize="@dimen/fifteendp"
+        android:textColorHint="@color/colordarkgrey"
+        android:hint="说说这次购买的商品怎么样吧!,写几句给其它的顾客参考吧"
+        android:layout_below="@id/ry_top"/>
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/et_content"
+    android:layout_alignParentRight="true"
+    android:layout_marginRight="@dimen/fivedp"
+    android:text="0/200"/>
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colormainren"
+        android:textColor="@color/colorwite"
+        android:layout_alignParentBottom="true"
+        android:text="确定"/>
+</RelativeLayout>

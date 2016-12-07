@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/ray_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colormainren">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/tendp"
+            android:src="@mipmap/ico_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/tendp"
+            android:text="@string/paysuccess"
+            android:textColor="@color/colorwite"
+            android:textSize="@dimen/fifteensp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/ico_correct"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/twentydp"
+        android:text="@string/paycomplete"/>
+
+    <Button
+        android:id="@+id/btn_buy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/twentydp"
+        android:layout_marginRight="@dimen/twentydp"
+        android:layout_marginLeft="@dimen/twentydp"
+        android:textColor="@color/colorwite"
+        android:background="@color/colormainren"
+        android:text="@string/continuebuy"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tendp"
+        android:paddingLeft="@dimen/tendp"
+        android:textSize="@dimen/fifteensp"
+        android:text="@string/recommendtoyou"/>
+
+    <GridView
+        android:id="@+id/gv_payrecommend"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:numColumns="2"></GridView>
+
+</LinearLayout>

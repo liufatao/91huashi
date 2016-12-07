@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/swipe_layout"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/ray_mainhand"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fiftydp"
+        android:background="@color/colormainren">
+
+
+        <ImageView
+            android:id="@+id/imgbtn_search"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fortydp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/fivedp"
+            android:layout_marginRight="@dimen/tendp"
+            android:src="@mipmap/class_search" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/list_classify"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ray_mainhand"
+        android:listSelector="@color/colorwite"
+        android:scrollbars="none">
+
+    </ListView>
+    <GridView
+        android:id="@+id/gv_classitem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/list_classify"
+        android:dividerHeight="0dip"
+        android:scrollbars="none"
+        android:numColumns="3"
+        android:layout_below="@id/ray_mainhand"></GridView>
+
+    <TextView
+        android:id="@+id/txt_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/twentydp"
+        android:textColor="@color/colergray"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="70dp"
+        android:visibility="gone"
+        android:text="商品已售空"/>
+
+
+    </RelativeLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>

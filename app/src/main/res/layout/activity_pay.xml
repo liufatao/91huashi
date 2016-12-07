@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorgray"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colormainren">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/tendp"
+            android:src="@mipmap/ico_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/pay"
+            android:textColor="@color/colorwite"
+            android:textSize="@dimen/fifteensp" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/colorwite">
+
+        <TextView
+            android:id="@+id/txt_allpic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="￥300"
+            android:textColor="@color/colormainren"
+            android:textSize="@dimen/thirtysp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/tendp"
+        android:text="选择支付方式" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorwite"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_zhihubao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_alipay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/tendp"
+                android:paddingBottom="@dimen/tendp"
+                android:paddingTop="@dimen/tendp"
+                android:src="@mipmap/ico_alipay" />
+
+            <TextView
+                android:id="@+id/txt_alipay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/fivedp"
+                android:layout_toRightOf="@id/img_alipay"
+                android:paddingTop="@dimen/tendp"
+                android:text="支付宝" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_alipay"
+                android:layout_marginLeft="@dimen/fivedp"
+                android:layout_marginTop="@dimen/fivedp"
+                android:layout_toRightOf="@id/img_alipay"
+                android:paddingBottom="@dimen/tendp"
+                android:text="推荐支付宝用户使用"
+                android:textColor="@color/colordarkgrey" />
+
+
+
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_weixin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_zhihubao">
+
+            <ImageView
+                android:id="@+id/img_weixin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/tendp"
+                android:paddingBottom="@dimen/tendp"
+                android:paddingTop="@dimen/tendp"
+                android:src="@mipmap/ico_weixinpay" />
+
+            <TextView
+                android:id="@+id/txt_weixinpay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/fivedp"
+                android:layout_toRightOf="@id/img_weixin"
+                android:paddingTop="@dimen/tendp"
+                android:text="微信支付" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_weixinpay"
+                android:layout_marginLeft="@dimen/fivedp"
+                android:layout_marginTop="@dimen/fivedp"
+                android:layout_toRightOf="@id/img_weixin"
+                android:paddingBottom="@dimen/tendp"
+                android:text="推荐微信用户使用"
+                android:textColor="@color/colordarkgrey" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_unionpay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_weixin">
+
+            <ImageView
+                android:id="@+id/img_unionpay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/tendp"
+                android:paddingBottom="@dimen/tendp"
+                android:paddingTop="@dimen/tendp"
+                android:src="@mipmap/ico_unionpay" />
+
+            <TextView
+                android:id="@+id/txt_unionpay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/fivedp"
+                android:layout_toRightOf="@id/img_unionpay"
+                android:paddingTop="@dimen/tendp"
+                android:text="银联支付" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_unionpay"
+                android:layout_marginLeft="@dimen/fivedp"
+                android:layout_marginTop="@dimen/fivedp"
+                android:layout_toRightOf="@id/img_unionpay"
+                android:paddingBottom="@dimen/tendp"
+                android:text="推荐银联用户使用"
+                android:textColor="@color/colordarkgrey" />
+
+        </RelativeLayout>
+
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical">
+            <RadioButton
+                android:id="@+id/rb_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/tendp"
+                android:layout_marginTop="@dimen/thirtydp"
+                android:checked="true"
+                android:button="@drawable/checkbox_selector" />
+
+            <RadioButton
+                android:id="@+id/rb_weixinpay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/thirtydp"
+                android:layout_marginRight="@dimen/tendp"
+                android:button="@drawable/checkbox_selector" />
+
+            <RadioButton
+                android:id="@+id/rb_unionpay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/thirtydp"
+                android:layout_marginRight="@dimen/tendp"
+                android:button="@drawable/checkbox_selector" />
+        </RadioGroup>
+
+
+
+    </RelativeLayout>
+
+   <Button
+       android:id="@+id/btn_ok"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="@dimen/fortydp"
+       android:layout_marginRight="@dimen/tendp"
+       android:layout_marginLeft="@dimen/tendp"
+       android:textColor="@color/colorwite"
+       android:background="@color/colormainren"
+       android:text="确认支付"/>
+
+</LinearLayout>

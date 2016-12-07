@@ -1,0 +1,136 @@
+<resources>
+    <string name="app_name">91花市</string>
+    <string name="cancel">取消</string>
+    <string name="emptythesearch">清空搜索历史</string>
+    <string name="searchhistory">搜索历史</string>
+    <string name="topsearch">热门搜索</string>
+    <string name="searchhint">搜索您喜欢的商品</string>
+    <string name="searchname">搜索</string>
+    <string name="metitle">我的</string>
+    <string name="registername">注册/登录</string>
+    <!--<string name="accountname">账户管理</string>-->
+    <string name="myordername">我的订单</string>
+    <string name="allordern">查看全部订单</string>
+    <string name="takeaddermanagename">收货地址管理</string>
+    <string name="collectname">收藏</string>
+    <string name="commentname">评论</string>
+    <string name="setname">设置</string>
+    <string name="shopcattitle">购物车</string>
+    <string name="overname">完成</string>
+    <!--<string name="addcollect">移入收藏</string>-->
+    <!--<string name="registerandname">注册/登录</string>-->
+    <string name="feedbackname">意见反馈</string>
+    <string name="commenttitle">我的评论</string>
+    <string name="accountinformationtitle">账户信息</string>
+    <string name="handpic">头像</string>
+    <string name="personalized">个性签名</string>
+    <string name="changepassword">修改密码</string>
+    <string name="nickname">昵称</string>
+    <string name="updatenickname">请输入4-20个字符</string>
+    <!--<string name="updatapersonalized">30个字符</string>-->
+    <string name="changepasswordtitle">修改密码</string>
+    <string name="nowpassword">当前密码</string>
+    <string name="newpassword">新 密 码</string>
+    <string name="verify">确认新密码</string>
+    <string name="logintitle">登录</string>
+    <string name="registered">注册</string>
+    <string name="phonenumber">手机号码</string>
+    <string name="passwodrdname">密码</string>
+    <string name="findpassword">忘记密码</string>
+    <string name="inputpassword">请输入密码</string>
+    <string name="instantreregister">立即注册</string>
+    <string name="productdetailstitle">商品详情</string>
+    <string name="deliverytitle">配送</string>
+    <!--<string name="productparameter">产品参数</string>-->
+    <string name="lookdetails">上拉查看商品详情</string>
+    <string name="recommendtoyou">为你推荐</string>
+    <string name="tobottorm">已经到最底部了</string>
+    <string name="confirmname">确定</string>
+    <string name="theconsignee">收件人:</string>
+    <string name="phonename">电话:</string>
+    <string name="address">地址:</string>
+    <string name="orderstatus">订单状态:</string>
+    <string name="orderno">订单编号:</string>
+    <string name="ordertime">下单时间:</string>
+    <string name="deliverytime">发货时间:</string>
+    <string name="logisticscompany">物流公司:</string>
+    <string name="waybillnumber">运单编号:</string>
+    <!--<string name="confirmorder">确认订单</string>-->
+    <!--<string name="leavemessage">买家留言:</string>-->
+    <!--<string name="dealovertitle">交易成功</string>-->
+    <string name="pay">支付</string>
+
+    <string name="payfailure">支付失败</string>
+    <string name="continuepay">继续支付</string>
+    <string name="paysuccess">支付成功</string>
+    <string name="payload">支付结果确认中</string>
+    <string name="paycomplete">恭喜你支付成功！</string>
+    <string name="continuebuy">继续购买</string>
+    <string name="topay">去结算</string>
+    <string name="compile">编辑</string>
+    <string name="mycollection">我的收藏</string>
+    <string name="addressmanagement">收货地址管理</string>
+    <string name="waitshipment">待发货</string>
+    <string name="aftesales">退款/售后</string>
+    <string name="waitpayment">待付款</string>
+    <string name="waitcomment">待评论</string>
+    <string name="allorder">全部订单</string>
+    <string name="waittake">待收货</string>
+    <string name="message">清楚缓存功能可能会清除用户信息造成数据丢失你确定要清除吗？</string>
+    <string name="str_allpic">总价：</string>
+    <string name="str_joinshop">加入购物车</string>
+    <string name="str_buy">立即购买</string>
+    <string name="strmaxsum">不能超过最大产品数量</string>
+    <string name="strminsum">购买数量不能低于1件</string>
+    <string name="strregain">重新获取</string>
+    <string name="strtheconsigneehint">请输入收货姓名</string>
+    <string name="strphonenumber">手机号码：</string>
+    <string name="strtheconsigneenphone">请输入收货号码</string>
+    <string name="strallarea">所有区域：</string>
+    <string name="strhintallare">点击选择送货区域</string>
+    <string name="strdetailedadder">详细地址：</string>
+    <string name="strhintdetailedadder">请输入详细地址</string>
+    <string name="strdefaultadder">设为默认地址</string>
+    <string name="strwarn">警告</string>
+    <string name="strconfiguration">需要配置私钥</string>
+    <string name="strversions">已经是最新版本</string>
+
+    <!--获取验证码返回值判断-->
+    <string name="strcodewin">验证码已发送</string>
+    <string name="strsystemexception">系统异常</string>
+    <string name="strparametersabnormal">获取参数异常</string>
+    <string name="strnull">电话号码为空</string>
+    <string name="strfomatwrong">电话号码不存在</string>
+    <string name="strfailure">获取验证码失败</string>
+    <string name="strcodenull">验证码为空</string>
+    <string name="strpwdlenght">密码不能为空必须小于6</string>
+    <string name="strpwdlenghts">确认密码不能为空必须小于6</string>
+    <string name="strpwdnotmatch">两次输入的密码不一致请重新输入</string>
+    <string name="strrepeatedregistration">该手机已注册不需要重复注册</string>
+    <string name="strregistrationfailed">注册失败</string>
+    <string name="strregisteredsuccessfully">注册成功</string>
+
+    <!--标题类-->
+    <string name="strcommidtytitle">商品评论</string>
+
+
+    <!--下拉刷新，上拉加载-->
+    <string name="pull_to_refresh_pull_label">下拉刷新</string>
+    <string name="pull_to_refresh_release_label">松开后刷新</string>
+    <string name="pull_to_refresh_refreshing_label">正在刷新\u2026</string>
+
+    <string name="pull_to_refresh_footer_release_label">松开后加载</string>
+    <string name="pull_to_refresh_footer_pull_label">上拉加载更多</string>
+    <string name="pull_to_refresh_footer_refreshing_label">正在加载中\u2026</string>
+    <string name="app_tip">提示</string>
+    <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
+    <!--关于我们-->
+    <string name="aboutconten">91花市是重庆中壤农资有限公司旗下互联网产品。我们尊崇踏实、拼搏、责任的企业精神，并以诚信、共赢、开创经营理念，创造良好的企业环境，以全新的管理模式，完善的技术，周到的服务，卓越的品质为生存根本，我们始终坚持用户至上，用心服务于客户，坚持用自己的服务去打动客户。
+</string>
+
+    <!--微信支付-->
+    <string name="getting_prepayid">正在获取预支付订单...</string>
+
+    <string name="ordermessage">你还还没有相关的订单可操作</string>
+    <string name="networkexception">网络异常</string>
+</resources>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorgray"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colormainren">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/tendp"
+            android:src="@mipmap/ico_back" />
+
+        <TextView
+            android:id="@+id/txt_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="新增收货地址"
+            android:textColor="@color/colorwite"
+            android:textSize="@dimen/fifteensp" />
+
+        <TextView
+            android:id="@+id/txt_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/tendp"
+            android:textColor="@color/colorwite"
+            android:text="@string/overname"/>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorwite"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/twentydp"
+        android:paddingTop="@dimen/twentydp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/tendp"
+            android:textColor="@color/colorblack"
+            android:text="@string/theconsignee"
+            android:textSize="@dimen/fifteendp" />
+
+        <EditText
+            android:id="@+id/et_consigneename"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/twentysix"
+            android:background="@null"
+            android:hint="@string/strtheconsigneehint"
+            android:textColorHint="@color/colorsmoke"
+            android:textSize="@dimen/fifteendp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorwite"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/onedp"
+        android:paddingBottom="@dimen/twentydp"
+        android:paddingTop="@dimen/twentydp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/tendp"
+            android:text="@string/strphonenumber"
+            android:textColorHint="@color/colorsmoke"
+            android:textColor="@color/colorblack"
+            android:textSize="@dimen/fifteendp" />
+
+        <EditText
+            android:id="@+id/et_consigneenphone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:paddingLeft="@dimen/onedp"
+            android:numeric="integer"
+            android:hint="@string/strtheconsigneenphone"
+            android:textColorHint="@color/colorsmoke"
+            android:textSize="@dimen/fifteendp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/ry_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorwite"
+        android:paddingBottom="@dimen/twentydp"
+        android:layout_marginTop="@dimen/onedp"
+        android:paddingTop="@dimen/twentydp">
+
+        <TextView
+            android:id="@+id/txt_addertitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/tendp"
+            android:text="@string/strallarea"
+            android:textColor="@color/colorblack"
+            android:textColorHint="@color/colorsmoke"
+            android:textSize="@dimen/fifteendp" />
+
+        <TextView
+            android:id="@+id/txt_adder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/txt_addertitle"
+            android:text="@string/strhintallare"
+            android:textColor="@color/colorsmoke"
+            android:textColorHint="@color/colorsmoke"
+            android:textSize="@dimen/fifteendp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/tendp"
+            android:src="@mipmap/ico_right" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorwite"
+        android:paddingBottom="@dimen/twentydp"
+        android:layout_marginTop="@dimen/onedp"
+        android:paddingTop="@dimen/twentydp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/tendp"
+            android:textColor="@color/colorblack"
+            android:text="@string/strdetailedadder" />
+
+        <EditText
+            android:id="@+id/et_detaileadder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:paddingLeft="@dimen/fivedp"
+            android:hint="@string/strhintdetailedadder"
+            android:textColorHint="@color/colorsmoke"
+            android:textSize="@dimen/fifteendp" />
+
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/cn_defauta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/tendp"
+        android:layout_marginTop="@dimen/twentydp"
+        android:button="@drawable/checkboxadder_selector"
+        android:paddingLeft="@dimen/fivedp"
+        android:text="@string/strdefaultadder"
+        android:textSize="@dimen/fifteendp" />
+</LinearLayout>

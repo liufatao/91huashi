@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorgray"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/ray_hand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colormainren">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/tendp"
+            android:src="@mipmap/ico_back" />
+        <TextView
+            android:id="@+id/txt_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/searchname"
+            android:textColor="@color/colorwite"
+            android:textSize="@dimen/twentydp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="@dimen/tendp"
+            />
+
+        <EditText
+            android:id="@+id/edi_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/tendp"
+            android:layout_marginRight="@dimen/tendp"
+            android:layout_toRightOf="@id/img_back"
+            android:layout_toLeftOf="@id/txt_search"
+            android:background="@drawable/searchshape"
+            android:drawableLeft="@mipmap/search"
+            android:hint="@string/searchhint"
+            android:paddingLeft="@dimen/tendp"
+            android:textColorHighlight="@color/colordarkgrey"
+            android:textColorHint="@color/colordarkgrey"
+            android:textSize="13sp" />
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/rg_searchType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorwite"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txt_recommend"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twentydp"
+            android:layout_weight="1"
+            android:paddingBottom="@dimen/fivedp"
+            android:paddingTop="@dimen/fivedp"
+            android:text="推荐"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txt_comprehensive"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="综合"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txt_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="价格↑"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txt_evaluation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="评价"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <com.huashi.app.view.PullToRefreshView
+        android:id="@+id/main_pull_refresh_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <GridView
+            android:id="@+id/gv_dispay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:verticalSpacing="10dip"
+            android:scrollbars="none"
+            android:numColumns="2">
+
+        </GridView>
+
+    </com.huashi.app.view.PullToRefreshView>
+
+
+</LinearLayout>

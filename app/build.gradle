@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion '23.0.2'
+
+    defaultConfig {
+        applicationId "com.huashi.app"
+        minSdkVersion 14
+        targetSdkVersion 22
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    android {
+        lintOptions {
+            disable  "ResourceType"
+        }
+    }
+    signingConfigs {
+        debug {
+            storeFile file("E:\\91huashi\\app\\src\\main\\debug.keystore")
+        }
+    }
+}
+android {
+    useLibrary 'org.apache.http.legacy'
+}
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:recyclerview-v7:23.4.0'
+    compile files('libs/Volley.jar')
+    compile project(':library')
+    compile files('libs/open_sdk_r5756.jar')
+    compile files('libs/gson-2.3.1.jar')
+    compile files('libs/alipaySdk-20160516.jar')
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+    compile files('libs/UPPayAssistEx.jar')
+    compile files('libs/libammsdk.jar')
+    compile files('libs/UPPayPluginExPro.jar')
+    compile 'com.jayway.android.robotium:robotium-solo:5.6.3'
+    compile 'com.jakewharton:butterknife:7.0.0'
+    androidTestCompile 'org.testng:testng:6.9.6'
+    compile files('libs/jpush-android-2.2.0.jar')
+}

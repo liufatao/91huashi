@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   >
+
+
+    <LinearLayout
+        android:id="@+id/ly_shopcart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorgray"
+        android:orientation="vertical">
+    <Button
+        android:id="@+id/btn_shopcart_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shopcart_delete_shope"
+        android:textColor="@color/colorwite"
+        android:layout_marginLeft="@dimen/tendp"
+        android:layout_marginTop="@dimen/thirtydp"
+        android:layout_marginRight="@dimen/tendp"
+        android:text="删除"/>
+
+
+    <Button
+        android:id="@+id/btn_shopcart_collect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shopcart_collect_shape"
+        android:textColor="@color/colorwite"
+        android:layout_marginLeft="@dimen/tendp"
+        android:layout_marginRight="@dimen/tendp"
+        android:layout_marginTop="@dimen/fivedp"
+        android:text="收藏"/>
+
+
+    <Button
+        android:id="@+id/btn_shopcart_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shopcart_cancel_shape"
+        android:textColor="@color/colorwite"
+        android:layout_marginLeft="@dimen/tendp"
+        android:layout_marginRight="@dimen/tendp"
+        android:layout_marginTop="@dimen/thirtydp"
+        android:layout_marginBottom="@dimen/tendp"
+        android:text="取消"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/ry_powin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ly_shopcart">
+
+    </RelativeLayout>
+
+</RelativeLayout>

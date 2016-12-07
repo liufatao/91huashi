@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorgray"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="@dimen/tendp"
+        android:background="@color/colorwite">
+
+        <TextView
+            android:id="@+id/txt_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/tendp"
+            android:paddingTop="@dimen/tendp"
+            android:text="刘涛涛"
+            android:textColor="@color/colorblack" />
+
+        <TextView
+            android:id="@+id/txt_userphone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/tendp"
+            android:layout_toRightOf="@+id/txt_username"
+            android:paddingTop="@dimen/tendp"
+            android:text="123456789"
+            android:textColor="@color/colorblack" />
+
+        <TextView
+            android:id="@+id/txt_useradd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_username"
+            android:layout_marginLeft="@dimen/tendp"
+            android:layout_marginTop="@dimen/fivedp"
+            android:text="我家住在黄土高坡" />
+
+        <View
+            android:id="@+id/vw_lind"
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:layout_below="@id/txt_useradd"
+            android:layout_marginTop="@dimen/tendp"
+            android:background="@color/colorsmoke">
+
+        </View>
+
+        <CheckBox
+            android:id="@+id/cb_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/vw_lind"
+            android:layout_marginLeft="@dimen/fivedp"
+            android:layout_marginTop="@dimen/tendp"
+            android:button="@drawable/checkboxadder_selector"
+            android:paddingLeft="@dimen/tendp"
+            android:text="默认地址："
+            android:textColor="@color/colorsmoke" />
+
+
+        <TextView
+            android:id="@+id/txt_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/vw_lind"
+            android:layout_marginRight="@dimen/fifteendp"
+            android:layout_marginTop="@dimen/twentydp"
+            android:drawableLeft="@mipmap/ico_empty"
+            android:drawablePadding="@dimen/fivedp"
+            android:paddingBottom="@dimen/tendp"
+            android:text="删除" />
+
+        <TextView
+            android:id="@+id/txt_compile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/vw_lind"
+            android:layout_marginRight="@dimen/twentydp"
+            android:layout_marginTop="20dp"
+            android:layout_toLeftOf="@id/txt_delete"
+            android:drawableLeft="@mipmap/ico_edit"
+            android:drawablePadding="@dimen/fivedp"
+            android:text="@string/compile" />
+    </RelativeLayout>
+
+</LinearLayout>

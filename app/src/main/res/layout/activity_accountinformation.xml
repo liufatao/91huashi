@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorgray"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colormainren">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/tendp"
+            android:src="@mipmap/ico_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/accountinformationtitle"
+            android:textColor="@color/colorwite"
+            android:textSize="@dimen/fifteensp" />
+    </RelativeLayout>
+    <!--头像-->
+    <RelativeLayout
+        android:id="@+id/ray_hand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/whiteandgrayselector">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/tendp"
+            android:text="@string/handpic" />
+
+        <ImageView
+            android:id="@+id/img_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/tendp"
+            android:paddingRight="@dimen/tendp"
+            android:src="@mipmap/ico_right" />
+
+        <com.huashi.app.library.meg7.widget.CustomShapeSquareImageView
+            android:id="@+id/img_head"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="@dimen/fifteendp"
+            android:layout_marginBottom="@dimen/fifteendp"
+            android:layout_toLeftOf="@id/img_right"
+            android:src="@mipmap/me" />
+    </RelativeLayout>
+    <!--昵称-->
+    <RelativeLayout
+        android:id="@+id/ray_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/onedp"
+        android:background="@drawable/whiteandgrayselector">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/fifteendp"
+            android:text="@string/nickname" />
+
+        <TextView
+            android:id="@+id/txt_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawablePadding="@dimen/tendp"
+            android:drawableRight="@mipmap/ico_right"
+            android:paddingRight="@dimen/tendp"
+            />
+    </RelativeLayout>
+    <!--个性签名-->
+    <RelativeLayout
+        android:id="@+id/ray_personalized"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/onedp"
+        android:background="@drawable/whiteandgrayselector">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/fifteendp"
+            android:text="@string/personalized" />
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawablePadding="@dimen/tendp"
+            android:paddingRight="@dimen/tendp"
+            android:src="@mipmap/ico_right" />
+    </RelativeLayout>
+    <!--个性签名-->
+    <RelativeLayout
+        android:id="@+id/ray_changepassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/onedp"
+        android:background="@drawable/whiteandgrayselector">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/fifteendp"
+            android:text="@string/changepassword" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawablePadding="@dimen/tendp"
+            android:paddingRight="@dimen/tendp"
+            android:src="@mipmap/ico_right" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colordarkgrey"
+    android:orientation="horizontal"
+    android:columnCount="2"
+    >
+    <ImageView
+        android:id="@+id/img_facility"
+        android:layout_gravity="fill"
+        android:layout_marginRight="@dimen/onedp"
+        android:background="@mipmap/ico_shebei"
+        />
+    <ImageView
+        android:id="@+id/img_saping"
+        android:layout_gravity="fill"
+        android:background="@mipmap/ico_shumiao"
+        />
+    <ImageView
+        android:id="@+id/img_manure"
+        android:layout_gravity="fill"
+        android:layout_marginRight="@dimen/onedp"
+        android:background="@mipmap/ico_feiliao"
+        android:layout_marginTop="@dimen/onedp"
+        />
+
+    <ImageView
+        android:id="@+id/img_pesticide"
+        android:layout_gravity="fill"
+        android:background="@mipmap/ico_nongyao"
+        android:layout_marginTop="@dimen/onedp"
+        />
+
+</GridLayout>

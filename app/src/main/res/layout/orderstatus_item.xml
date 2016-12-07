@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/tendp"
+    android:background="@color/colorwite"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txt_ordertime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/tendp"
+            android:layout_marginTop="@dimen/tendp"
+            />
+
+        <TextView
+            android:id="@+id/txt_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/tendp"
+            android:layout_marginTop="@dimen/tendp"
+
+            android:textColor="@color/colormainren" />
+    </RelativeLayout>
+    <!--商品详情-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorgray">
+
+        <ImageView
+            android:id="@+id/img_commodity"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="@dimen/tendp"
+            android:layout_marginTop="@dimen/tendp"
+            />
+
+        <TextView
+            android:id="@id/txt_commodityname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/tendp"
+            android:layout_marginTop="@dimen/tendp"
+            android:layout_toRightOf="@id/img_commodity"
+            android:ellipsize="end"
+            android:maxEms="50"
+            android:singleLine="true"
+            android:text="99多美国花花你空间看对方即可" />
+
+        <TextView
+            android:id="@+id/txt_mondid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_commodityname"
+            android:layout_marginLeft="@dimen/tendp"
+            android:layout_marginTop="@dimen/fivedp"
+            android:layout_toRightOf="@id/img_commodity"
+            android:text="型号：99多高质量"
+            android:textSize="@dimen/tendp" />
+
+        <TextView
+            android:id="@+id/txt_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_mondid"
+            android:layout_marginLeft="@dimen/tendp"
+            android:layout_marginTop="@dimen/fivedp"
+            android:layout_toRightOf="@id/img_commodity"
+            android:text="￥150.00"
+            android:textColor="@color/colormainren" />
+
+        <TextView
+            android:id="@+id/txt_commoditycoun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/tendp"
+            android:text="x1" />
+
+    </RelativeLayout>
+    <!--价格-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txt_allpic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/tendp"
+            android:layout_marginTop="@dimen/tendp"
+            android:text="合计：￥312.00" />
+
+        <TextView
+            android:id="@+id/txt_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/tendp"
+            android:layout_marginTop="@dimen/tendp"
+            android:layout_toLeftOf="@id/txt_allpic"
+            android:text="共2件商品" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/onedp"
+        android:background="@color/colergray"></View>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tendp">
+
+        <Button
+            android:id="@+id/btn_estimate"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/tendp"
+            android:textSize="@dimen/tendp"
+            android:layout_marginBottom="@dimen/tendp"
+            android:background="@mipmap/ico_selected_bore"
+            android:textColor="@color/colormainren"
+            android:text="评价" />
+
+        <Button
+            android:id="@+id/btn_logistics"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="@dimen/fifteendp"
+            android:layout_toLeftOf="@id/btn_estimate"
+            android:background="@mipmap/ico_prong_bore"
+            android:layout_marginLeft="@dimen/tendp"
+            android:textSize="@dimen/tendp"
+            android:layout_marginBottom="@dimen/tendp"
+            android:text="查看物流" />
+
+        <Button
+            android:id="@+id/btn_deleteorder"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:background="@mipmap/ico_prong_bore"
+            android:layout_marginRight="@dimen/fifteendp"
+            android:layout_marginLeft="@dimen/tendp"
+            android:textSize="@dimen/tendp"
+            android:text="删除订单"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/btn_logistics"
+            android:layout_toStartOf="@+id/btn_logistics" />
+    </RelativeLayout>
+
+</LinearLayout>
