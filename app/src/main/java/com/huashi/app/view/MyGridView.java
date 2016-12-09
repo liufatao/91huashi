@@ -1,0 +1,30 @@
+package com.huashi.app.view;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.widget.GridView;
+
+
+/**
+ * 自定义的GridView
+ * 解决滑动冲突只显示一条数据
+ */
+public class MyGridView extends GridView {
+    public MyGridView(Context context) {
+        super(context);
+    }
+
+    public MyGridView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public MyGridView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int mExpandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
+        super.onMeasure(widthMeasureSpec, mExpandSpec);
+    }
+}
