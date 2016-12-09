@@ -5,6 +5,8 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,10 +35,10 @@ import com.huashi.app.model.IndexAreaCommodityModel;
 import com.huashi.app.model.IndexPublicityModel;
 import com.huashi.app.model.IndexReDetailModel;
 import com.huashi.app.util.Httputil;
-import com.huashi.app.view.HorizontalListview;
 import com.huashi.app.view.MyDialog;
 import com.huashi.app.view.PullDownElasticImp;
 import com.huashi.app.view.PullDownScrollview;
+import com.huashi.app.view.RecyclerItemClickListener;
 import com.huashi.app.view.SlideShowView;
 
 import org.json.JSONArray;
@@ -57,7 +59,6 @@ public class Home_Fragment extends Fragment implements PullDownScrollview.Refres
     private SlideShowView mSlideShowView;
     private PullDownScrollview pullDownScrollview;
     private MyDialog dialog;
-    private RecommendAdapter recommendAdapter = null;
     private View home_view;
     private Activity activity;
     private ImageView imgbtn_search;
@@ -65,7 +66,7 @@ public class Home_Fragment extends Fragment implements PullDownScrollview.Refres
     private LinearLayout mGallery;
     private LayoutInflater mInflater;
     private RecommendAdapter adapter;
-    private HorizontalListview horizontalListview;
+    private RecyclerView horizontalListview;
     private ImageView img_giftbox, img_horticultre, img_petproducts, img_fishinggear, img_specialty;
     private ImageView img_facility, img_saping, img_manure, img_pesticide;
     private GridView grv_commodity;
@@ -102,7 +103,12 @@ public class Home_Fragment extends Fragment implements PullDownScrollview.Refres
 
     private void intoView() {
         mInflater = LayoutInflater.from(activity);
-        horizontalListview = (HorizontalListview) home_view.findViewById(R.id.hzl_recomend);
+        horizontalListview = (RecyclerView) home_view.findViewById(R.id.hzl_recomend);
+        //设置布局管理器
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        horizontalListview.setLayoutManager(linearLayoutManager);
+
         mSlideShowView = (SlideShowView) home_view.findViewById(R.id.sidview);
         grv_commodity = (GridView) home_view.findViewById(R.id.grv_commodity);
         imgbtn_search = (ImageView) home_view.findViewById(R.id.imgbtn_search);
@@ -229,17 +235,20 @@ public class Home_Fragment extends Fragment implements PullDownScrollview.Refres
      */
     private void recommend(final ArrayList<IndexReDetailModel> list) {
 
-
-        horizontalListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String commodityid=String.valueOf(list.get(position).getCommodityId());
+      horizontalListview.addOnItemTouchListener(new RecyclerItemClickListener(activity, new RecyclerItemClickListener.OnItemClickListener() {
+          @Override
+          public void onItemClick(View view, int position) {
+              String commodityid=String.valueOf(list.get(position).getCommodityId());
                 Intent intent = new Intent(activity, ProductdetailsActivity.class);
                 intent.putExtra("commodityid",commodityid);
                 startActivity(intent);
+          }
 
-            }
-        });
+          @Override
+          public void onLongClick(View view, int posotion) {
+
+          }
+      }));
     }
 
 

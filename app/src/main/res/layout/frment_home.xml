@@ -69,14 +69,14 @@
                     android:contentDescription="推荐商品图标"
                     android:src="@mipmap/ico_recomend" />
                 </LinearLayout>
+          <android.support.v7.widget.RecyclerView
+              android:layout_below="@id/ly_recomend"
+              android:layout_width="match_parent"
+              android:id="@+id/hzl_recomend"
+              android:layout_height="130dp">
 
-                <com.huashi.app.view.HorizontalListview
-                    android:id="@+id/hzl_recomend"
-                    android:layout_width="match_parent"
-                    android:layout_height="130dp"
-                    android:layout_below="@id/ly_recomend">
+          </android.support.v7.widget.RecyclerView>
 
-                </com.huashi.app.view.HorizontalListview>
 
 
                 <LinearLayout

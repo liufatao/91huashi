@@ -2,16 +2,14 @@ package com.huashi.app.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
 import com.huashi.app.R;
 import com.huashi.app.application.ExampleApplication;
 import com.huashi.app.model.IndexReDetailModel;
@@ -21,44 +19,37 @@ import java.util.ArrayList;
 /**
  * Created by Administrator on 2016/5/9.
  */
-public class RecommendAdapter extends BaseAdapter {
+public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.ViewHolder> {
     Context context;
     ArrayList<IndexReDetailModel> list=null;
    public RecommendAdapter( Context context, ArrayList<IndexReDetailModel> list){
         this.context=context;
         this.list=list;
     }
+
+    /**
+     *
+     * @param parent
+     * @param viewType
+     * @return 视图初始化
+     */
     @Override
-    public int getCount() {
-        return list.size();
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view= LayoutInflater.from(context).inflate(R.layout.recomend_item,parent,false);
+        ViewHolder viewHolder=new ViewHolder(view);
+        viewHolder.img_recomend= (ImageView) view.findViewById(R.id.img_recomend);
+        viewHolder.txt_name= (TextView) view.findViewById(R.id.txt_recomendname);
+        viewHolder.txt_pic= (TextView) view.findViewById(R.id.txt_pic);
+        return viewHolder;
     }
 
+    /**
+     * 数据绑定
+     * @param holder
+     * @param position
+     */
     @Override
-    public Object getItem(int position) {
-        return list.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder=null;
-        if(convertView==null){
-            viewHolder=new ViewHolder();
-            convertView= LayoutInflater.from(context).inflate(R.layout.recomend_item,null);
-            viewHolder.img_recomend= (ImageView) convertView.findViewById(R.id.img_recomend);
-            viewHolder.txt_name= (TextView) convertView.findViewById(R.id.txt_recomendname);
-            viewHolder.txt_pic= (TextView) convertView.findViewById(R.id.txt_pic);
-            convertView.setTag(viewHolder);
-        }else {
-          viewHolder= (ViewHolder) convertView.getTag();
-
-        }
-//        ImageLoader加载网络图片
-
+    public void onBindViewHolder(ViewHolder holder, int position) {
         ImageLoader imageLoader = new ImageLoader( ExampleApplication.getInstance().getRequestQueue(), new ImageLoader.ImageCache() {
             @Override
             public void putBitmap(String url, Bitmap bitmap) {
@@ -69,18 +60,25 @@ public class RecommendAdapter extends BaseAdapter {
                 return null;
             }
         });
-        ImageLoader.ImageListener listener = ImageLoader.getImageListener( viewHolder.img_recomend,
+        ImageLoader.ImageListener listener = ImageLoader.getImageListener( holder.img_recomend,
                 R.mipmap.load, R.mipmap.load);
         imageLoader.get(list.get(position).getPicture(), listener);
-        viewHolder.txt_name.setText(list.get(position).getName());
-        viewHolder.txt_pic.setText(list.get(position).getPrice());
-
-        return convertView;
+        holder.txt_name.setText(list.get(position).getName());
+        holder.txt_pic.setText(list.get(position).getPrice());
     }
 
-    public  class  ViewHolder{
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
+
+    public  class  ViewHolder extends RecyclerView.ViewHolder{
         public ImageView img_recomend;
         public TextView txt_name;
         public  TextView txt_pic;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 }
