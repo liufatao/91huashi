@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +47,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2016/5/11.
+ * 个人中心
  */
 public class Personage_Fragment extends Fragment implements View.OnClickListener {
     private View personage_view;
@@ -69,7 +68,7 @@ public class Personage_Fragment extends Fragment implements View.OnClickListener
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        personage_view = inflater.inflate(R.layout.frment_personage, null);
+        personage_view = inflater.inflate(R.layout.frment_personage,container,false);
         return personage_view;
     }
 
@@ -118,7 +117,6 @@ public class Personage_Fragment extends Fragment implements View.OnClickListener
         dpAftersale = (DragPointView) personage_view.findViewById(R.id.dp_aftersale);
 
 
-        Log.e("用户id", UserId + "");
         if (UserId != null) {
             txt_login.setClickable(false);
 
@@ -209,31 +207,32 @@ public class Personage_Fragment extends Fragment implements View.OnClickListener
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.PERSONAL_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("用户中心", "post请求成功" + s);
-                userModel = ExampleApplication.getInstance().getGson().fromJson(s, UserModel.class);
+                if (!TextUtils.isEmpty(s)){
+                    userModel = ExampleApplication.getInstance().getGson().fromJson(s, UserModel.class);
 
-                if (userModel.getStatus() == Constant.ONE) {
-                    mValuation(userModel);
-                } else {
-                    dpWaitpayment.setVisibility(View.GONE);
-                    dpWaitdelivery.setVisibility(View.GONE);
-                    dpWaittake.setVisibility(View.GONE);
-                    dpWaitcomment.setVisibility(View.GONE);
-                    dpAftersale.setVisibility(View.GONE);
+                    if (userModel.getStatus() == Constant.ONE) {
+                        mValuation(userModel);
+                    } else {
+                        dpWaitpayment.setVisibility(View.GONE);
+                        dpWaitdelivery.setVisibility(View.GONE);
+                        dpWaittake.setVisibility(View.GONE);
+                        dpWaitcomment.setVisibility(View.GONE);
+                        dpAftersale.setVisibility(View.GONE);
+                        Toast.makeText(activity,R.string.strsystemexception,Toast.LENGTH_LONG).show();
+                    }
+                }else {
+                    Toast.makeText(activity,R.string.strsystemexception,Toast.LENGTH_LONG).show();
                 }
-
-
-                Log.e("返回值", userModel.getStatus() + "");
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("用户中心", "post请求失败" + volleyError);
                 dpWaitpayment.setVisibility(View.GONE);
                 dpWaitdelivery.setVisibility(View.GONE);
                 dpWaittake.setVisibility(View.GONE);
                 dpWaitcomment.setVisibility(View.GONE);
                 dpAftersale.setVisibility(View.GONE);
+                Toast.makeText(activity,R.string.strsystemexception,Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
@@ -252,7 +251,6 @@ public class Personage_Fragment extends Fragment implements View.OnClickListener
     /**
      * 赋值
      *
-     * @param userModel
      */
     private void mValuation(UserModel userModel) {
 
@@ -269,11 +267,10 @@ public class Personage_Fragment extends Fragment implements View.OnClickListener
                 img_head.setImageResource(R.mipmap.me);
             }
         });
-        if (userModel.getUser().getMotto().toString() != null) {
-            txt_state.setText("个性说明:" + userModel.getUser().getMotto().toString());
+        if (!userModel.getUser().getMotto().isEmpty()) {
+            txt_state.setText(String.format(getResources().getString(R.string.signature),userModel.getUser().getMotto()));
         }
         ExampleApplication.getInstance().getRequestQueue().add(imageRequest);
-        Log.e("待支付", userModel.getToPayNum() + "待支付" + userModel.getToRefundNum() + "代发货" + userModel.getToEvaluationNum() + "待收货" + String.valueOf(userModel.getToDeliveryNum()) + "带评论" + String.valueOf(userModel.getToBarterNum()) + "售后");
         if (userModel.getToPayNum() > 0) {
             dpWaitpayment.setText(" " + String.valueOf(userModel.getToPayNum()) + " ");
         } else {

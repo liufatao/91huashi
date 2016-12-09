@@ -3,6 +3,7 @@ package com.huashi.app.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +28,7 @@ import com.huashi.app.application.ExampleApplication;
 import com.huashi.app.model.OrderInfoModel;
 import com.huashi.app.model.ShopCarOrderinfoModel;
 import com.huashi.app.util.Utils;
+import com.huashi.app.view.MyDialog;
 import com.huashi.app.view.MyListview;
 
 import org.json.JSONException;
@@ -84,6 +86,7 @@ public class ConfirmOrderActivity extends Activity implements View.OnClickListen
     private DecimalFormat to = new DecimalFormat("0.00");
     private int costType=0;
     private int orderType=0;
+    private MyDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +98,10 @@ public class ConfirmOrderActivity extends Activity implements View.OnClickListen
     private void intoView() {
         utils = new Utils(this);
         modelList = new ArrayList<>();
+        dialog=new MyDialog(ConfirmOrderActivity.this);
+        dialog.setTitle(R.string.pull_to_refresh_footer_refreshing_label);
         modelId = getIntent().getIntExtra("modelId", -1);
         orderId = getIntent().getStringExtra("orderId");
-        Log.e("订单编号", orderId);
         totalcount = Double.valueOf(getIntent().getStringExtra("totalcount"));
         commodityid = getIntent().getStringExtra("commodityid");
         rayHand = (RelativeLayout) findViewById(R.id.ray_hand);
@@ -128,8 +132,6 @@ public class ConfirmOrderActivity extends Activity implements View.OnClickListen
         userId = utils.getInfomation();
         if (orderId !=null) {
             querOrderinfo();
-        } else {
-//            querShopCartOrderinfo();
         }
 
 
@@ -173,36 +175,40 @@ public class ConfirmOrderActivity extends Activity implements View.OnClickListen
 
     //查询订单信息
     private void querOrderinfo() {
+        dialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.ORDERQUERORDERDETAILBYUSERID, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("查询订单成功", s.toString());
                 list = new ArrayList<>();
-                if (s != null) {
+                if (!TextUtils.isEmpty(s)) {
                     orderInfoModel = ExampleApplication.getInstance().getGson().fromJson(s, OrderInfoModel.class);
-
-                    Log.e("商品数量", orderInfoModel.getOrderModel().getCommodityModels().size() + "");
-
                     list=orderInfoModel.getOrderModel().getCommodityModels();
-
                     orderCommodityAdapter = new OrderCommodityAdapter(ConfirmOrderActivity.this, list);
                     lvOrderdetails.setAdapter(orderCommodityAdapter);
                     setData(orderInfoModel);
-
-
+                    if (dialog.isShowing()){
+                        dialog.dismiss();
+                    }
+                }else {
+                    if (dialog.isShowing()){
+                        dialog.dismiss();
+                    }
+                    Toast.makeText(ConfirmOrderActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("查询订单失败", volleyError.toString());
+                if (dialog.isShowing()){
+                    dialog.dismiss();
+                }
+                Toast.makeText(ConfirmOrderActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
                 map.put("userId", userId);
-//                map.put("modelId", String.valueOf(modelId));
                 map.put("id", orderId);
                 return map;
             }
@@ -245,32 +251,33 @@ public class ConfirmOrderActivity extends Activity implements View.OnClickListen
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.INSERTORDERDETSIL, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("提交订单", s);
-                try {
-                    JSONObject jsonObject=new JSONObject(s);
-                     String message=jsonObject.getString("message");
-                    int status=jsonObject.getInt("status");
+                if (!TextUtils.isEmpty(s)){
+                    try {
+                        JSONObject jsonObject=new JSONObject(s);
+                        String message=jsonObject.getString("message");
+                        int status=jsonObject.getInt("status");
 //                    double totalcount=jsonObject.getDouble("totalcount");
-                    if (status==Constant.ONE){
-                        Intent intentpay=new Intent(ConfirmOrderActivity.this,PayActivity.class);
-                        intentpay.putExtra("totalcount",totalcount);
-                        intentpay.putExtra("orderId",orderId);
-                        intentpay.putExtra("orderCode",orderInfoModel.getOrderModel().getOrderCode());
+                        if (status==Constant.ONE){
+                            Intent intentpay=new Intent(ConfirmOrderActivity.this,PayActivity.class);
+                            intentpay.putExtra("totalcount",totalcount);
+                            intentpay.putExtra("orderId",orderId);
+                            intentpay.putExtra("orderCode",orderInfoModel.getOrderModel().getOrderCode());
 
-                        startActivity(intentpay);
-                    }else {
-                        Toast.makeText(ConfirmOrderActivity.this,message,Toast.LENGTH_LONG).show();
+                            startActivity(intentpay);
+                        }else {
+                            Toast.makeText(ConfirmOrderActivity.this,message,Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                }else {
+                    Toast.makeText(ConfirmOrderActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
                 }
-
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("提交订单失败", volleyError.toString());
+                Toast.makeText(ConfirmOrderActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
@@ -285,7 +292,6 @@ public class ConfirmOrderActivity extends Activity implements View.OnClickListen
                 map.put("bullNote", bullNote);
                 map.put("costType",costType+"");
                 map.put("orderType",orderType+"");
-//                map.put("orderDetails", orderDetails);
                 return map;
             }
         };
@@ -300,8 +306,7 @@ public class ConfirmOrderActivity extends Activity implements View.OnClickListen
        StringRequest stringRequest=new StringRequest(Request.Method.POST, RequestUrlsConfig.SHOPPINGCARTOORDERDETSILS, new Response.Listener<String>() {
            @Override
            public void onResponse(String s) {
-               Log.e("购物车数据上传成功", s);
-               if (!s.isEmpty()) {
+               if (!TextUtils.isEmpty(s)) {
                    try {
                        JSONObject jsonObject = new JSONObject(s);
                        String message = jsonObject.getString("message");
@@ -325,7 +330,6 @@ public class ConfirmOrderActivity extends Activity implements View.OnClickListen
        }, new Response.ErrorListener() {
            @Override
            public void onErrorResponse(VolleyError volleyError) {
-               Log.e("购物车数据上传失败",volleyError.toString());
                Toast.makeText(ConfirmOrderActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
            }
        }){
@@ -350,7 +354,7 @@ public class ConfirmOrderActivity extends Activity implements View.OnClickListen
     private void setData(OrderInfoModel orderInfoModel) {
 
         allcount = orderInfoModel.getOrderModel().getCommodityModels().get(0).getCount();
-        price = (String) orderInfoModel.getOrderModel().getCommodityModels().get(0).getTrue_sell();
+        price = orderInfoModel.getOrderModel().getCommodityModels().get(0).getTrue_sell();
         count = orderInfoModel.getOrderModel().getCount();
         logisticsCost = orderInfoModel.getOrderModel().getLogisticsCost();
         costType=orderInfoModel.getOrderModel().getCostType();
@@ -380,7 +384,7 @@ public class ConfirmOrderActivity extends Activity implements View.OnClickListen
             txtAftersale.setText("售后服务：" + orderInfoModel.getOrderModel().getCommodityModels().get(0).getAftersale() + "");
         }
         txtFreight.setText("运费：" + orderInfoModel.getOrderModel().getLogisticsCost() + "");
-        txt_Allpic.setText("￥" + to.format(totalcount));
+        txt_Allpic.setText(String.format(getResources().getString(R.string.currentprice),to.format(totalcount)) );
         txt_count.setText("总共" + orderInfoModel.getOrderModel().getCount() + "件商品,总价：");
         addid = orderInfoModel.getUserAddress().getId();
 
@@ -436,8 +440,6 @@ public class ConfirmOrderActivity extends Activity implements View.OnClickListen
         super.onRestart();
         if (orderId!=null) {
             querOrderinfo();
-        } else {
-//            querShopCartOrderinfo();
         }
     }
 }

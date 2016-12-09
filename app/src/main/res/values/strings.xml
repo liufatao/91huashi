@@ -127,6 +127,8 @@
     <!--价格-->
     <string name="currentprice">￥%1$s</string>
     <string name="originalprice">原价:￥%1$s</string>
+    <!--个人中心-->
+    <string name="signature">个性说明:%1$s</string>
     <!--下拉刷新，上拉加载-->
     <string name="pull_to_refresh_pull_label">下拉刷新</string>
     <string name="pull_to_refresh_release_label">松开后刷新</string>

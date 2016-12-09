@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,7 @@ import com.huashi.app.application.ExampleApplication;
 import com.huashi.app.model.IndustryModel;
 import com.huashi.app.model.SmartIndustryModel;
 import com.huashi.app.util.Httputil;
+import com.huashi.app.view.MyDialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +46,7 @@ import java.util.Map;
 import static android.view.View.VISIBLE;
 
 /**
- * Created by Administrator on 2016/5/10.
+ * 分类
  */
 public class Classify_Fragment extends Fragment {
     private ArrayList<IndustryModel> list;
@@ -61,10 +63,11 @@ public class Classify_Fragment extends Fragment {
     private TextView txt_load;
     private ImageView imgbtn_search;
     private SwipeRefreshLayout swipe_layout;
+    private MyDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        class_view = inflater.inflate(R.layout.frment_classify, null);
+        class_view = inflater.inflate(R.layout.frment_classify,container,false);
         return class_view;
     }
 
@@ -81,9 +84,9 @@ public class Classify_Fragment extends Fragment {
     }
 
     private void intoView() {
+        list = new ArrayList<>();
         gv_classitem = (GridView) class_view.findViewById(R.id.gv_classitem);
         list_classify = (ListView) class_view.findViewById(R.id.list_classify);
-
         txt_load = (TextView) class_view.findViewById(R.id.txt_load);
         imgbtn_search = (ImageView) class_view.findViewById(R.id.imgbtn_search);
         imgbtn_search.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +96,8 @@ public class Classify_Fragment extends Fragment {
                 startActivity(intent);
             }
         });
+        dialog=new MyDialog(activity);
+        dialog.setTitle(R.string.pull_to_refresh_footer_refreshing_label);
         swipe_layout = (SwipeRefreshLayout) class_view.findViewById(R.id.swipe_layout);
         swipe_layout.setProgressBackgroundColorSchemeResource(android.R.color.white);
         swipe_layout.isRefreshing();
@@ -100,7 +105,28 @@ public class Classify_Fragment extends Fragment {
         swipe_layout.setColorSchemeResources(android.R.color.holo_blue_light,
                 android.R.color.holo_red_light, android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
+        swipe_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (Httputil.isNetworkAvailable(activity)) {
+                            if (list.isEmpty()) {
+                                intoData();
+                            }
+                        } else {
+                            if (swipe_layout.isRefreshing()) {
+                                swipe_layout.setRefreshing(false);
+                            }
+                            Toast.makeText(activity, R.string.networkexception, Toast.LENGTH_LONG).show();
+                        }
 
+                        swipe_layout.setRefreshing(false);
+                    }
+                }, 3000);
+            }
+        });
 
         list_classify.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -145,12 +171,11 @@ public class Classify_Fragment extends Fragment {
     }
 
     private void intoData() {
-
+          dialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.INDUSTRYQUERY, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                if (!s.isEmpty()) {
-                    list = new ArrayList<>();
+                if (!TextUtils.isEmpty(s)) {
                     industryModel = ExampleApplication.getInstance().getGson().fromJson(s, IndustryModel.class);
                     if (industryModel.getStatus() == Constant.ONE && !industryModel.getIndustrys().isEmpty()) {
                         for (int i = 1; i <= industryModel.getIndustrys().size(); i++) {
@@ -159,28 +184,13 @@ public class Classify_Fragment extends Fragment {
                         setData(industryModel.getIndustrys().get(0).getId());
                         classAdapter = new ClassAdapter(activity, list);
                         list_classify.setAdapter(classAdapter);
+                        if (dialog.isShowing()){
+                            dialog.dismiss();
+                        }
                         if (swipe_layout.isRefreshing()) {
                             swipe_layout.setRefreshing(false);
                         }
-                        swipe_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                            @Override
-                            public void onRefresh() {
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (Httputil.isNetworkAvailable(activity)) {
-                                            if (list.isEmpty()) {
-                                                intoData();
-                                            }
-                                        } else {
-                                            Toast.makeText(activity, R.string.networkexception, Toast.LENGTH_LONG).show();
-                                        }
 
-                                        swipe_layout.setRefreshing(false);
-                                    }
-                                }, 3000);
-                            }
-                        });
                         list_classify.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -197,12 +207,20 @@ public class Classify_Fragment extends Fragment {
 
                 } else {
                     Toast.makeText(activity, R.string.strsystemexception, Toast.LENGTH_LONG).show();
+                    if (swipe_layout.isRefreshing()) {
+                        swipe_layout.setRefreshing(false);
+                    }
+                    dialog.dismiss();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("Classify_fragment", "请求失败");
+                Toast.makeText(activity,R.string.strsystemexception,Toast.LENGTH_LONG).show();
+                if (swipe_layout.isRefreshing()) {
+                    swipe_layout.setRefreshing(false);
+                }
+                dialog.dismiss();
             }
         }) {
             @Override

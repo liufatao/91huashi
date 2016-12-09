@@ -25,6 +25,6 @@ public class MyGridView extends GridView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int mExpandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
-        super.onMeasure(widthMeasureSpec, mExpandSpec);
+        super.onMeasure(widthMeasureSpec, mExpandSpec+50);
     }
 }
