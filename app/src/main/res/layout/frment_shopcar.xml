@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorwite"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -25,7 +26,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginRight="@dimen/tendp"
+            android:layout_marginEnd="@dimen/tendp"
             android:paddingTop="@dimen/tendp"
             android:text="@string/compile"
             android:textColor="@color/colorwite" />
@@ -45,7 +48,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/tendp"
-            android:text="合计：" />
+            android:layout_marginStart="@dimen/tendp"
+            android:text="@string/total" />
 
         <TextView
             android:id="@+id/txt_total"
@@ -53,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/txt_allpictitle"
+            android:layout_toEndOf="@id/txt_allpictitle"
             android:textColor="@color/colormainren" />
 
 
@@ -61,6 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="@color/colormainren"
             android:text="@string/topay"
@@ -91,9 +97,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="赶快让你的购物车琳琅满目吧"
+        android:text="@string/shopcartnull"
         android:textColor="@color/colordarkgrey"
-        android:textSize="@dimen/twentydp"
+        android:textSize="@dimen/twentysp"
         android:visibility="gone" />
 
 

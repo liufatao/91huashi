@@ -2,19 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorwite"
     android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/ray_mainhand"
         android:layout_width="match_parent"
         android:layout_height="@dimen/fiftydp"
-        android:background="@color/colormainren">
+        android:background="@color/colormainren"
+        >
 
 
         <ImageView
             android:id="@+id/imgbtn_search"
             android:layout_width="match_parent"
             android:layout_height="@dimen/fortydp"
+            android:contentDescription="搜索框图标"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/tendp"
             android:layout_marginRight="@dimen/tendp"
@@ -28,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/ray_mainhand"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <ScrollView
@@ -62,6 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:padding="@dimen/fivedp"
+                    android:contentDescription="推荐商品图标"
                     android:src="@mipmap/ico_recomend" />
                 </LinearLayout>
 
@@ -92,13 +97,13 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:padding="@dimen/fivedp"
+                            android:contentDescription="我的宝贝模块图标"
                             android:src="@mipmap/ico_heart" />
                     </LinearLayout>
 
                     <include  layout="@layout/cargo__include"></include>
                 </LinearLayout>
 
-                //集团采购
 
                 <LinearLayout
                     android:id="@+id/lay_jituan"
@@ -118,6 +123,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:padding="@dimen/fivedp"
+                            android:contentDescription="集团采购模块"
                             android:src="@mipmap/ico_purchase" />
                     </LinearLayout>
 
@@ -137,6 +143,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                        android:layout_gravity="center_horizontal"
+                        android:contentDescription="猜你喜欢模块图标"
                         android:padding="@dimen/fivedp"
                         android:src="@mipmap/ico_like"
                         />

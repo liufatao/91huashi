@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -28,12 +28,10 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.huashi.app.Config.Constant;
 import com.huashi.app.R;
 import com.huashi.app.adapter.CommentAdapter;
@@ -61,6 +59,7 @@ import java.util.Map;
 
 /**
  * Created by Administrator on 2016/5/27.
+ * 商品详情
  */
 public class ProductdetailsActivity extends Activity implements View.OnClickListener {
     private TextView txt_promotionprice, txt_commodityname, txt_volume, txt_commoditypic, txt_allpic, txt_munus, txt_num, txt_plus;
@@ -217,8 +216,8 @@ public class ProductdetailsActivity extends Activity implements View.OnClickList
     private void intoView() {
         utils = new Utils(this);
         mcoySnapPageLayout = (McoySnapPageLayout) findViewById(R.id.flipLayout);
-        detailpag = getLayoutInflater().inflate(R.layout.mcoy_produt_detail_layout, null);
-        contentpag = getLayoutInflater().inflate(R.layout.mcoy_product_content_page, null);
+        detailpag = getLayoutInflater().inflate(R.layout.mcoy_produt_detail_layout, null,false);
+        contentpag = getLayoutInflater().inflate(R.layout.mcoy_product_content_page, null,false);
 
         topPage = new McoyProductDetailInfoPage(ProductdetailsActivity.this, detailpag);
         bottomPage = new McoyProductContentPage(ProductdetailsActivity.this, contentpag);
@@ -273,24 +272,26 @@ public class ProductdetailsActivity extends Activity implements View.OnClickList
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.CANCELCOLLECTCOMMODITY, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("取消收藏成功", s);
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int state = jsonObject.getInt("status");
-                    String message = jsonObject.getString("message");
-                    if (state == Constant.ONE) {
-                        isFocus = false;
-                        imgCollect.setImageResource(R.mipmap.ico_collect);
+                if (!TextUtils.isEmpty(s)){
+                    try {
+                        JSONObject jsonObject = new JSONObject(s);
+                        int state = jsonObject.getInt("status");
+                        String message = jsonObject.getString("message");
+                        if (state == Constant.ONE) {
+                            isFocus = false;
+                            imgCollect.setImageResource(R.mipmap.ico_collect);
+                        }
+                        Toast.makeText(ProductdetailsActivity.this, message, Toast.LENGTH_LONG).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    Toast.makeText(ProductdetailsActivity.this, message, Toast.LENGTH_LONG).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("取消收藏失败", volleyError.toString());
+               Toast.makeText(ProductdetailsActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
@@ -310,24 +311,26 @@ public class ProductdetailsActivity extends Activity implements View.OnClickList
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.INSERTCOLLECTCOMMODITY, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("加入收藏成功", s);
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int state = jsonObject.getInt("status");
-                    String message = jsonObject.getString("message");
-                    if (state == Constant.ONE) {
-                        isFocus = true;
-                        imgCollect.setImageResource(R.mipmap.ico_collect_select);
+                if (!TextUtils.isEmpty(s)){
+                    try {
+                        JSONObject jsonObject = new JSONObject(s);
+                        int state = jsonObject.getInt("status");
+                        String message = jsonObject.getString("message");
+                        if (state == Constant.ONE) {
+                            isFocus = true;
+                            imgCollect.setImageResource(R.mipmap.ico_collect_select);
+                        }
+                        Toast.makeText(ProductdetailsActivity.this, message, Toast.LENGTH_LONG).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    Toast.makeText(ProductdetailsActivity.this, message, Toast.LENGTH_LONG).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("取消收藏失败", volleyError.toString());
+                Toast.makeText(ProductdetailsActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
@@ -353,10 +356,10 @@ public class ProductdetailsActivity extends Activity implements View.OnClickList
             @Override
             public void onResponse(String s) {
                 if (!TextUtils.isEmpty(s)){
-                    List<String> list = new ArrayList();
+                    List<java.lang.String> list = new ArrayList();
                     commodityModelList = new ArrayList<>();
                     commodityModel = ExampleApplication.getInstance().getGson().fromJson(s, CommodityModel.class);
-                    if (commodityModel.getCommodity() != null) {
+                    if (commodityModel.getCommodity().getStatus()==Constant.ONE) {
                         txt_comments.setVisibility(View.VISIBLE);
                         mValuation(commodityModel);
                         List<CommodityModel.CommodityBean.PictureBean> picture = commodityModel.getCommodity().getPicture();
@@ -367,11 +370,9 @@ public class ProductdetailsActivity extends Activity implements View.OnClickList
                         commodityModelList.add(commodityModel);
                         mSlideShowView.setImageUris(list);
                         List<CommodityModel.CommodityBean.IntroductionImagesBean> imagesBeen = commodityModel.getCommodity().getIntroductionImages();
-                        Log.e("imagesBeen", imagesBeen.size() + "");
                         pictureAdapter = new PictureAdapter(ProductdetailsActivity.this, imagesBeen);
                         list_imagetext.setAdapter(pictureAdapter);
                         int collectstatus = commodityModel.getCommodity().getCollectStatus();
-                        Log.e("CollectStatus", commodityModel.getCommodity().getCollectStatus() + "");
                         if (collectstatus == Constant.ONE) {
                             imgCollect.setImageResource(R.mipmap.ico_collect_select);
                             isFocus = true;
@@ -380,22 +381,23 @@ public class ProductdetailsActivity extends Activity implements View.OnClickList
                             imgCollect.setImageResource(R.mipmap.ico_collect);
                             isFocus = false;
                         }
-
+                        commentAdapter = new CommentAdapter(ProductdetailsActivity.this, commodityModelList);
+                        lv_comments.setAdapter(commentAdapter);
+                    }else {
+                        Toast.makeText(ProductdetailsActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
                     }
-                    commentAdapter = new CommentAdapter(ProductdetailsActivity.this, commodityModelList);
-                    lv_comments.setAdapter(commentAdapter);
+
                 }
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("ProductdetailsActivity", "post请求失败" + volleyError.toString());
+                Toast.makeText(ProductdetailsActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Log.e("用户Userid", userid + "");
                 Map<String, String> map = new HashMap();
                 map.put("commodityId", m_commodityid);
                 if (userid != null) {
@@ -420,7 +422,7 @@ public class ProductdetailsActivity extends Activity implements View.OnClickList
         popupWindowcomodity.setFocusable(true);
         popupWindowcomodity.setOutsideTouchable(false);
         popupWindowcomodity.setAnimationStyle(android.R.style.Animation_InputMethod);
-        popupWindowcomodity.setBackgroundDrawable(new BitmapDrawable());
+        popupWindowcomodity.setBackgroundDrawable(new ColorDrawable());
         popupWindowcomodity.showAtLocation(widow, Gravity.CENTER, 0, 0);
         //商品标题
         txt_commodityname = (TextView) widow.findViewById(R.id.txt_commodityname);
@@ -464,7 +466,6 @@ public class ProductdetailsActivity extends Activity implements View.OnClickList
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.QUERYCOMMODITYTYPES, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("加入购物车数据请求成功", s);
                 if (!TextUtils.isEmpty(s)) {
                     natureModel = ExampleApplication.getInstance().getGson().fromJson(s, CommodityNatureModel.class);
                     if (natureModel.getCommodityTypeModel()!=null){
@@ -489,7 +490,7 @@ public class ProductdetailsActivity extends Activity implements View.OnClickList
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("加入购物车数据请求失败", volleyError.toString());
+                Toast.makeText(ProductdetailsActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
@@ -524,7 +525,8 @@ public class ProductdetailsActivity extends Activity implements View.OnClickList
                 } else {
                     //计算价格
                     String num_add = Integer.valueOf(txt_num.getText().toString()) + ADDORREDUCE + "";
-                    txt_allpic.setText(Double.valueOf(natureModel.getCommodityTypeModel().getCommodityType().get(arg2).getTrue_sell()) * (Double.valueOf(num_add) - 1) + "");
+                    String allpic=(Double.valueOf(natureModel.getCommodityTypeModel().getCommodityType().get(arg2).getTrue_sell()) * (Double.valueOf(num_add) - 1) + "");
+                    txt_allpic.setText(allpic);
                     //总价格
                     price = Double.valueOf(natureModel.getCommodityTypeModel().getCommodityType().get(arg2).getTrue_sell());
                     modelId = natureModel.getCommodityTypeModel().getCommodityType().get(arg2).getModelId();//商品型号
@@ -541,7 +543,8 @@ public class ProductdetailsActivity extends Activity implements View.OnClickList
         if (!txt_num.getText().toString().equals("1")) {
             String num_reduce = Integer.valueOf(txt_num.getText().toString()) - ADDORREDUCE + "";
             txt_num.setText(num_reduce);
-            txt_allpic.setText(price * Double.valueOf(num_reduce) + "");
+            String allpic=(price * Double.valueOf(num_reduce) + "");
+            txt_allpic.setText(allpic);
         } else {
             Toast.makeText(this, R.string.strminsum, Toast.LENGTH_SHORT).show();
         }
@@ -553,7 +556,8 @@ public class ProductdetailsActivity extends Activity implements View.OnClickList
 
             String num_add = Integer.valueOf(txt_num.getText().toString()) + ADDORREDUCE + "";
             txt_num.setText(num_add);
-            txt_allpic.setText(price * Double.valueOf(num_add) + "");
+            String allpic=(price * Double.valueOf(num_add) + "");
+            txt_allpic.setText(allpic);
 
         } else {
             Toast.makeText(this, R.string.strmaxsum, Toast.LENGTH_SHORT).show();
@@ -566,8 +570,8 @@ public class ProductdetailsActivity extends Activity implements View.OnClickList
     private void mValuation(CommodityModel commodityModel) {
         if (commodityModel.getCommodity() != null) {
             txt_commodityname.setText(commodityModel.getCommodity().getNameCN()); //商品名称
-            txt_price.setText("￥" + commodityModel.getCommodity().getTrue_sell());//商品价格
-            txt_originalprice.setText("原价：￥" + commodityModel.getCommodity().getPrice());//原价
+            txt_price.setText(String.format(getResources().getString(R.string.currentprice),commodityModel.getCommodity().getTrue_sell()));//商品价格
+            txt_originalprice.setText(String.format(getString(R.string.originalprice),commodityModel.getCommodity().getPrice()));//原价
             txt_promotionprice.setText("促销价");
 //            txt_postage.setText("￥" + commodityModel.getCommodity());//邮费
             txt_evaluate.setText("评价(" + commodityModel.getCommodity().getCommentCount() + ")");//评论条数
@@ -587,12 +591,12 @@ public class ProductdetailsActivity extends Activity implements View.OnClickList
     private void mshopCar(CommodityNatureModel commodityNatureModel) {
         CommodityNatureModel.CommodityTypeModelBean shopcar = commodityNatureModel.getCommodityTypeModel();
         txt_commodityname.setText(shopcar.getName());
-        txt_commoditypic.setText("￥" + shopcar.getCommodityType().get(0).getTrue_sell());//商品价格
-        txt_allpic.setText("￥" + shopcar.getCommodityType().get(0).getTrue_sell());//商品总价格
+        txt_commoditypic.setText(String.format(getResources().getString(R.string.currentprice),shopcar.getCommodityType().get(0).getTrue_sell()));//商品价格
+        txt_allpic.setText(String.format(getResources().getString(R.string.currentprice),shopcar.getCommodityType().get(0).getTrue_sell()));//商品总价格
         price = Double.valueOf(shopcar.getCommodityType().get(0).getTrue_sell());
         //        ImageLoader加载网络图片
-        RequestQueue mQueue = Volley.newRequestQueue(this);
-        ImageLoader imageLoader = new ImageLoader(mQueue, new ImageLoader.ImageCache() {
+
+        ImageLoader imageLoader = new ImageLoader(ExampleApplication.getInstance().getRequestQueue(), new ImageLoader.ImageCache() {
             @Override
             public void putBitmap(String url, Bitmap bitmap) {
             }
@@ -612,48 +616,47 @@ public class ProductdetailsActivity extends Activity implements View.OnClickList
     private void mJoinShopCar() {
         final String num_add = Integer.valueOf(txt_num.getText().toString()).toString();
         final String totalcount = txt_allpic.getText().toString().trim();
-        Log.e("上传参数", "型号" + modelId + "数量" + num_add + "价格" + price);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.ADDCOMMODITYTOCART, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("加入购物车", s);
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int status = jsonObject.getInt("status");
-                    String message = jsonObject.getString("message");
-                    if (status == Constant.ONE) {
-//                        popupWindowcomodity.dismiss();
-                        img_cart.setVisibility(View.VISIBLE);
-                        img_cart.startAnimation(animation);
+                if (!TextUtils.isEmpty(s)){
+                    try {
+                        JSONObject jsonObject = new JSONObject(s);
+                        int status = jsonObject.getInt("status");
+                        String message = jsonObject.getString("message");
+                        if (status == Constant.ONE) {
+                            img_cart.setVisibility(View.VISIBLE);
+                            img_cart.startAnimation(animation);
 
-                        animation.setAnimationListener(new Animation.AnimationListener() {
-                            @Override
-                            public void onAnimationStart(Animation animation) {
+                            animation.setAnimationListener(new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
 
-                            }
+                                }
 
-                            @Override
-                            public void onAnimationEnd(Animation animation) {
-                                img_cart.setVisibility(View.GONE);
-                            }
+                                @Override
+                                public void onAnimationEnd(Animation animation) {
+                                    img_cart.setVisibility(View.GONE);
+                                }
 
-                            @Override
-                            public void onAnimationRepeat(Animation animation) {
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
 
-                            }
-                        });
-//                        Toast.makeText(ProductdetailsActivity.this, message, Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(ProductdetailsActivity.this, message, Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(ProductdetailsActivity.this, message, Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("加入购物车失败", volleyError.toString());
+                Toast.makeText(ProductdetailsActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
 
             }
         }) {
@@ -678,7 +681,6 @@ public class ProductdetailsActivity extends Activity implements View.OnClickList
     private void setBuy() {
         final String num_add = Integer.valueOf(txt_num.getText().toString()).toString();
         final String totalcount = txt_allpic.getText().toString().trim();
-        Log.e("上传参数", "型号" + modelId + "数量" + num_add + "价格" + price);
         //封装json数据
 
         try {
@@ -700,27 +702,29 @@ public class ProductdetailsActivity extends Activity implements View.OnClickList
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.INSERTORDER, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("立即购买请求成功", s.toString());
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int status = jsonObject.getInt("status");
-                    String message = jsonObject.getString("message");
-                    String orderId = jsonObject.getString("orderId");
-                    if (status == Constant.ONE) {
-                        popupWindowcomodity.dismiss();
-                        Intent intentorder = new Intent(ProductdetailsActivity.this, ConfirmOrderActivity.class);
-                        intentorder.putExtra("orderId", orderId);
-                        intentorder.putExtra("modelId", modelId);
-                        intentorder.putExtra("totalcount", totalcount);
-                        intentorder.putExtra("commodityid", m_commodityid);
-                        startActivity(intentorder);
-                        Log.e("modelId", modelId + "");
-                    } else {
-                        Toast.makeText(ProductdetailsActivity.this, message, Toast.LENGTH_LONG).show();
+                if (!TextUtils.isEmpty(s)){
+                    try {
+                        JSONObject jsonObject = new JSONObject(s);
+                        int status = jsonObject.getInt("status");
+                        String message = jsonObject.getString("message");
+                        String orderId = jsonObject.getString("orderId");
+                        if (status == Constant.ONE) {
+                            popupWindowcomodity.dismiss();
+                            Intent intentorder = new Intent(ProductdetailsActivity.this, ConfirmOrderActivity.class);
+                            intentorder.putExtra("orderId", orderId);
+                            intentorder.putExtra("modelId", modelId);
+                            intentorder.putExtra("totalcount", totalcount);
+                            intentorder.putExtra("commodityid", m_commodityid);
+                            startActivity(intentorder);
+                            Log.e("modelId", modelId + "");
+                        } else {
+                            Toast.makeText(ProductdetailsActivity.this, message, Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -733,11 +737,6 @@ public class ProductdetailsActivity extends Activity implements View.OnClickList
 
                 Map<String, String> map = new HashMap<>();
                 map.put("userId", userid);
-//                map.put("commodityId", m_commodityid);
-//                map.put("modelId", String.valueOf(modelId));
-//                map.put("count", num_add);
-//                map.put("price", String.valueOf(price));
-//                map.put("totalcount", totalcount);
                 map.put("orderDetails", orderDetails);
                 return map;
             }

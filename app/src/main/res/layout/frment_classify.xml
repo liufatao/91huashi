@@ -6,7 +6,9 @@
     >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorwite"
+        >
     <RelativeLayout
         android:id="@+id/ray_mainhand"
         android:layout_width="match_parent"
@@ -20,7 +22,10 @@
             android:layout_height="@dimen/fortydp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/fivedp"
+            android:layout_marginStart="@dimen/fivedp"
+            android:layout_marginEnd="@dimen/fivedp"
             android:layout_marginRight="@dimen/tendp"
+            android:contentDescription="搜索框图标"
             android:src="@mipmap/class_search" />
 
     </RelativeLayout>
@@ -39,6 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/list_classify"
+        android:layout_toEndOf="@id/list_classify"
         android:dividerHeight="0dip"
         android:scrollbars="none"
         android:numColumns="3"
@@ -48,13 +54,15 @@
         android:id="@+id/txt_load"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/twentydp"
+        android:textSize="@dimen/twentysp"
         android:textColor="@color/colergray"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginRight="70dp"
+        android:layout_marginEnd="70dp"
         android:visibility="gone"
-        android:text="商品已售空"/>
+        android:text="@string/commoditymull"/>
 
 
     </RelativeLayout>

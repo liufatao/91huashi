@@ -2,16 +2,13 @@ package com.huashi.app.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,12 +35,10 @@ import com.huashi.app.activity.ProductdetailsActivity;
 import com.huashi.app.adapter.ShopCarAdapter;
 import com.huashi.app.api.RequestUrlsConfig;
 import com.huashi.app.application.ExampleApplication;
-import com.huashi.app.library.view.SwipeMenu;
-import com.huashi.app.library.view.SwipeMenuCreator;
-import com.huashi.app.library.view.SwipeMenuItem;
 import com.huashi.app.model.ShopCarModel;
 import com.huashi.app.util.Httputil;
 import com.huashi.app.util.Utils;
+import com.huashi.app.view.MyDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,13 +51,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2016/5/10.
+ * 购物车
  */
 public class Frament_Shopcar extends Fragment implements View.OnClickListener {
     private View view;
     private TextView txt_compile, txt_num, txt_shopcartmessag, txt_total;
     private Button btn_pay;
-    private CheckBox cb_allfocus, cb_caritem;
+    private CheckBox cb_caritem;
     private ListView slv_shopcar;
     private ShopCarAdapter shopCarAdapter;
     private ShopCarModel shopCarModel;
@@ -77,21 +72,20 @@ public class Frament_Shopcar extends Fragment implements View.OnClickListener {
     private Button btnShopcartCancel;
     private RelativeLayout rl_popwindow;
     private String userId;
-    private ProgressDialog dialog;
+    private MyDialog dialog;
     private int logonck;
     private int m_commodityid;
     private double totalPrice = 0; // 商品总价
     private DecimalFormat to = new DecimalFormat("0.00");
     private String json = null;//购物车上传的商品数据
     private int pageNumber = 0;
-    private int maxPageNumber = 0;
     private boolean isb = false;//标识是结算还是删除
     private String shoppingcartDetails;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frment_shopcar, null);
+        view = inflater.inflate(R.layout.frment_shopcar,container, false);
         return view;
 
     }
@@ -136,37 +130,6 @@ public class Frament_Shopcar extends Fragment implements View.OnClickListener {
             }
         });
 
-////        //上拉加载
-////        swipe_layout.setOnLoadListener(new RefreshLayout.OnLoadListener() {
-////
-////            @Override
-////            public void onLoad() {
-////                swipe_layout.postDelayed(new Runnable() {
-////
-////                    @Override
-////                    public void run() {
-////                        // 加载完后调用该方法
-////                        swipe_layout.setLoading(false);
-////                    }
-////                }, 1500);
-////                pageNumber+=1;
-////                boolean b=true;
-////                if (pageNumber>=maxPageNumber){
-////                    pageNumber=maxPageNumber;
-////                    Toast.makeText(activity,"没有了",Toast.LENGTH_LONG).show();
-////                  b=false;
-////                }
-////                if (b){
-////                    getData();
-//////                    list.addAll(shopCarModel.getShoppingCarts());
-//////                    shopCarAdapter.notifyDataSetChanged();
-////                }
-//
-//
-//            }
-//        });
-
-
         btn_pay = (Button) view.findViewById(R.id.btn_pay);
         btn_pay.setOnClickListener(this);
         txt_total = (TextView) view.findViewById(R.id.txt_total);
@@ -174,12 +137,12 @@ public class Frament_Shopcar extends Fragment implements View.OnClickListener {
         txt_shopcartmessag = (TextView) view.findViewById(R.id.txt_shopcartmessag);
         txt_shopcartmessag.setOnClickListener(this);
 
-        dialog = new ProgressDialog(activity);
-        dialog.setTitle("提示");
-        dialog.setMessage("数据加载中");
+        dialog = new MyDialog(activity);
+        dialog.setTitle(R.string.pull_to_refresh_footer_refreshing_label);
+
         list = new ArrayList<>();
 
-        shopcar = LayoutInflater.from(activity).inflate(R.layout.shopcar_item, null);
+        shopcar = LayoutInflater.from(activity).inflate(R.layout.shopcar_item,null,false);
         cb_caritem = (CheckBox) shopcar.findViewById(R.id.cb_caritem);
         cb_caritem.setOnClickListener(this);
         txt_num = (TextView) shopcar.findViewById(R.id.txt_num);
@@ -212,12 +175,12 @@ public class Frament_Shopcar extends Fragment implements View.OnClickListener {
     private void showPopWindon(View view) {
         View windon;
         LayoutInflater inflater = LayoutInflater.from(activity);
-        windon = inflater.inflate(R.layout.popwindow_shopcart, null);
+        windon = inflater.inflate(R.layout.popwindow_shopcart, null,false);
         popupWindow = new PopupWindow(windon, ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT, true);
 
         popupWindow.setAnimationStyle(android.R.style.Animation_InputMethod);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setTouchable(true);
@@ -241,7 +204,6 @@ public class Frament_Shopcar extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         Object tag = v.getTag();
         switch (v.getId()) {
-
             case R.id.txt_plus:
                 //添加商品数量
                 if (tag != null && tag instanceof Integer) { //解决问题：如何知道你点击的按钮是哪一个列表项中的，通过Tag的position
@@ -249,11 +211,9 @@ public class Frament_Shopcar extends Fragment implements View.OnClickListener {
                     int coun = list.get(position).getCount();
                     String shopid = String.valueOf(list.get(position).getId());
                     coun += 1;
-                    Log.e("购物车count", coun + "");
                     calculate();
                     updataShoppingCartDetails(shopid, coun);
                     //更改集合的数据
-
                 }
                 break;
             case R.id.txt_munus:
@@ -269,28 +229,21 @@ public class Frament_Shopcar extends Fragment implements View.OnClickListener {
                         Toast.makeText(activity, "商品数量不能小于1", Toast.LENGTH_LONG).show();
                     }
                     calculate();
-                    Log.e("购物车count", coun + "");
                     updataShoppingCartDetails(shopid, coun);
                 }
                 break;
             case R.id.cb_caritem:
                 if (tag != null && tag instanceof Integer) {
                     int position = (Integer) tag;
-                    Log.e("标识", position + "");
-                    if (list.get(position).isStatue() == false) {
+                    if (!list.get(position).isStatue()) {
                         list.get(position).setStatue(true);
                     } else {
                         list.get(position).setStatue(false);
                     }
-
                     calculate();
                     batchDelete();
-
-
                 }
                 break;
-
-
             case R.id.txt_compile:
                 //编辑
                 if (txt_compile.getText().equals("编辑")) {
@@ -332,7 +285,7 @@ public class Frament_Shopcar extends Fragment implements View.OnClickListener {
      * 3.给底部的textView进行数据填充
      */
     private void calculate() {
-        JSONObject jsonObject = null;
+        JSONObject jsonObject;
         JSONArray jsonArray = new JSONArray();
         totalPrice = 0.00;
         for (int j = 0; j < list.size(); j++) {
@@ -368,7 +321,7 @@ public class Frament_Shopcar extends Fragment implements View.OnClickListener {
 
     //批量删除json数据
     private void batchDelete() {
-        JSONObject jsonObject = null;
+        JSONObject jsonObject;
         JSONArray jsonArray = new JSONArray();
         for (int j = 0; j < list.size(); j++) {
             Log.e("shopid", list.get(j).getId() + "");
@@ -400,13 +353,11 @@ public class Frament_Shopcar extends Fragment implements View.OnClickListener {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.DELETESHOPPINGCARTBYID, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("批量删除成功", s.toString());
                 getData();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("批量删除失败", volleyError.toString());
             }
         }) {
             @Override
@@ -431,14 +382,6 @@ public class Frament_Shopcar extends Fragment implements View.OnClickListener {
                     shopCarModel = ExampleApplication.getInstance().getGson().fromJson(s, ShopCarModel.class);
                     if (!shopCarModel.getShoppingCarts().isEmpty() && shopCarModel.getStatus() == Constant.ONE) {
                         intoData(shopCarModel);
-                        try {
-                            JSONObject jsonObject = new JSONObject(s);
-//                            maxPageNumber=jsonObject.getInt("maxPageNumber");
-//                            Log.e("总页数",maxPageNumber+"");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
                         dialog.dismiss();
 
                     } else {
@@ -503,33 +446,6 @@ public class Frament_Shopcar extends Fragment implements View.OnClickListener {
                 return true;
             }
         });
-
-        SwipeMenuCreator swipeMenuCreator = new SwipeMenuCreator() {
-            @Override
-            public void create(SwipeMenu menu) {
-                createMenu(menu);
-            }
-        };
-//        slv_shopcar.setMenuCreator(swipeMenuCreator);
-//        slv_shopcar.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
-//            @Override
-//            public void onMenuItemClick(int position, SwipeMenu menu, int index) {
-//
-//                switch (index) {
-//                    case 0:
-//                        dialog.show();
-//                        int commodityid = list.get(position).getCommodityId();
-//                        insertCollectCommodity(commodityid);
-//                        break;
-//                    case 1:
-//                        dialog.show();
-//                        int id = list.get(position).getId();
-//                        deleteShopCartCommodity(String.valueOf(id));
-//
-//                        break;
-//                }
-//            }
-//        });
 
 
     }
@@ -663,22 +579,22 @@ public class Frament_Shopcar extends Fragment implements View.OnClickListener {
 
 
     //写入侧滑图片
-    private void createMenu(SwipeMenu menu) {
-        SwipeMenuItem item1 = new SwipeMenuItem(
-                getActivity());
-        item1.setBackground(new ColorDrawable(Color.rgb(0xE5, 0xE0,
-                0x3F)));
-        item1.setWidth(dp2px(90));
-        item1.setIcon(R.mipmap.ic_action_important);
-        menu.addMenuItem(item1);
-        SwipeMenuItem item2 = new SwipeMenuItem(
-                getActivity());
-        item2.setBackground(new ColorDrawable(Color.rgb(0xF9,
-                0x3F, 0x25)));
-        item2.setWidth(dp2px(90));
-        item2.setIcon(R.mipmap.ic_action_discard);
-        menu.addMenuItem(item2);
-    }
+//    private void createMenu(SwipeMenu menu) {
+//        SwipeMenuItem item1 = new SwipeMenuItem(
+//                getActivity());
+//        item1.setBackground(new ColorDrawable(Color.rgb(0xE5, 0xE0,
+//                0x3F)));
+//        item1.setWidth(dp2px(90));
+//        item1.setIcon(R.mipmap.ic_action_important);
+//        menu.addMenuItem(item1);
+//        SwipeMenuItem item2 = new SwipeMenuItem(
+//                getActivity());
+//        item2.setBackground(new ColorDrawable(Color.rgb(0xF9,
+//                0x3F, 0x25)));
+//        item2.setWidth(dp2px(90));
+//        item2.setIcon(R.mipmap.ic_action_discard);
+//        menu.addMenuItem(item2);
+//    }
 
     //判断是支付还是删除
     private void isPay() {
@@ -705,20 +621,20 @@ public class Frament_Shopcar extends Fragment implements View.OnClickListener {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.SHOPPINGCARTOORDER, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("上传成功", s);
-                if (!s.isEmpty()) {
+                if (!TextUtils.isEmpty(s)) {
                     try {
                         JSONObject jsonObject = new JSONObject(s);
                         int state = jsonObject.getInt("status");
                         int orderId = jsonObject.getInt("order_id");
-                        Log.e("订单id", orderId + "" + state);
                         if (state == Constant.ONE) {
-                            dialog.dismiss();
-                            Log.e("订单id", orderId + "");
                             Intent intentorder = new Intent(activity, ConfirmOrderActivity.class);
                             intentorder.putExtra("orderId", String.valueOf(orderId));
                             intentorder.putExtra("totalcount", String.valueOf(totalPrice));
                             startActivity(intentorder);
+                            if (dialog.isShowing()){
+                                dialog.dismiss();
+                            }
+
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -752,9 +668,6 @@ public class Frament_Shopcar extends Fragment implements View.OnClickListener {
     }
 
 
-    private int dp2px(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
-                getResources().getDisplayMetrics());
-    }
+
 
 }

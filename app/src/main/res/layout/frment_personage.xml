@@ -1,313 +1,350 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
-    android:background="@color/colorgray">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colormainren">
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/metitle"
-          android:layout_marginTop="@dimen/tendp"
-          android:layout_centerHorizontal="true"
-          android:textSize="@dimen/fifteensp"
-          android:textColor="@color/colorwite"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colormainren">
-        <com.huashi.app.library.meg7.widget.CustomShapeSquareImageView
-            android:id="@+id/img_head"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:paddingBottom="@dimen/tendp"
-            android:layout_marginLeft="@dimen/tendp"
-            android:layout_marginBottom="@dimen/tendp"
-            android:paddingTop="@dimen/tendp"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/me"/>
-        <TextView
-            android:id="@+id/txt_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/img_head"
-            android:text="@string/registername"
-            android:textColor="@color/colorwite"
-            android:layout_marginLeft="@dimen/tendp"
-            android:layout_marginRight="@dimen/tendp"
-            android:layout_marginTop="20dp"
-            android:drawableRight="@mipmap/ico_right"
-            />
+    android:background="@color/colorgray"
+    android:orientation="vertical"
+    android:scrollbars="none">
 
-        <TextView
-            android:id="@+id/txt_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/img_head"
-            android:textColor="@color/colorwite"
-            android:textSize="12sp"
-            android:layout_marginLeft="@dimen/tendp"
-            android:layout_marginRight="@dimen/tendp"
-            android:layout_marginTop="50dp"
-            />
-
-    </RelativeLayout>
-    //订单模块
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorwite"
-        android:layout_marginTop="@dimen/tendp">
-        <com.huashi.app.view.DragPointView
-            android:id="@+id/dp_waitpayment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="10sp"
-            android:layout_marginTop="@dimen/tendp"
-            android:textColor="@color/colorwite"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="center_horizontal"
-            android:layout_marginLeft="@dimen/tendp"
-            android:layout_marginRight="-20dp"
-           />
-        <ImageView
-            android:id="@+id/img_waitpayment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingTop="@dimen/tendp"
-            android:src="@mipmap/icon_backlog"
-            android:paddingBottom="@dimen/tendp"
-            />
-        <com.huashi.app.view.DragPointView
-            android:id="@+id/dp_waitdelivery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/tendp"
-            android:textColor="@color/colorwite"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:textSize="10sp"
-            android:layout_marginRight="-20dp"
-            />
-        <ImageView
-            android:id="@+id/img_waitdelivery"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/icon_deliver"
-            android:paddingTop="@dimen/tendp"
-            android:layout_weight="1"
-            android:paddingBottom="@dimen/tendp"
-            />
-        <com.huashi.app.view.DragPointView
-            android:id="@+id/dp_waittake"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/tendp"
-            android:textColor="@color/colorwite"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:textSize="10sp"
-            android:layout_marginRight="-20dp"
-           />
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/img_waittake"
-            android:layout_width="0dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@mipmap/icon_take"
-            android:paddingTop="@dimen/tendp"
-            android:layout_weight="1"
-            android:paddingBottom="@dimen/tendp"
-            />
-        <com.huashi.app.view.DragPointView
-            android:id="@+id/dp_waitcomment"
-            android:layout_width="wrap_content"
+            android:background="@color/colormainren">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/tendp"
+                android:text="@string/metitle"
+                android:textColor="@color/colorwite"
+                android:textSize="@dimen/fifteensp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colormainren">
+
+            <com.huashi.app.library.meg7.widget.CustomShapeSquareImageView
+                android:id="@+id/img_head"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_marginBottom="@dimen/tendp"
+                android:layout_marginLeft="@dimen/tendp"
+                android:paddingBottom="@dimen/tendp"
+                android:paddingTop="@dimen/tendp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/me" />
+
+            <TextView
+                android:id="@+id/txt_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/tendp"
+                android:layout_marginRight="@dimen/tendp"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@id/img_head"
+                android:layout_toRightOf="@id/img_head"
+                android:drawableEnd="@mipmap/ico_right"
+                android:drawableRight="@mipmap/ico_right"
+                android:text="@string/registername"
+                android:textColor="@color/colorwite" />
+
+            <TextView
+                android:id="@+id/txt_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/tendp"
+                android:layout_marginRight="@dimen/tendp"
+                android:layout_marginTop="50dp"
+                android:layout_toEndOf="@id/img_head"
+                android:layout_toRightOf="@id/img_head"
+                android:textColor="@color/colorwite"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/tendp"
-            android:textColor="@color/colorwite"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="center_horizontal"
-            android:textSize="10sp"
-            android:layout_marginRight="-20dp"
-            />
-        <ImageView
-            android:id="@+id/img_waitcomment"
-            android:layout_width="0dp"
+            android:background="@color/colorwite">
+
+            <com.huashi.app.view.DragPointView
+                android:id="@+id/dp_waitpayment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/tendp"
+                android:layout_marginStart="@dimen/tendp"
+                android:layout_marginRight="-20dp"
+                android:layout_marginEnd="-20dp"
+                android:layout_marginTop="@dimen/tendp"
+                android:gravity="center_horizontal"
+                android:textColor="@color/colorwite"
+                android:textSize="@dimen/tensp" />
+
+            <ImageView
+                android:id="@+id/img_waitpayment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="@dimen/tendp"
+                android:paddingTop="@dimen/tendp"
+                android:src="@mipmap/icon_backlog" />
+
+            <com.huashi.app.view.DragPointView
+                android:id="@+id/dp_waitdelivery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="-20dp"
+                android:layout_marginTop="@dimen/tendp"
+                android:layout_marginEnd="-20dp"
+                android:gravity="center"
+                android:textColor="@color/colorwite"
+                android:textSize="@dimen/tensp" />
+
+            <ImageView
+                android:id="@+id/img_waitdelivery"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="@dimen/tendp"
+                android:paddingTop="@dimen/tendp"
+                android:src="@mipmap/icon_deliver" />
+
+            <com.huashi.app.view.DragPointView
+                android:id="@+id/dp_waittake"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="-20dp"
+                android:layout_marginEnd="-20dp"
+                android:layout_marginTop="@dimen/tendp"
+                android:gravity="center"
+                android:textColor="@color/colorwite"
+                android:textSize="@dimen/tensp" />
+
+            <ImageView
+                android:id="@+id/img_waittake"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="@dimen/tendp"
+                android:paddingTop="@dimen/tendp"
+                android:src="@mipmap/icon_take" />
+
+            <com.huashi.app.view.DragPointView
+                android:id="@+id/dp_waitcomment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="-20dp"
+                android:layout_marginEnd="-20dp"
+                android:layout_marginTop="@dimen/tendp"
+                android:gravity="center_horizontal"
+                android:textColor="@color/colorwite"
+                android:textSize="@dimen/tensp" />
+
+            <ImageView
+                android:id="@+id/img_waitcomment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="@dimen/tendp"
+                android:paddingTop="@dimen/tendp"
+                android:src="@mipmap/icon_comment" />
+
+            <com.huashi.app.view.DragPointView
+                android:id="@+id/dp_aftersale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="-20dp"
+                android:layout_marginTop="@dimen/tendp"
+                android:layout_marginEnd="-20dp"
+                android:gravity="center_horizontal"
+                android:textColor="@color/colorwite"
+                android:textSize="@dimen/tensp" />
+
+            <ImageView
+                android:id="@+id/img_aftersale"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="@dimen/tendp"
+                android:paddingTop="@dimen/tendp"
+                android:contentDescription="售后图标"
+                android:src="@mipmap/icon_after" />
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rly_order"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@mipmap/icon_comment"
-            android:paddingTop="@dimen/tendp"
-            android:layout_weight="1"
-            android:paddingBottom="@dimen/tendp"
-            />
-        <com.huashi.app.view.DragPointView
-            android:id="@+id/dp_aftersale"
-            android:layout_width="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/whiteandgrayselector">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/tendp"
+                android:layout_marginStart="@dimen/tendp"
+                android:drawableLeft="@mipmap/icon_order"
+                android:drawableStart="@mipmap/icon_order"
+                android:drawablePadding="@dimen/tendp"
+                android:paddingBottom="@dimen/fifteendp"
+                android:paddingTop="@dimen/fifteendp"
+                android:text="@string/myordername" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/tendp"
+                android:layout_marginEnd="@dimen/tendp"
+                android:drawablePadding="@dimen/fivedp"
+                android:drawableRight="@mipmap/ico_right"
+                android:drawableEnd="@mipmap/ico_right"
+                android:paddingBottom="@dimen/fifteendp"
+                android:paddingTop="@dimen/fifteendp"
+                android:text="@string/allordern" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rly_adder"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/tendp"
-            android:textColor="@color/colorwite"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="center_horizontal"
-            android:textSize="10sp"
-            android:layout_marginRight="-20dp"
-            />
-        <ImageView
-            android:id="@+id/img_aftersale"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/icon_after"
-            android:paddingTop="@dimen/tendp"
-            android:layout_weight="1"
-            android:paddingBottom="@dimen/tendp"
-            />
+            android:background="@drawable/whiteandgrayselector">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/tendp"
+                android:drawableLeft="@mipmap/ico_site"
+                android:layout_marginStart="@dimen/tendp"
+                android:drawableStart="@mipmap/ico_site"
+                android:drawablePadding="@dimen/tendp"
+                android:paddingBottom="@dimen/fifteendp"
+                android:paddingTop="@dimen/fifteendp"
+                android:text="@string/takeaddermanagename" />
 
-    </LinearLayout>
-//我的订单
-    <RelativeLayout
-        android:id="@+id/rly_order"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:background="@drawable/whiteandgrayselector">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/myordername"
-            android:paddingTop="@dimen/fifteendp"
-            android:paddingBottom="@dimen/fifteendp"
-            android:layout_marginLeft="@dimen/tendp"
-            android:drawablePadding="@dimen/tendp"
-            android:drawableLeft="@mipmap/icon_order"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/fifteendp"
-            android:paddingBottom="@dimen/fifteendp"
-            android:layout_marginRight="@dimen/tendp"
-            android:drawablePadding="@dimen/fivedp"
-            android:text="@string/allordern"
-            android:layout_alignParentRight="true"
-            android:drawableRight="@mipmap/ico_right"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/tendp"
+                android:layout_marginEnd="@dimen/tendp"
+                android:src="@mipmap/ico_right" />
+        </RelativeLayout>
+        //收藏
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rly_collection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tendp"
+            android:background="@drawable/whiteandgrayselector">
 
-    //收货地址管理
-    <RelativeLayout
-        android:id="@+id/rly_adder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/tendp"
-        android:background="@drawable/whiteandgrayselector">
-        <TextView
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/tendp"
+                android:drawableLeft="@mipmap/icon_collect"
+                android:drawableStart="@mipmap/icon_collect"
+                android:layout_marginStart="@dimen/tendp"
+                android:drawablePadding="@dimen/tendp"
+                android:paddingBottom="@dimen/fifteendp"
+                android:paddingTop="@dimen/fifteendp"
+                android:text="@string/collectname" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/tendp"
+                android:layout_marginEnd="@dimen/tendp"
+                android:src="@mipmap/ico_right" />
+        </RelativeLayout>
+        //评论
+
+        <RelativeLayout
+            android:id="@+id/rly_comment"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/fifteendp"
-            android:paddingBottom="@dimen/fifteendp"
-            android:drawableLeft="@mipmap/ico_site"
-            android:drawablePadding="@dimen/tendp"
-            android:layout_marginLeft="@dimen/tendp"
-            android:text="@string/takeaddermanagename"
-            />
-        <ImageView
-            android:layout_width="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/whiteandgrayselector">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/tendp"
+                android:drawableLeft="@mipmap/ico_comment"
+                android:drawableStart="@mipmap/ico_comment"
+                android:layout_marginStart="@dimen/tendp"
+                android:drawablePadding="@dimen/tendp"
+                android:paddingBottom="@dimen/fifteendp"
+                android:paddingTop="@dimen/fifteendp"
+                android:text="@string/commentname" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/tendp"
+                android:layout_marginEnd="@dimen/tendp"
+                android:src="@mipmap/ico_right" />
+        </RelativeLayout>
+        //设置
+
+        <RelativeLayout
+            android:id="@+id/rly_set"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/tendp"
-            android:layout_alignParentRight="true"
-            android:src="@mipmap/ico_right"/>
-    </RelativeLayout>
- //收藏
-    <RelativeLayout
-        android:id="@+id/rly_collection"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/whiteandgrayselector"
-        android:layout_marginTop="@dimen/tendp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:paddingTop="@dimen/fifteendp"
-            android:paddingBottom="@dimen/fifteendp"
-            android:drawableLeft="@mipmap/icon_collect"
-            android:drawablePadding="@dimen/tendp"
-            android:layout_marginLeft="@dimen/tendp"
-            android:text="@string/collectname"
-            />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/tendp"
-            android:layout_alignParentRight="true"
-            android:src="@mipmap/ico_right"/>
-    </RelativeLayout>
-    //评论
-    <RelativeLayout
-        android:id="@+id/rly_comment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/whiteandgrayselector"
-        android:layout_marginTop="1dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:drawableLeft="@mipmap/ico_comment"
-            android:drawablePadding="@dimen/tendp"
-            android:layout_marginLeft="@dimen/tendp"
-            android:paddingTop="@dimen/fifteendp"
-            android:paddingBottom="@dimen/fifteendp"
-            android:text="@string/commentname"
-            />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/tendp"
-            android:layout_alignParentRight="true"
-            android:src="@mipmap/ico_right"/>
-    </RelativeLayout>
-//设置
-    <RelativeLayout
-        android:id="@+id/rly_set"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/whiteandgrayselector"
-        android:layout_marginTop="@dimen/tendp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:paddingTop="@dimen/fifteendp"
-            android:paddingBottom="@dimen/fifteendp"
-            android:drawableLeft="@mipmap/ico_set"
-            android:drawablePadding="@dimen/tendp"
-            android:layout_marginLeft="@dimen/tendp"
-            android:text="@string/setname"
-            />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-           android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/tendp"
-            android:layout_alignParentRight="true"
-            android:src="@mipmap/ico_right"/>
-    </RelativeLayout>
+            android:layout_marginTop="@dimen/tendp"
+            android:background="@drawable/whiteandgrayselector">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/tendp"
+                android:drawableLeft="@mipmap/ico_set"
+                android:layout_marginStart="@dimen/tendp"
+                android:drawableStart="@mipmap/ico_set"
+                android:drawablePadding="@dimen/tendp"
+                android:paddingBottom="@dimen/fifteendp"
+                android:paddingTop="@dimen/fifteendp"
+                android:text="@string/setname" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/tendp"
+                android:layout_marginEnd="@dimen/tendp"
+                android:src="@mipmap/ico_right" />
+        </RelativeLayout>
     </LinearLayout>
 </ScrollView>

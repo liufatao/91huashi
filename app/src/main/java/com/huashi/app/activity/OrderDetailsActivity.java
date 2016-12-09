@@ -5,22 +5,19 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 import com.huashi.app.Config.Constant;
 import com.huashi.app.R;
 import com.huashi.app.adapter.OrderDetailAdapter;
@@ -29,6 +26,7 @@ import com.huashi.app.application.ExampleApplication;
 import com.huashi.app.model.OrderStateModel;
 import com.huashi.app.util.Httputil;
 import com.huashi.app.util.Utils;
+import com.huashi.app.view.MyListview;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +35,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -60,7 +59,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
     private TextView txtOrderstatus;
     private TextView txtOrderno;
     private TextView txtOrdertime;
-    private ListView lvOrderdetails;
+    private MyListview lvOrderdetails;
     private TextView txtInvoice;
     private TextView txtAftersale;
     private TextView txtFreight;
@@ -92,7 +91,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
         orderId=getIntent().getStringExtra("orderId");
         orderCode=getIntent().getStringExtra("orderCode");
         totalcount=getIntent().getDoubleExtra("totalcount",-1);
-        format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
         txtConsignee = (TextView) findViewById(R.id.txt_consignee);
@@ -104,7 +103,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
         txtOrderstatus = (TextView) findViewById(R.id.txt_orderstatus);
         txtOrderno = (TextView) findViewById(R.id.txt_orderno);
         txtOrdertime = (TextView) findViewById(R.id.txt_ordertime);
-        lvOrderdetails = (ListView) findViewById(R.id.lv_orderdetails);
+        lvOrderdetails = (MyListview) findViewById(R.id.lv_orderdetails);
         txtInvoice = (TextView) findViewById(R.id.txt_invoice);
         txtAftersale = (TextView) findViewById(R.id.txt_aftersale);
         txtFreight = (TextView) findViewById(R.id.txt_freight);
@@ -123,8 +122,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.QUERORDERBYID, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("购物车订单查询成功", s.toString());
-                if (s != null) {
+                if (TextUtils.isEmpty(s)) {
                     orderStateModel=ExampleApplication.getInstance().getGson().fromJson(s,OrderStateModel.class);
                     modelList=orderStateModel.getOrder().getDetails();
                     int status=orderStateModel.getOrder().getStatus();
@@ -159,7 +157,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
         txtPhone.setText(orderStateModel.getOrder().getTake_address().getPhone());
         txtAdder.setText(orderStateModel.getOrder().getTake_address().getDistrict());
         txt_count.setText("总共"+orderStateModel.getOrder().getCount()+"件商品,总价：");
-        txt_allpic.setText("￥"+to.format(Double.valueOf(orderStateModel.getOrder().getTotal_count())));
+        txt_allpic.setText(String.format(getResources().getString(R.string.currentprice),to.format(Double.valueOf(orderStateModel.getOrder().getTotal_count()))));
         if (orderStateModel.getOrder().getDelivery_time()!=0) {
             txtDeliverytime.setText(format.format(orderStateModel.getOrder().getDelivery_time()));
         }
@@ -169,7 +167,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
         if (orderStateModel.getOrder().getLogisticInfo()!=null) {
             txtWaybillnumber.setText(orderStateModel.getOrder().getLogisticInfo().getTracking_no());//运单编号
         }
-        txtOrderno.setText(orderStateModel.getOrder().getId()+"");
+        txtOrderno.setText(String.valueOf(orderStateModel.getOrder().getId()));
         txtOrdertime.setText(format.format(orderStateModel.getOrder().getCreate_time()));
         if(orderStateModel.getOrder().getIsBill()==Constant.ONE){
             txtInvoice.setText("发票:提供");
@@ -187,7 +185,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
         if (orderStateModel.getOrder().getBull_note()==null){
             txtLeaveword.setText("");
         }else {
-            txtLeaveword.setText(orderStateModel.getOrder().getBull_note()+"");
+            txtLeaveword.setText(String.valueOf(orderStateModel.getOrder().getBull_note()) );
         }
 
         switch (orderStateModel.getOrder().getStatus()){
@@ -238,7 +236,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
                 //退款失败
                 txtOrderstatus.setText("退款失败");
                 btnOne.setText("联系客服");
-                btnTwo.setText("继续退款");;
+                btnTwo.setText("继续退款");
                 break;
             case 8:
                 //交易成功
@@ -405,8 +403,10 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
             @Override
             public void onResponse(String s) {
                 Log.e("取消订单成功",s);
+
+                JSONObject jsonObject;
                 try {
-                    JSONObject jsonObject=new JSONObject(s);
+                    jsonObject = new JSONObject(s);
                     int status=jsonObject.getInt("status");
                     String message=jsonObject.getString("message");
                     if (status== Constant.ONE){
@@ -417,7 +417,10 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
                         dialog.dismiss();
                     }
                 } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
+
 
 
             }

@@ -34,6 +34,7 @@ import com.huashi.app.model.IndexPublicityModel;
 import com.huashi.app.model.IndexReDetailModel;
 import com.huashi.app.util.Httputil;
 import com.huashi.app.view.HorizontalListview;
+import com.huashi.app.view.MyDialog;
 import com.huashi.app.view.PullDownElasticImp;
 import com.huashi.app.view.PullDownScrollview;
 import com.huashi.app.view.SlideShowView;
@@ -45,15 +46,17 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
 /**
- * Created by Administrator on 2016/5/10.
+ * 主页面
  */
 public class Home_Fragment extends Fragment implements PullDownScrollview.RefreshListener, View.OnClickListener {
     private SlideShowView mSlideShowView;
     private PullDownScrollview pullDownScrollview;
+    private MyDialog dialog;
     private RecommendAdapter recommendAdapter = null;
     private View home_view;
     private Activity activity;
@@ -78,7 +81,7 @@ public class Home_Fragment extends Fragment implements PullDownScrollview.Refres
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        home_view = inflater.inflate(R.layout.frment_home, null);
+        home_view = inflater.inflate(R.layout.frment_home,container,false);
 
         return home_view;
 
@@ -98,7 +101,6 @@ public class Home_Fragment extends Fragment implements PullDownScrollview.Refres
     }
 
     private void intoView() {
-
         mInflater = LayoutInflater.from(activity);
         horizontalListview = (HorizontalListview) home_view.findViewById(R.id.hzl_recomend);
         mSlideShowView = (SlideShowView) home_view.findViewById(R.id.sidview);
@@ -128,8 +130,9 @@ public class Home_Fragment extends Fragment implements PullDownScrollview.Refres
         img_pesticide = (ImageView) home_view.findViewById(R.id.img_pesticide);
         img_pesticide.setOnClickListener(this);
         pullDownScrollview.setPullDownElastic(new PullDownElasticImp(activity));
-
-
+        dialog=new MyDialog(activity);
+        dialog.setTitle("正在加载...");
+        dialog.show();
     }
 
     /***
@@ -147,7 +150,7 @@ public class Home_Fragment extends Fragment implements PullDownScrollview.Refres
                         if (staus == Constant.ONE) {
                             //服务器响应成功轮播图片路径
                             JSONArray jsonArray = jsonObject.getJSONArray("publicitys");
-                            imglist = new ArrayList<String>();
+                            imglist = new ArrayList<>();
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 publicityModel = new IndexPublicityModel();
                                 JSONObject object = (JSONObject) jsonArray.opt(i);
@@ -156,9 +159,11 @@ public class Home_Fragment extends Fragment implements PullDownScrollview.Refres
                                 imglist.add(publicityModel.getSrc());
                             }
                             mSlideShowView.setImageUris(imglist);
+                            pullDownScrollview.setVisibility(View.VISIBLE);
+
                             //热卖推荐产品
                             JSONArray jsonArraydetails = jsonObject.getJSONArray("details");
-                            list = new ArrayList<IndexReDetailModel>();
+                            list = new ArrayList<>();
                             for (int i = 0; i < jsonArraydetails.length(); i++) {
                                 indexReDetailModel = new IndexReDetailModel();
                                 JSONObject object = (JSONObject) jsonArraydetails.opt(i);
@@ -189,8 +194,9 @@ public class Home_Fragment extends Fragment implements PullDownScrollview.Refres
                             commodityAdapter = new CommodityAdapter(activity, commoditylist);
                             grv_commodity.setAdapter(commodityAdapter);
                             intoCommodityData(commoditylist);
+                            dialog.dismiss();
                         }else {
-                            Toast.makeText(activity,"服务器异常",Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity,R.string.strsystemexception,Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -202,6 +208,8 @@ public class Home_Fragment extends Fragment implements PullDownScrollview.Refres
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Log.e("aa", "post请求失败" + volleyError.toString());
+                Toast.makeText(activity,R.string.strsystemexception,Toast.LENGTH_LONG).show();
+                dialog.dismiss();
             }
         }) {
             @Override
@@ -218,7 +226,6 @@ public class Home_Fragment extends Fragment implements PullDownScrollview.Refres
     /***
      * 推荐商品
      *
-     * @param
      */
     private void recommend(final ArrayList<IndexReDetailModel> list) {
 
@@ -259,13 +266,13 @@ public class Home_Fragment extends Fragment implements PullDownScrollview.Refres
      * 写入刷新时间
      * 下拉刷新
      *
-     * @param view
      */
     @Override
     public void onRefresh(PullDownScrollview view) {
         //获得当前毫秒数
         long time = System.currentTimeMillis();
-        format = new SimpleDateFormat("hh:mm:ss");
+        format = new SimpleDateFormat("hh:mm:ss", Locale.getDefault());
+
         final String date = format.format(time);
         new Handler().postDelayed(new Runnable() {
 
