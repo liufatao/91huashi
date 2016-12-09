@@ -17,6 +17,7 @@
     <dimen name="fifteensp">15sp</dimen>
     <!--<dimen name="thirteensp">13sp</dimen>-->
     <dimen name="tensp">10sp</dimen>
+    <dimen name="twelve">12sp</dimen>
     <dimen name="thirtysp">30sp</dimen>
     <dimen name="twentysp">20sp</dimen>
     <dimen name="twentysix">26dp</dimen>
