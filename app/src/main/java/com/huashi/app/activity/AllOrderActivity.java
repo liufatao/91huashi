@@ -1,7 +1,6 @@
 package com.huashi.app.activity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,6 +27,7 @@ import com.huashi.app.application.ExampleApplication;
 import com.huashi.app.model.ToPayOrders;
 import com.huashi.app.util.Httputil;
 import com.huashi.app.util.Utils;
+import com.huashi.app.view.MyDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +51,7 @@ public class AllOrderActivity extends Activity implements View.OnClickListener {
     private double totalcount;
     private TextView txt_orderhint;
     private List<ToPayOrders.OrderModelsBean> orderModelsBeanList;
-    private ProgressDialog dialog;
+    private MyDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +78,8 @@ public class AllOrderActivity extends Activity implements View.OnClickListener {
         imgBack.setOnClickListener(this);
         lvAllorder = (ListView) findViewById(R.id.lv_allorder);
         txt_orderhint= (TextView) findViewById(R.id.txt_orderhint);
-        dialog=new ProgressDialog(this);
-        dialog.setMessage("数据提交中");
+        dialog=new MyDialog(this);
+        dialog.setTitle(R.string.pull_to_refresh_footer_refreshing_label);
         lvAllorder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -240,6 +240,7 @@ public class AllOrderActivity extends Activity implements View.OnClickListener {
     }
 
     private void getPayOrders() {
+        dialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.QUERYTOPAYORDERS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -252,12 +253,21 @@ public class AllOrderActivity extends Activity implements View.OnClickListener {
                         payOrdersAdapter.setBtntwo(AllOrderActivity.this);
                         payOrdersAdapter.setBtnthree(AllOrderActivity.this);
                         lvAllorder.setAdapter(payOrdersAdapter);
+                        if (dialog.isShowing()){
+                            dialog.dismiss();
+                        }
                     }else {
+                        if (dialog.isShowing()){
+                            dialog.dismiss();
+                        }
                         Toast.makeText(AllOrderActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
                         txt_orderhint.setVisibility(View.VISIBLE);
                     }
 
                 }else {
+                    if (dialog.isShowing()){
+                        dialog.dismiss();
+                    }
                     Toast.makeText(AllOrderActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
                     txt_orderhint.setVisibility(View.VISIBLE);
                 }
@@ -266,6 +276,9 @@ public class AllOrderActivity extends Activity implements View.OnClickListener {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 txt_orderhint.setVisibility(View.VISIBLE);
+                if (dialog.isShowing()){
+                    dialog.dismiss();
+                }
                 Toast.makeText(AllOrderActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
             }
         }) {
@@ -301,6 +314,7 @@ public class AllOrderActivity extends Activity implements View.OnClickListener {
                         dialog.dismiss();
                     }
                 } catch (JSONException e) {
+
                 }
 
 
