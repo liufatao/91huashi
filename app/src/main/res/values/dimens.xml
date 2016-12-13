@@ -4,6 +4,7 @@
     <!--<dimen name="activity_vertical_margin">16dp</dimen>-->
     <!--<dimen name="activity_main_city">70dp</dimen>-->
     <dimen name="onedp">1dp</dimen>
+    <dimen name="three">3dp</dimen>
     <dimen name="fivedp">5dp</dimen>
     <dimen name="tendp">10dp</dimen>
     <dimen name="fifteendp">15dp</dimen>

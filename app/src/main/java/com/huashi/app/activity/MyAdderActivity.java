@@ -3,7 +3,7 @@ package com.huashi.app.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,12 +20,9 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 import com.huashi.app.Config.Constant;
 import com.huashi.app.R;
 import com.huashi.app.adapter.AdderAdapter;
@@ -33,6 +30,7 @@ import com.huashi.app.api.RequestUrlsConfig;
 import com.huashi.app.application.ExampleApplication;
 import com.huashi.app.model.UserAddress;
 import com.huashi.app.util.Utils;
+import com.huashi.app.view.MyDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,7 +64,7 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
     private TextView txt_delete, txt_compile;
     private String addid;
     private  int addposition;
-
+    private MyDialog mydialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,12 +90,13 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
         lv_adder = (ListView) findViewById(R.id.lv_adder);
         dialog = new ProgressDialog(this);
         dialog.setMessage("数据提交中....");
-        View view = LayoutInflater.from(this).inflate(R.layout.item_adder, null);
+        View view = LayoutInflater.from(this).inflate(R.layout.item_adder, null,false);
         txt_delete = (TextView) view.findViewById(R.id.txt_delete);
         txt_delete.setOnClickListener(this);
         txt_compile = (TextView) view.findViewById(R.id.txt_compile);
         txt_compile.setOnClickListener(this);
-
+       mydialog=new MyDialog(this);
+        mydialog.setTitle(R.string.pull_to_refresh_footer_refreshing_label);
 
     }
 
@@ -105,14 +104,14 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
     private void showdelectaddwindow(View v) {
         View widow;
         LayoutInflater inflater = LayoutInflater.from(this);
-        widow = inflater.inflate(R.layout.popwindow_deleteadder, null);
+        widow = inflater.inflate(R.layout.popwindow_deleteadder, null,false);
         delectwindow = new PopupWindow(widow, ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT, true);
 
         delectwindow.setFocusable(true);
         delectwindow.setOutsideTouchable(false);
         delectwindow.setAnimationStyle(android.R.style.Animation_InputMethod);
-        delectwindow.setBackgroundDrawable(new BitmapDrawable());
+        delectwindow.setBackgroundDrawable(new ColorDrawable());
         delectwindow.showAtLocation(widow, Gravity.CENTER, 0, 0);
 
 
@@ -179,6 +178,7 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
 
     //数据初始化
     private void intoData() {
+        mydialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.QUERYUSERADDRESSES, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -192,19 +192,29 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
                         adderAdapter.setOnDelete(MyAdderActivity.this);
                         adderAdapter.setOnEdit(MyAdderActivity.this);
                         lv_adder.setAdapter(adderAdapter);
+                        if (mydialog.isShowing()){
+                            mydialog.dismiss();
+                        }
                     }else {
-                        dialog.dismiss();
+                        if (mydialog.isShowing()){
+                            mydialog.dismiss();
+                        }
                         Toast.makeText(MyAdderActivity.this, userAddress.getMessage(), Toast.LENGTH_LONG).show();
                     }
 
                 }else {
+                    if (mydialog.isShowing()){
+                        mydialog.dismiss();
+                    }
                     Toast.makeText(MyAdderActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                dialog.dismiss();
+                if (mydialog.isShowing()){
+                    mydialog.dismiss();
+                }
                 Toast.makeText(MyAdderActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
             }
         }) {
@@ -222,6 +232,8 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
 
     //删除地址
     private void deleteAdder() {
+        mydialog.show();
+        delectwindow.dismiss();
         StringRequest deleteRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.DELETEUSERADDRESS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -233,12 +245,17 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
                     if (status== Constant.ONE){
                         Toast.makeText(MyAdderActivity.this,message,Toast.LENGTH_LONG).show();
                         list.remove(addposition);
-                        Log.e("add",addposition+"");
                         adderAdapter.notifyDataSetChanged();
-                        delectwindow.dismiss();
+                        if (mydialog.isShowing()){
+                            mydialog.dismiss();
+                        }
+
 
                     }else {
                         Toast.makeText(MyAdderActivity.this,message,Toast.LENGTH_LONG).show();
+                        if (mydialog.isShowing()){
+                            mydialog.dismiss();
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -248,7 +265,9 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("删除地址失败", volleyError.toString());
+                if (mydialog.isShowing()){
+                    mydialog.dismiss();
+                }
             }
         }) {
             @Override
