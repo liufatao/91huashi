@@ -19,12 +19,9 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 import com.huashi.app.Config.Constant;
 import com.huashi.app.R;
 import com.huashi.app.adapter.Search_Hop_Adapter;
@@ -39,6 +36,7 @@ import com.huashi.app.util.Httputil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,10 +44,11 @@ import java.util.Map;
 
 /**
  * Created by Administrator on 2016/5/9.
+ * 搜索页
  */
-public class SearchActivity extends Activity implements View.OnClickListener{
+public class SearchActivity extends Activity implements View.OnClickListener {
     private SearchDBHelper dbHelper;
-    private GridView hotgrdview,historygridview;
+    private GridView hotgrdview, historygridview;
     private TopItemModel itemModel;
     private Search_Top_Adapter hotadapter;
     private EditText edi_search;
@@ -60,22 +59,25 @@ public class SearchActivity extends Activity implements View.OnClickListener{
     private HotSearch hotSearch;
     private Search_Top_Adapter searchTopAdapter;
     private Search_Hop_Adapter search_hop_adapter;
-    private static List<String> list = new ArrayList<String>();
+    private static List<String> list = new ArrayList<>();
     private ImageView img_back;
-    private Handler handler = new Handler() {
+    private MyHandler handler = new MyHandler(this) {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
                     // 点击清除记录按钮，刷新界面
-                    Toast.makeText(SearchActivity.this,"清空数据了",Toast.LENGTH_LONG).show();
+                    Toast.makeText(SearchActivity.this, "清空数据了", Toast.LENGTH_LONG).show();
                     searchTopAdapter.refresh(queryHistoryData());
                     break;
 
 
             }
-        };
+        }
+
+
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,22 +86,37 @@ public class SearchActivity extends Activity implements View.OnClickListener{
         intotopData();
         searchHistory();
         if (Httputil.isNetworkAvailable(this)) {
-           intotopData();
-        }else {
-            Toast.makeText(this,"网络不通畅",Toast.LENGTH_LONG).show();
+            intotopData();
+        } else {
+            Toast.makeText(this, "网络不通畅", Toast.LENGTH_LONG).show();
+        }
+    }
+    static class MyHandler extends Handler {
+        private final WeakReference<Activity> mActivity;
+
+        public MyHandler(Activity activity) {
+            mActivity = new WeakReference<Activity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            Activity activity = mActivity.get();
+            if (activity != null) {
+                // ...
+            }
         }
     }
     //初始化控件
-    private void intoview(){
-         dbHelper=new SearchDBHelper(this);
-        hotgrdview= (GridView) findViewById(R.id.gridview_hot);
-        historygridview= (GridView) findViewById(R.id.gridview_history);
-        edi_search= (EditText) findViewById(R.id.edi_search);
-        btn_clear= (Button) findViewById(R.id.btn_clear);
+    private void intoview() {
+        dbHelper = new SearchDBHelper(this);
+        hotgrdview = (GridView) findViewById(R.id.gridview_hot);
+        historygridview = (GridView) findViewById(R.id.gridview_history);
+        edi_search = (EditText) findViewById(R.id.edi_search);
+        btn_clear = (Button) findViewById(R.id.btn_clear);
         btn_clear.setOnClickListener(this);
-        txt_search= (TextView) findViewById(R.id.txt_search);
+        txt_search = (TextView) findViewById(R.id.txt_search);
         txt_search.setOnClickListener(this);
-        img_back= (ImageView) findViewById(R.id.img_back);
+        img_back = (ImageView) findViewById(R.id.img_back);
         img_back.setOnClickListener(this);
 
         //热门搜索
@@ -121,22 +138,22 @@ public class SearchActivity extends Activity implements View.OnClickListener{
 
 
     //搜索关键字
-    private void  getinfo(){
-        final String word=edi_search.getText().toString().trim();
-        if (word.isEmpty()){
-            Toast.makeText(SearchActivity.this,"搜索内容为空",Toast.LENGTH_LONG).show();
+    private void getinfo() {
+        final String word = edi_search.getText().toString().trim();
+        if (word.isEmpty()) {
+            Toast.makeText(SearchActivity.this, "搜索内容为空", Toast.LENGTH_LONG).show();
             return;
         }
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, RequestUrlsConfig.SEARCHCOMMODITYDATA, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.SEARCHCOMMODITYDATA, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-            Log.e("搜索成功",s);
+                Log.e("搜索成功", s);
                 try {
-                    JSONObject jsonObject=new JSONObject(s);
-                    int status=jsonObject.getInt("status");
-                    if (status==Constant.ONE){
-                        Intent intent=new Intent(SearchActivity.this,CommodityDispayActivity.class);
-                        intent.putExtra("word",word);
+                    JSONObject jsonObject = new JSONObject(s);
+                    int status = jsonObject.getInt("status");
+                    if (status == Constant.ONE) {
+                        Intent intent = new Intent(SearchActivity.this, CommodityDispayActivity.class);
+                        intent.putExtra("word", word);
                         startActivity(intent);
                     }
 
@@ -147,14 +164,14 @@ public class SearchActivity extends Activity implements View.OnClickListener{
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("搜索失败",volleyError.toString());
+                Log.e("搜索失败", volleyError.toString());
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map=new HashMap<>();
-                map.put("word",word);
-                map.put("searchType",100+"");
+                Map<String, String> map = new HashMap<>();
+                map.put("word", word);
+                map.put("searchType", 100 + "");
                 return map;
             }
         };
@@ -162,21 +179,21 @@ public class SearchActivity extends Activity implements View.OnClickListener{
     }
 
     //搜索关键字
-    private void  historygSearcha(final String word){
-        if (word.isEmpty()){
-            Toast.makeText(SearchActivity.this,"搜索内容为空",Toast.LENGTH_LONG).show();
+    private void historygSearcha(final String word) {
+        if (word.isEmpty()) {
+            Toast.makeText(SearchActivity.this, "搜索内容为空", Toast.LENGTH_LONG).show();
             return;
         }
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, RequestUrlsConfig.SEARCHCOMMODITYDATA, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.SEARCHCOMMODITYDATA, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("搜索成功",s);
+                Log.e("搜索成功", s);
                 try {
-                    JSONObject jsonObject=new JSONObject(s);
-                    int status=jsonObject.getInt("status");
-                    if (status==Constant.ONE){
-                        Intent intent=new Intent(SearchActivity.this,CommodityDispayActivity.class);
-                        intent.putExtra("word",word);
+                    JSONObject jsonObject = new JSONObject(s);
+                    int status = jsonObject.getInt("status");
+                    if (status == Constant.ONE) {
+                        Intent intent = new Intent(SearchActivity.this, CommodityDispayActivity.class);
+                        intent.putExtra("word", word);
                         startActivity(intent);
                     }
 
@@ -187,15 +204,15 @@ public class SearchActivity extends Activity implements View.OnClickListener{
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("搜索失败",volleyError.toString());
-                Toast.makeText(SearchActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
+                Log.e("搜索失败", volleyError.toString());
+                Toast.makeText(SearchActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map=new HashMap<>();
-                map.put("word",word);
-                map.put("searchType",100+"");
+                Map<String, String> map = new HashMap<>();
+                map.put("word", word);
+                map.put("searchType", 100 + "");
                 return map;
             }
         };
@@ -205,49 +222,48 @@ public class SearchActivity extends Activity implements View.OnClickListener{
     /***
      * 初始化热门搜索数据
      */
-    private  void intotopData(){
-      StringRequest stringRequest=new StringRequest(Request.Method.POST,RequestUrlsConfig.HOTSEARCH,new Response.Listener<String>() {
-          @Override
-          public void onResponse(String s) {
-              if (!s.isEmpty()) {
-                  Log.e("热门搜索", s.toString());
-                  hotSearch = ExampleApplication.getInstance().getGson().fromJson(s, HotSearch.class);
-                  hotSearches = hotSearch.getHotSearchs();
-                  if (!hotSearch.getHotSearchs().isEmpty()){
-                      search_hop_adapter = new Search_Hop_Adapter(SearchActivity.this, hotSearch.getHotSearchs());
-                      hotgrdview.setAdapter(search_hop_adapter);
-                  }
+    private void intotopData() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.HOTSEARCH, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                if (!s.isEmpty()) {
+                    hotSearch = ExampleApplication.getInstance().getGson().fromJson(s, HotSearch.class);
+                    hotSearches = hotSearch.getHotSearchs();
+                    if (!hotSearch.getHotSearchs().isEmpty()) {
+                        search_hop_adapter = new Search_Hop_Adapter(SearchActivity.this, hotSearch.getHotSearchs());
+                        hotgrdview.setAdapter(search_hop_adapter);
+                    }
 
-              }else {
-                  Toast.makeText(SearchActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
-              }
-          }
-      }, new Response.ErrorListener() {
-          @Override
-          public void onErrorResponse(VolleyError volleyError) {
-              Toast.makeText(SearchActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
-          }
-      });
+                } else {
+                    Toast.makeText(SearchActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(SearchActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
+            }
+        });
         ExampleApplication.getInstance().getRequestQueue().add(stringRequest);
 
     }
 
     /***
      * 初始化搜索历史记录
-     * @return
+     *
      */
-    private void searchHistory(){
-        searchhistories=queryHistoryData();
-        searchTopAdapter=new Search_Top_Adapter(this,searchhistories);
+    private void searchHistory() {
+        searchhistories = queryHistoryData();
+        searchTopAdapter = new Search_Top_Adapter(this, searchhistories);
         historygridview.setAdapter(searchTopAdapter);
     }
 
     private ArrayList<TopItemModel> queryHistoryData() {
         dbHelper = new SearchDBHelper(getApplicationContext());
-        ArrayList<TopItemModel> his_list = new ArrayList<TopItemModel>();
+        ArrayList<TopItemModel> his_list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor his_c = db.rawQuery("select * from "
-                +Constant.HUASHI_TABLE, null);
+                + Constant.HUASHI_TABLE, null);
 
         his_c.moveToFirst();
         while (!his_c.isAfterLast()) {
@@ -272,7 +288,7 @@ public class SearchActivity extends Activity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.img_back:
                 //退出当前
                 finish();
@@ -292,20 +308,20 @@ public class SearchActivity extends Activity implements View.OnClickListener{
     /****
      * 点击搜索按钮
      */
-    private void searchOnck(){
+    private void searchOnck() {
         searchhistories.remove(list);
         btn_clear.setVisibility(View.GONE);
         String search = edi_search.getText().toString().trim();
         // 插入数据库数据
-        if (!search.isEmpty()){
+        if (!search.isEmpty()) {
             insertHistory(search);
         }
 
     }
 
     /**
-	 * 插入历史记录，点击按钮，获得edittext的值，写到数据库
-	 */
+     * 插入历史记录，点击按钮，获得edittext的值，写到数据库
+     */
     private void insertHistory(String search) {
         dbHelper = new SearchDBHelper(getApplicationContext());
         // 插入数据库
@@ -324,12 +340,8 @@ public class SearchActivity extends Activity implements View.OnClickListener{
         // 如果count == 0，说明没有重复的数据，就可以插入数据库history表中
         if (count == 0) {
             db.execSQL("insert into " + Constant.HUASHI_TABLE
-                    + " values(?,?)", new Object[] { null, search });
+                    + " values(?,?)", new Object[]{null, search});
             Log.i("create", "数据库表history数据插入成功");
-        } else {
-            // Toast.makeText(getApplicationContext(), "已存在",
-            // Toast.LENGTH_SHORT)
-            // .show();
         }
 
         db.close();
@@ -337,11 +349,11 @@ public class SearchActivity extends Activity implements View.OnClickListener{
 
 
     /*
-	 * 查询数据库的h_name一列，然后放到list集合中，用于判断是否插入数据
+     * 查询数据库的h_name一列，然后放到list集合中，用于判断是否插入数据
 	 */
     private List<String> queryHistorySql() {
         dbHelper = new SearchDBHelper(getApplicationContext());
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from "
                 + Constant.HUASHI_TABLE, null);

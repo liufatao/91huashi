@@ -3,8 +3,8 @@ package com.huashi.app.activity;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -38,7 +38,7 @@ import java.util.Map;
 
 public class MainActivity extends Activity implements View.OnClickListener{
     private ImageView imgbtn_search,img_home,img_class,img_shopcart,img_me;
-    private long firstTime = 0l;
+    private long firstTime = 01;
     private FragmentManager fragmentManager;
     private Home_Fragment home_fragment;
     private Frament_Shopcar frament_shopcar;
@@ -105,21 +105,23 @@ public class MainActivity extends Activity implements View.OnClickListener{
         StringRequest stringRequest=new StringRequest(Request.Method.POST, RequestUrlsConfig.QUERYSHOPINGCARTSNUM, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("查询购物车成功",s.toString());
-                try {
-                    JSONObject jsonObject= new JSONObject(s);
-                    int status=jsonObject.getInt("status");
-                    String shoppingCarCount=jsonObject.getString("shoppingCarCount");
-                    if (status == Constant.ONE){
-                        dp_shop.setText(shoppingCarCount);
+                if (!TextUtils.isEmpty(s)){
+                    try {
+                        JSONObject jsonObject= new JSONObject(s);
+                        int status=jsonObject.getInt("status");
+                        String shoppingCarCount=jsonObject.getString("shoppingCarCount");
+                        if (status == Constant.ONE){
+                            dp_shop.setText(shoppingCarCount);
 //
-                    }else {
-                        dp_shop.setVisibility(View.GONE);
-                    }
+                        }else {
+                            dp_shop.setVisibility(View.GONE);
+                        }
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -140,7 +142,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
     /**
      * 根据游标切换相应的界面
-     * @param i
      */
     private void initFragment(int i){
        fragmentManager=getFragmentManager();
@@ -186,7 +187,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
     /***
      * 隐藏Fragment
-     * @param transaction
      */
  private  void hideFragment(FragmentTransaction transaction){
      if(frament_shopcar!=null){
@@ -252,15 +252,15 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 firstTime = secondTime;
                 return true;
             } else {
-                Intent startMain = new Intent(Intent.ACTION_MAIN);
-                startMain.addCategory(Intent.CATEGORY_HOME);
-                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(startMain);
+//                Intent startMain = new Intent(Intent.ACTION_MAIN);
+//                startMain.addCategory(Intent.CATEGORY_HOME);
+//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(startMain);
                 //与当前应用相关的应用、进程、服务等也会被关闭。
                 //会发送 ACTION_PACKAGE_RESTARTED广播。
                 finishActivity(0);
                 //关闭应用
-                System.exit(0);
+//                System.exit(0);
             }
         }
         return super.onKeyUp(keyCode, event);
@@ -285,6 +285,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
         super.onDestroy();
     }
 
-
+    @Override
+    public void finish() {
+        super.finish();
+        this.overridePendingTransition(R.anim.activity_close,0);
+    }
 
 }

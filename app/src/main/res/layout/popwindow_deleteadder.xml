@@ -26,7 +26,8 @@
             android:textSize="@dimen/fifteensp"
             android:lineSpacingMultiplier="1.5"
             android:textColor="@color/colorblack"
-            android:text="确定要删除该地址吗？"/>
+            android:text="@string/delteadder"
+           />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,16 +35,19 @@
             android:layout_marginBottom="@dimen/fifteendp"
             android:orientation="horizontal">
             <Button
+                style="?android:attr/buttonBarStyle"
                 android:id="@+id/btn_msgconfirm"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="@dimen/thirtydp"
                 android:layout_marginLeft="@dimen/fifteendp"
                 android:layout_marginRight="@dimen/fifteendp"
-                android:background="@color/colordarkgrey"
+                android:background="@color/colormainren"
                 android:text="@string/confirmname"
+                android:textColor="@color/colorwite"
                 />
             <Button
+                style="?android:attr/buttonBarStyle"
                 android:id="@+id/btn_msgcancel"
                 android:layout_width="0dp"
                 android:layout_weight="1"

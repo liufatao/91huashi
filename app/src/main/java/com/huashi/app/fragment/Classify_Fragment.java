@@ -98,6 +98,7 @@ public class Classify_Fragment extends Fragment {
         });
         dialog=new MyDialog(activity);
         dialog.setTitle(R.string.pull_to_refresh_footer_refreshing_label);
+
         swipe_layout = (SwipeRefreshLayout) class_view.findViewById(R.id.swipe_layout);
         swipe_layout.setProgressBackgroundColorSchemeResource(android.R.color.white);
         swipe_layout.isRefreshing();
@@ -259,7 +260,6 @@ public class Classify_Fragment extends Fragment {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Intent intent = new Intent(activity, ProductdetailsActivity.class);
                             intent.putExtra("commodityid", smartIndustryModelList.get(position).getSmartIndustrys().get(position).getId() + "");
-                            Log.e("商品id", smartIndustryModelList.get(position).getSmartIndustrys().get(position).getId() + "");
                             startActivity(intent);
                         }
                     });

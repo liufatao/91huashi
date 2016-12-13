@@ -17,12 +17,9 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 import com.huashi.app.Config.Constant;
 import com.huashi.app.R;
 import com.huashi.app.api.RequestUrlsConfig;
@@ -45,6 +42,7 @@ import java.util.Map;
 
 /**
  * Created by Administrator on 2016/8/8.
+ * 新增地址
  */
 public class CompileAdderActivity extends Activity implements View.OnClickListener {
     private ImageView imgBack;
@@ -58,15 +56,15 @@ public class CompileAdderActivity extends Activity implements View.OnClickListen
     private CheckBox cnDefauta;
     private TextView txt_title;
     private String cityTxt;
-    private String username, phonenumber, str_province, str_city, str_district,street;
+    private String username, phonenumber, str_province, str_city, str_district, street;
     private String addid;
     private String userid;
     private Utils utils;
     private UserAddressModel addressModel;
-    private int STATUS_ONE_HUNDRED=100;
-    private int STATUS_TWO_HUNDRED=200;
+    private int STATUS_ONE_HUNDRED = 100;
+    private int STATUS_TWO_HUNDRED = 200;
     private String status;
-    private ProgressDialog dialog,progressDialog;
+    private ProgressDialog dialog, progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +73,8 @@ public class CompileAdderActivity extends Activity implements View.OnClickListen
         intoView();
         if (Httputil.isNetworkAvailable(this)) {
             intoData();
-        }else {
-            Toast.makeText(this,"网络不通畅",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "网络不通畅", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -97,7 +95,7 @@ public class CompileAdderActivity extends Activity implements View.OnClickListen
         etDetaileadder = (EditText) findViewById(R.id.et_detaileadder);
         cnDefauta = (CheckBox) findViewById(R.id.cn_defauta);
         cnDefauta.setOnClickListener(this);
-        txt_title= (TextView) findViewById(R.id.txt_title);
+        txt_title = (TextView) findViewById(R.id.txt_title);
         txt_title.setText("修改用户地址");
 
 
@@ -105,23 +103,23 @@ public class CompileAdderActivity extends Activity implements View.OnClickListen
 
     //修改地址
     private void UpdateUserAdder() {
-        progressDialog=ProgressDialog.show(CompileAdderActivity.this,"","数据提交中...");
-        username=etConsigneename.getText().toString().trim();
-       phonenumber= etConsigneenphone.getText().toString().trim();
-        street=etDetaileadder.getText().toString().trim();
+        progressDialog = ProgressDialog.show(CompileAdderActivity.this, "", "数据提交中...");
+        username = etConsigneename.getText().toString().trim();
+        phonenumber = etConsigneenphone.getText().toString().trim();
+        street = etDetaileadder.getText().toString().trim();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.UPDATEUSERADDRESS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 Log.e("请求成功", s);
                 try {
-                    JSONObject jsonObject=new JSONObject(s);
-                    int status=jsonObject.getInt("status");
-                    String message=jsonObject.getString("message");
-                    if (status == Constant.ONE){
-                        Toast.makeText(CompileAdderActivity.this,message,Toast.LENGTH_LONG).show();
+                    JSONObject jsonObject = new JSONObject(s);
+                    int status = jsonObject.getInt("status");
+                    String message = jsonObject.getString("message");
+                    if (status == Constant.ONE) {
+                        Toast.makeText(CompileAdderActivity.this, message, Toast.LENGTH_LONG).show();
                         progressDialog.dismiss();
-                    }else {
-                        Toast.makeText(CompileAdderActivity.this,message,Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(CompileAdderActivity.this, message, Toast.LENGTH_LONG).show();
                         progressDialog.dismiss();
                     }
                 } catch (JSONException e) {
@@ -139,15 +137,15 @@ public class CompileAdderActivity extends Activity implements View.OnClickListen
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
-                map.put("userId",userid);
-                map.put("id",addid);
-                map.put("name",username);
-                map.put("phone",phonenumber);
-                map.put("province",str_province);
-                map.put("city",str_city);
-                map.put("district",str_district);
-                map.put("street",street);
-                map.put("status",status);
+                map.put("userId", userid);
+                map.put("id", addid);
+                map.put("name", username);
+                map.put("phone", phonenumber);
+                map.put("province", str_province);
+                map.put("city", str_city);
+                map.put("district", str_district);
+                map.put("street", street);
+                map.put("status", status);
                 return map;
             }
         };
@@ -156,7 +154,7 @@ public class CompileAdderActivity extends Activity implements View.OnClickListen
 
     //初始化数据
     private void intoData() {
-        dialog=ProgressDialog.show(CompileAdderActivity.this,"提示","玩命加载中...");
+        dialog = ProgressDialog.show(CompileAdderActivity.this, "提示", "玩命加载中...");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.QUERYUSERADDRESS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -164,8 +162,8 @@ public class CompileAdderActivity extends Activity implements View.OnClickListen
 
                 if (s != null) {
                     addressModel = ExampleApplication.getInstance().getGson().fromJson(s, UserAddressModel.class);
-                    Log.e("addressModel",addressModel.getUserAddress().getProvince());
-                    if (addressModel.getUserAddress()!=null) {
+                    Log.e("addressModel", addressModel.getUserAddress().getProvince());
+                    if (addressModel.getUserAddress() != null) {
 
                         Valuation(addressModel);
                     }
@@ -193,18 +191,18 @@ public class CompileAdderActivity extends Activity implements View.OnClickListen
         UserAddressModel.UserAddressBean model = addressModel.getUserAddress();
         etConsigneename.setText(model.getName());
         etConsigneenphone.setText(model.getPhone());
-        txtAdder.setText(model.getProvince()+model.getCity()+model.getDistrict());
+        txtAdder.setText(model.getProvince() + model.getCity() + model.getDistrict());
         etDetaileadder.setText(model.getStreet());
-        if (model.getStatus()==STATUS_ONE_HUNDRED){
+        if (model.getStatus() == STATUS_ONE_HUNDRED) {
             cnDefauta.setChecked(true);
-            status=String.valueOf(STATUS_ONE_HUNDRED);
-        }else {
+            status = String.valueOf(STATUS_ONE_HUNDRED);
+        } else {
             cnDefauta.setChecked(false);
-            status=String.valueOf(STATUS_TWO_HUNDRED);
+            status = String.valueOf(STATUS_TWO_HUNDRED);
         }
-        str_province=model.getProvince();
-        str_city=model.getCity();
-        str_district=model.getDistrict();
+        str_province = model.getProvince();
+        str_city = model.getCity();
+        str_district = model.getDistrict();
         dialog.dismiss();
 
     }
@@ -212,7 +210,7 @@ public class CompileAdderActivity extends Activity implements View.OnClickListen
     //选择城市
     private View dialogm() {
         View contentView = LayoutInflater.from(this).inflate(
-                R.layout.wheelcity_cities_layout, null);
+                R.layout.wheelcity_cities_layout, null,false);
         final WheelView country = (WheelView) contentView
                 .findViewById(R.id.wheelcity_country);
         country.setVisibleItems(3);
@@ -317,7 +315,7 @@ public class CompileAdderActivity extends Activity implements View.OnClickListen
      * Updates the city wheel
      */
     private void updateCities(WheelView city, String cities[][], int index) {
-        ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<String>(this,
+        ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<>(this,
                 cities[index]);
         adapter.setTextSize(18);
         city.setViewAdapter(adapter);
@@ -329,7 +327,7 @@ public class CompileAdderActivity extends Activity implements View.OnClickListen
      */
     private void updatecCities(WheelView city, String ccities[][][], int index,
                                int index2) {
-        ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<String>(this,
+        ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<>(this,
                 ccities[index][index2]);
         adapter.setTextSize(18);
         city.setViewAdapter(adapter);
@@ -349,12 +347,12 @@ public class CompileAdderActivity extends Activity implements View.OnClickListen
                 break;
             case R.id.cn_defauta:
                 //是否默认地址
-                if (cnDefauta.isChecked()){
-                   status=String.valueOf(STATUS_ONE_HUNDRED);
-                    Toast.makeText(CompileAdderActivity.this,"true",Toast.LENGTH_LONG).show();
-                }else {
-                    Toast.makeText(CompileAdderActivity.this,"fales",Toast.LENGTH_LONG).show();
-                    status=String.valueOf(STATUS_TWO_HUNDRED);
+                if (cnDefauta.isChecked()) {
+                    status = String.valueOf(STATUS_ONE_HUNDRED);
+                    Toast.makeText(CompileAdderActivity.this, "true", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(CompileAdderActivity.this, "fales", Toast.LENGTH_LONG).show();
+                    status = String.valueOf(STATUS_TWO_HUNDRED);
                 }
                 break;
             case R.id.ry_area:
@@ -380,4 +378,5 @@ public class CompileAdderActivity extends Activity implements View.OnClickListen
                 break;
         }
     }
+
 }

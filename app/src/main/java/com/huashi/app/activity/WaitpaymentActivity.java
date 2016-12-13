@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,12 +15,9 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 import com.huashi.app.Config.Constant;
 import com.huashi.app.R;
 import com.huashi.app.adapter.ToPayOrdersAdapter;
@@ -72,7 +70,7 @@ public class WaitpaymentActivity extends Activity implements View.OnClickListene
         lvWaitpayment = (ListView) findViewById(R.id.lv_waitpayment);
         dialog = new ProgressDialog(this);
         dialog.setMessage("数据提交中");
-        txt_orderhint= (TextView) findViewById(R.id.txt_orderhint);
+        txt_orderhint = (TextView) findViewById(R.id.txt_orderhint);
 
     }
 
@@ -195,8 +193,7 @@ public class WaitpaymentActivity extends Activity implements View.OnClickListene
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.QUERYTOPAYORDERS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("待付款请求成功", s);
-                if (s != null && s != " ") {
+                if (!TextUtils.isEmpty(s)) {
                     toPayOrders = ExampleApplication.getInstance().getGson().fromJson(s, ToPayOrders.class);
                     if (toPayOrders.getOrderModels().size() >= 1) {
                         orderModelsBeanList = toPayOrders.getOrderModels();
@@ -210,15 +207,14 @@ public class WaitpaymentActivity extends Activity implements View.OnClickListene
                     }
 
                 } else {
-                    Toast.makeText(WaitpaymentActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG);
+                    Toast.makeText(WaitpaymentActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
                     txt_orderhint.setVisibility(View.VISIBLE);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("待付款请求失败", volleyError.toString());
-                Toast.makeText(WaitpaymentActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG);
+                Toast.makeText(WaitpaymentActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
                 txt_orderhint.setVisibility(View.VISIBLE);
             }
         }) {
@@ -265,6 +261,7 @@ public class WaitpaymentActivity extends Activity implements View.OnClickListene
                         dialog.dismiss();
                     }
                 } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
 
@@ -295,4 +292,5 @@ public class WaitpaymentActivity extends Activity implements View.OnClickListene
             getPayOrders();
         }
     }
+
 }

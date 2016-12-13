@@ -15,7 +15,7 @@ import com.huashi.app.R;
 public class MyDialog extends Dialog {
     private TextView txt_title;
     public MyDialog(Context context) {
-        super(context,R.style.MyDialogStyle);
+        super(context,R.style.MyDialog);
         init();
     }
 

@@ -10,13 +10,13 @@ public class HuashiApi {
      * 数据地址
      * 图片地址
      */
-//    public static  final String BASEAPI="http://192.168.1.61:8080/flowerfair-api";
+    public static  final String BASEAPI="http://192.168.1.61:8080/flowerfair-api";
 //    public static  final String PICTUREURL="http://192.168.1.100/";
 
     /**
      * 云服务器地址
      */
-    public static  final String BASEAPI="http://114.215.78.107:8080/flowerfair-api";
+//    public static  final String BASEAPI="http://114.215.78.107:8080/flowerfair-api";
     public static  final String PICTUREURL="http://114.215.78.107/";
 
 }

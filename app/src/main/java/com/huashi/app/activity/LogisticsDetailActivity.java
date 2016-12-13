@@ -12,13 +12,10 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 import com.huashi.app.Config.Constant;
 import com.huashi.app.R;
 import com.huashi.app.adapter.Logistics_adapter;
@@ -41,6 +38,7 @@ public class LogisticsDetailActivity extends Activity {
     private LogisticsModel logisticsModel;
     private Logistics_adapter logisticsAdapter;
     private String orderid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,14 +47,14 @@ public class LogisticsDetailActivity extends Activity {
         getInfo();
         if (Httputil.isNetworkAvailable(this)) {
             getInfo();
-        }else {
-            Toast.makeText(this,"网络不通畅",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "网络不通畅", Toast.LENGTH_LONG).show();
         }
     }
 
-    private void intoView(){
-        orderid=getIntent().getStringExtra("orderId");
-        Log.e("物流订单号",orderid);
+    private void intoView() {
+        orderid = getIntent().getStringExtra("orderId");
+        Log.e("物流订单号", orderid);
         imgBack = (ImageView) findViewById(R.id.img_back);
         imgCommodity = (ImageView) findViewById(R.id.img_commodity);
         txtCommodityname = (TextView) findViewById(R.id.txt_commodityname);
@@ -65,37 +63,39 @@ public class LogisticsDetailActivity extends Activity {
         lvLogistics = (ListView) findViewById(R.id.lv_logistics);
 
     }
-    private void getInfo(){
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, RequestUrlsConfig.LOGISTIC, new Response.Listener<String>() {
+
+    private void getInfo() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.LOGISTIC, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("物流信息请求成功",s);
-                logisticsModel= ExampleApplication.getInstance().getGson().fromJson(s,LogisticsModel.class);
-                if (logisticsModel.getStatus()== Constant.ONE){
+                Log.e("物流信息请求成功", s);
+                logisticsModel = ExampleApplication.getInstance().getGson().fromJson(s, LogisticsModel.class);
+                if (logisticsModel.getStatus() == Constant.ONE) {
                     setinfo(logisticsModel);
-                    logisticsAdapter=new Logistics_adapter(LogisticsDetailActivity.this,logisticsModel.getLogisticsOrder().getLogisticsInfo());
+                    logisticsAdapter = new Logistics_adapter(LogisticsDetailActivity.this, logisticsModel.getLogisticsOrder().getLogisticsInfo());
                     lvLogistics.setAdapter(logisticsAdapter);
-                }else {
-                    Toast.makeText(LogisticsDetailActivity.this,"没有物流信息",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(LogisticsDetailActivity.this, "没有物流信息", Toast.LENGTH_LONG).show();
                 }
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-            Log.e("物流信息请求失败",volleyError.toString());
+                Log.e("物流信息请求失败", volleyError.toString());
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map=new HashMap<>();
-                map.put("order_id",orderid);
+                Map<String, String> map = new HashMap<>();
+                map.put("order_id", orderid);
                 return map;
             }
         };
         ExampleApplication.getInstance().getRequestQueue().add(stringRequest);
     }
-    private  void setinfo(LogisticsModel detailsBean){
+
+    private void setinfo(LogisticsModel detailsBean) {
 
         imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +107,7 @@ public class LogisticsDetailActivity extends Activity {
         imgCommodity = (ImageView) findViewById(R.id.img_commodity);
         //    ImageLoader加载网络图片
 
-        ImageLoader imageLoader = new ImageLoader( ExampleApplication.getInstance().getRequestQueue(), new ImageLoader.ImageCache() {
+        ImageLoader imageLoader = new ImageLoader(ExampleApplication.getInstance().getRequestQueue(), new ImageLoader.ImageCache() {
             @Override
             public void putBitmap(String url, Bitmap bitmap) {
             }
@@ -119,9 +119,10 @@ public class LogisticsDetailActivity extends Activity {
         });
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(imgCommodity,
                 R.mipmap.load, R.mipmap.load);
-        imageLoader.get(HuashiApi.PICTUREURL+detailsBean.getOrder().getDetails().get(0).getPic_url()+"!m.jpg", listener);
+        imageLoader.get(HuashiApi.PICTUREURL + detailsBean.getOrder().getDetails().get(0).getPic_url() + "!m.jpg", listener);
         txtCommodityname.setText(detailsBean.getOrder().getDetails().get(0).getName());
-        txtWaybillnumber.setText("运单编号:"+detailsBean.getLogisticsOrder().getTracking_no());
-        txtLogisticscompany.setText("物流公司:"+detailsBean.getLogisticsOrder().getLogisticsName());
+        txtWaybillnumber.setText(String.format(getString(R.string.waybillnumber),detailsBean.getLogisticsOrder().getTracking_no()));
+        txtLogisticscompany.setText(String.format(getString(R.string.logisticscompany),detailsBean.getLogisticsOrder().getLogisticsName()) );
     }
+
 }

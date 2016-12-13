@@ -25,12 +25,9 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 import com.huashi.app.Config.Constant;
 import com.huashi.app.R;
 import com.huashi.app.alipay.H5PayDemoActivity;
@@ -68,8 +65,9 @@ import java.util.Random;
 
 /**
  * Created by Administrator on 2016/5/31.
+ * 支付界面
  */
-public class PayActivity extends Activity implements View.OnClickListener{
+public class PayActivity extends Activity implements View.OnClickListener {
     // 商户PID
     public static final String PARTNER = Constant.PARTNER;
     // 商户收款账号
@@ -81,7 +79,7 @@ public class PayActivity extends Activity implements View.OnClickListener{
     private Button btnOk;
     private double totalcount;
     private TextView txtAllpic;
-    private String  orderId;
+    private String orderId;
     private RadioGroup rgPay;
     private ImageView imgAlipay;
     private TextView txtAlipay;
@@ -90,7 +88,7 @@ public class PayActivity extends Activity implements View.OnClickListener{
     private TextView txtWeixinpay;
     private RadioButton rbWeixinpay;
     private RadioButton rbUnionpay;
-    private int isto=0;
+    private int isto = 0;
     private String userId;
     private Utils utils;
     private PayInfoModel payInfoModel;
@@ -100,9 +98,9 @@ public class PayActivity extends Activity implements View.OnClickListener{
     private String tn;
     private PayReq req;
     private IWXAPI msgApi;
-    private Map<String,String> resultunifiedorder;
+    private Map<String, String> resultunifiedorder;
     private StringBuffer sb;
-    private String API_KEY=null;
+    private String API_KEY = null;
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @SuppressWarnings("unused")
@@ -121,7 +119,7 @@ public class PayActivity extends Activity implements View.OnClickListener{
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
                         Toast.makeText(PayActivity.this, R.string.paysuccess, Toast.LENGTH_SHORT).show();
-                        Intent intentpaysuccess=new Intent(PayActivity.this,PaySuccessActivity.class);
+                        Intent intentpaysuccess = new Intent(PayActivity.this, PaySuccessActivity.class);
                         startActivity(intentpaysuccess);
 
                     } else {
@@ -141,51 +139,51 @@ public class PayActivity extends Activity implements View.OnClickListener{
                 default:
                     break;
             }
-        };
-    };
+        }
 
+    };
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
-        totalcount=getIntent().getDoubleExtra("totalcount",-1);
-        orderCode=getIntent().getStringExtra("orderCode");
-        Log.e("订单code",orderCode);
+        totalcount = getIntent().getDoubleExtra("totalcount", -1);
+        orderCode = getIntent().getStringExtra("orderCode");
+        Log.e("订单code", orderCode);
         intoView();
         getInfo();
         getWeiXinInfo();
     }
 
-    private void intoView(){
-        utils=new Utils(this);
+    private void intoView() {
+        utils = new Utils(this);
         msgApi = WXAPIFactory.createWXAPI(this, Constant.APP_ID);
         req = new PayReq();
         //注册appid
         msgApi.registerApp(Constant.APP_ID);
-        sb=new StringBuffer();
-        userId=utils.getInfomation();
-        orderId=getIntent().getStringExtra("orderId");
-        imgBack= (ImageView) findViewById(R.id.img_back);
+        sb = new StringBuffer();
+        userId = utils.getInfomation();
+        orderId = getIntent().getStringExtra("orderId");
+        imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
-        btnOk= (Button) findViewById(R.id.btn_ok);
+        btnOk = (Button) findViewById(R.id.btn_ok);
         btnOk.setOnClickListener(this);
         txtAllpic = (TextView) findViewById(R.id.txt_allpic);
-        if (totalcount!=-1){
-            txtAllpic.setText("￥"+to.format(totalcount));
+        if (totalcount != -1) {
+            txtAllpic.setText(String.format(getResources().getString(R.string.currentprice),to.format(totalcount)));
         }
         rgPay = (RadioGroup) findViewById(R.id.rg_pay);
         imgAlipay = (ImageView) findViewById(R.id.img_alipay);
         txtAlipay = (TextView) findViewById(R.id.txt_alipay);
         rbPay = (RadioButton) findViewById(R.id.rb_pay);
-        rbUnionpay= (RadioButton) findViewById(R.id.rb_unionpay);
+        rbUnionpay = (RadioButton) findViewById(R.id.rb_unionpay);
         rbPay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    Toast.makeText(PayActivity.this,"支付宝选择状态",Toast.LENGTH_LONG).show();
-                    isto=0;
+                if (isChecked) {
+                    Toast.makeText(PayActivity.this, "支付宝选择状态", Toast.LENGTH_LONG).show();
+                    isto = 0;
                 }
             }
         });
@@ -196,22 +194,20 @@ public class PayActivity extends Activity implements View.OnClickListener{
         rbWeixinpay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    isto=1;
+                if (isChecked) {
+                    isto = 1;
                 }
             }
         });
         rbUnionpay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    Toast.makeText(PayActivity.this,"银联支付选择状态",Toast.LENGTH_LONG).show();
-                    isto=2;
+                if (isChecked) {
+                    Toast.makeText(PayActivity.this, "银联支付选择状态", Toast.LENGTH_LONG).show();
+                    isto = 2;
                 }
             }
         });
-
-
 
 
     }
@@ -219,28 +215,28 @@ public class PayActivity extends Activity implements View.OnClickListener{
     /**
      * 获得支付宝私钥
      */
-    private  void getInfo(){
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, RequestUrlsConfig.GETPRIVATEKEY, new Response.Listener<String>() {
+    private void getInfo() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.GETPRIVATEKEY, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("支付查询订单信息",s);
-                   payInfoModel= ExampleApplication.getInstance().getGson().fromJson(s,PayInfoModel.class);
-                if (payInfoModel!=null){
-                    RSA_PRIVATE=payInfoModel.getPrivateKey();
+                Log.e("支付查询订单信息", s);
+                payInfoModel = ExampleApplication.getInstance().getGson().fromJson(s, PayInfoModel.class);
+                if (payInfoModel != null) {
+                    RSA_PRIVATE = payInfoModel.getPrivateKey();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("支付查询订单信息失败",volleyError.toString());
+                Log.e("支付查询订单信息失败", volleyError.toString());
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map=new HashMap<>();
-                Log.e("订单号",orderId+"用户"+userId);
-                map.put("id",orderId);
-                map.put("userId",userId);
+                Map<String, String> map = new HashMap<>();
+                Log.e("订单号", orderId + "用户" + userId);
+                map.put("id", orderId);
+                map.put("userId", userId);
                 return map;
             }
         };
@@ -250,30 +246,30 @@ public class PayActivity extends Activity implements View.OnClickListener{
     /**
      * 获得微信公钥
      */
-    private void getWeiXinInfo(){
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, RequestUrlsConfig.WEIXINGETPRIVATEKEY, new Response.Listener<String>() {
+    private void getWeiXinInfo() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.WEIXINGETPRIVATEKEY, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                  if (s!=null) {
-                      try {
-                          JSONObject jsonObject = new JSONObject(s);
-                          API_KEY = jsonObject.getString("privateKey");
-                      } catch (JSONException e) {
-                          e.printStackTrace();
-                      }
-                  }
+                if (s != null) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(s);
+                        API_KEY = jsonObject.getString("privateKey");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
 
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map=new HashMap<>();
-                map.put("id",orderId);
-                map.put("userId",userId);
+                Map<String, String> map = new HashMap<>();
+                map.put("id", orderId);
+                map.put("userId", userId);
                 return map;
             }
         };
@@ -282,12 +278,12 @@ public class PayActivity extends Activity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.img_back:
                 finish();
                 break;
             case R.id.btn_ok:
-                switch (isto){
+                switch (isto) {
                     case 0:
                         pay(btnOk);
                         break;
@@ -302,15 +298,16 @@ public class PayActivity extends Activity implements View.OnClickListener{
                 break;
         }
     }
+
     /***
      * 银联支付
      */
-    private void Unionpay(){
-        StringRequest StringRequest=new StringRequest(Request.Method.POST, "http://101.231.204.84:8091/sim/getacptn", new Response.Listener<String>() {
+    private void Unionpay() {
+        StringRequest StringRequest = new StringRequest(Request.Method.POST, "http://101.231.204.84:8091/sim/getacptn", new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                tn=s;
-                UPPayAssistEx.startPay (PayActivity.this, null, null, tn, serverMode);
+                tn = s;
+                UPPayAssistEx.startPay(PayActivity.this, null, null, tn, serverMode);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -324,7 +321,7 @@ public class PayActivity extends Activity implements View.OnClickListener{
     /***
      * 微信支付
      */
-    private void weixinPay(){
+    private void weixinPay() {
         //生成prepay_id
         GetPrepayIdTask getPrepayId = new GetPrepayIdTask();
         getPrepayId.execute();
@@ -338,12 +335,12 @@ public class PayActivity extends Activity implements View.OnClickListener{
         req.appId = Constant.APP_ID;
         req.partnerId = Constant.MCH_ID;
         req.prepayId = resultunifiedorder.get("prepay_id");
-        req.packageValue = "prepay_id="+resultunifiedorder.get("prepay_id");
+        req.packageValue = "prepay_id=" + resultunifiedorder.get("prepay_id");
         req.nonceStr = genNonceStr();
         req.timeStamp = String.valueOf(genTimeStamp());
 
 
-        List<NameValuePair> signParams = new LinkedList<NameValuePair>();
+        List<NameValuePair> signParams = new LinkedList<>();
         signParams.add(new BasicNameValuePair("appid", req.appId));
         signParams.add(new BasicNameValuePair("noncestr", req.nonceStr));
         signParams.add(new BasicNameValuePair("package", req.packageValue));
@@ -353,14 +350,14 @@ public class PayActivity extends Activity implements View.OnClickListener{
 
         req.sign = genAppSign(signParams);
 
-        sb.append("sign\n"+req.sign+"\n\n");
+        sb.append("sign\n" + req.sign + "\n\n");
 
 
-        Log.e("orion", "----"+signParams.toString());
+        Log.e("orion", "----" + signParams.toString());
 
     }
 
-    private class GetPrepayIdTask extends AsyncTask<Void, Void, Map<String,String>> {
+    private class GetPrepayIdTask extends AsyncTask<Void, Void, Map<String, String>> {
 
         private ProgressDialog dialog;
 
@@ -371,15 +368,15 @@ public class PayActivity extends Activity implements View.OnClickListener{
         }
 
         @Override
-        protected void onPostExecute(Map<String,String> result) {
+        protected void onPostExecute(Map<String, String> result) {
 
-            sb.append("prepay_id\n"+result.get("prepay_id")+"\n\n");
-            Log.e("prepay_id",sb.toString());
-            if (sb==null){
-                Toast.makeText(PayActivity.this,"支付异常",Toast.LENGTH_LONG).show();
+            sb.append("prepay_id\n" + result.get("prepay_id") + "\n\n");
+            Log.e("prepay_id", sb.toString());
+            if (sb == null) {
+                Toast.makeText(PayActivity.this, "支付异常", Toast.LENGTH_LONG).show();
             }
 
-            resultunifiedorder=result;
+            resultunifiedorder = result;
             //生成签名参数
             genPayReq();
 
@@ -398,7 +395,7 @@ public class PayActivity extends Activity implements View.OnClickListener{
         }
 
         @Override
-        protected Map<String,String>  doInBackground(Void... params) {
+        protected Map<String, String> doInBackground(Void... params) {
 
             String url = String.format("https://api.mch.weixin.qq.com/pay/unifiedorder");
             String entity = genProductArgs();
@@ -407,17 +404,18 @@ public class PayActivity extends Activity implements View.OnClickListener{
             byte[] buf = Util.httpPost(url, entity);
 
             String content = new String(buf);
-            Log.e("orion", "----"+content);
-            Map<String,String> xml=decodeXml(content);
+            Log.e("orion", "----" + content);
+            Map<String, String> xml = decodeXml(content);
 
             return xml;
         }
     }
+
     private String genProductArgs() {
         StringBuffer xml = new StringBuffer();
 
         try {
-            String	nonceStr = genNonceStr();
+            String nonceStr = genNonceStr();
 
             xml.append("</xml>");
             List<NameValuePair> packageParams = new LinkedList<NameValuePair>();
@@ -426,19 +424,18 @@ public class PayActivity extends Activity implements View.OnClickListener{
             packageParams.add(new BasicNameValuePair("mch_id", Constant.MCH_ID));//商户号
             packageParams.add(new BasicNameValuePair("nonce_str", nonceStr));
             packageParams.add(new BasicNameValuePair("notify_url", RequestUrlsConfig.WEIXINRECEIVENOTIFY));//服务器通知地址
-            packageParams.add(new BasicNameValuePair("out_trade_no",orderCode));//订单号genOutTradNo()
-            packageParams.add(new BasicNameValuePair("spbill_create_ip","127.0.0.1"));
-            packageParams.add(new BasicNameValuePair("total_fee",(int) (0.01*100)+""));//totalcount
+            packageParams.add(new BasicNameValuePair("out_trade_no", orderCode));//订单号genOutTradNo()
+            packageParams.add(new BasicNameValuePair("spbill_create_ip", "127.0.0.1"));
+            packageParams.add(new BasicNameValuePair("total_fee", (int) (0.01 * 100) + ""));//totalcount
             packageParams.add(new BasicNameValuePair("trade_type", "APP"));
 
             String sign = genPackageSign(packageParams);
             packageParams.add(new BasicNameValuePair("sign", sign));
-             Log.e("微信支付价格",to.format(totalcount*100));
+            Log.e("微信支付价格", to.format(totalcount * 100));
 
-            String xmlstring =toXml(packageParams);
+            String xmlstring = toXml(packageParams);
 
             return new String(xmlstring.toString().getBytes(), "ISO8859-1");
-
 
 
         } catch (Exception e) {
@@ -451,7 +448,7 @@ public class PayActivity extends Activity implements View.OnClickListener{
 
 
     /**
-     生成签名
+     * 生成签名
      */
 
     private String genPackageSign(List<NameValuePair> params) {
@@ -468,9 +465,10 @@ public class PayActivity extends Activity implements View.OnClickListener{
 
 
         String packageSign = MD5.getMessageDigest(sb.toString().getBytes()).toUpperCase();
-        Log.e("orion","----"+packageSign);
+        Log.e("orion", "----" + packageSign);
         return packageSign;
     }
+
     private String genAppSign(List<NameValuePair> params) {
         StringBuilder sb = new StringBuilder();
 
@@ -483,26 +481,28 @@ public class PayActivity extends Activity implements View.OnClickListener{
         sb.append("key=");
         sb.append(API_KEY);
 
-        this.sb.append("sign str\n"+sb.toString()+"\n\n");
+        this.sb.append("sign str\n" + sb.toString() + "\n\n");
         String appSign = MD5.getMessageDigest(sb.toString().getBytes());
-        Log.e("orion","----"+appSign);
+        Log.e("orion", "----" + appSign);
         return appSign;
     }
+
     private String toXml(List<NameValuePair> params) {
         StringBuilder sb = new StringBuilder();
         sb.append("<xml>");
         for (int i = 0; i < params.size(); i++) {
-            sb.append("<"+params.get(i).getName()+">");
+            sb.append("<" + params.get(i).getName() + ">");
 
 
             sb.append(params.get(i).getValue());
-            sb.append("</"+params.get(i).getName()+">");
+            sb.append("</" + params.get(i).getName() + ">");
         }
         sb.append("</xml>");
 
-        Log.e("orion","----"+sb.toString());
+        Log.e("orion", "----" + sb.toString());
         return sb.toString();
     }
+
     private String genOutTradNo() {
         Random random = new Random();
 //		return "COATBAE810"; //订单号写死的话只能支付一次，第二次不能生成订单
@@ -518,7 +518,7 @@ public class PayActivity extends Activity implements View.OnClickListener{
         return System.currentTimeMillis() / 1000;
     }
 
-    public Map<String,String> decodeXml(String content) {
+    public Map<String, String> decodeXml(String content) {
 
         try {
             Map<String, String> xml = new HashMap<String, String>();
@@ -527,16 +527,16 @@ public class PayActivity extends Activity implements View.OnClickListener{
             int event = parser.getEventType();
             while (event != XmlPullParser.END_DOCUMENT) {
 
-                String nodeName=parser.getName();
+                String nodeName = parser.getName();
                 switch (event) {
                     case XmlPullParser.START_DOCUMENT:
 
                         break;
                     case XmlPullParser.START_TAG:
 
-                        if("xml".equals(nodeName)==false){
+                        if ("xml".equals(nodeName) == false) {
                             //实例化student对象
-                            xml.put(nodeName,parser.nextText());
+                            xml.put(nodeName, parser.nextText());
                         }
                         break;
                     case XmlPullParser.END_TAG:
@@ -547,14 +547,14 @@ public class PayActivity extends Activity implements View.OnClickListener{
 
             return xml;
         } catch (Exception e) {
-            Log.e("orion","----"+e.toString());
+            Log.e("orion", "----" + e.toString());
         }
         return null;
 
     }
+
     /**
      * call alipay sdk pay. 调用SDK支付
-     *
      */
     public void pay(View v) {
         if (TextUtils.isEmpty(PARTNER) || TextUtils.isEmpty(RSA_PRIVATE) || TextUtils.isEmpty(SELLER)) {
@@ -575,8 +575,8 @@ public class PayActivity extends Activity implements View.OnClickListener{
          * 订单号
          */
 
-        String orderInfo = getOrderInfo(payInfoModel.getCommodity().getNameCN(),userId, payInfoModel.getCommodity().getModelName(), "0.01",orderCode);
-          Log.e("异步通知信息",orderInfo);
+        String orderInfo = getOrderInfo(payInfoModel.getCommodity().getNameCN(), userId, payInfoModel.getCommodity().getModelName(), "0.01", orderCode);
+        Log.e("异步通知信息", orderInfo);
 
         /**
          * 特别注意，这里的签名逻辑需要放在服务端，切勿将私钥泄露在代码中！
@@ -619,7 +619,6 @@ public class PayActivity extends Activity implements View.OnClickListener{
 
     /**
      * get the sdk version. 获取SDK版本号
-     *
      */
     public void getSDKVersion() {
         PayTask payTask = new PayTask(this);
@@ -646,6 +645,7 @@ public class PayActivity extends Activity implements View.OnClickListener{
         intent.putExtras(extras);
         startActivity(intent);
     }
+
     /**
      * create the order info. 创建订单信息 lft 2016-1-13
      */
@@ -756,7 +756,6 @@ public class PayActivity extends Activity implements View.OnClickListener{
 
     /**
      * get the out_trade_no for an order. 生成商户订单号，该值在商户端应保持唯一（可自定义格式规范）
-     *
      */
     private String getOutTradeNo() {
         SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss", Locale.getDefault());
@@ -772,8 +771,7 @@ public class PayActivity extends Activity implements View.OnClickListener{
     /**
      * sign the order info. 对订单信息进行签名
      *
-     * @param content
-     *            待签名订单信息
+     * @param content 待签名订单信息
      */
     private String sign(String content) {
         return SignUtils.sign(content, RSA_PRIVATE);
@@ -781,7 +779,6 @@ public class PayActivity extends Activity implements View.OnClickListener{
 
     /**
      * get the sign type we use. 获取签名方式
-     *
      */
     private String getSignType() {
         return "sign_type=\"RSA\"";

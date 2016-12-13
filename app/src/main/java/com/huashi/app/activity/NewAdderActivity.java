@@ -17,11 +17,9 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.huashi.app.R;
 import com.huashi.app.api.RequestUrlsConfig;
 import com.huashi.app.application.ExampleApplication;
@@ -81,7 +79,7 @@ public class NewAdderActivity extends Activity implements View.OnClickListener {
         txtAdder = (TextView) findViewById(R.id.txt_adder);
         txtSubmit = (TextView) findViewById(R.id.txt_submit);
         txtSubmit.setOnClickListener(this);
-        dialogs=new ProgressDialog(this);
+        dialogs = new ProgressDialog(this);
         dialogs.setMessage("数据提交中...");
     }
 
@@ -162,7 +160,7 @@ public class NewAdderActivity extends Activity implements View.OnClickListener {
             Toast.makeText(NewAdderActivity.this, "街道地址不能为空", Toast.LENGTH_LONG).show();
             return;
         }
-        if (street == null||street.length()>=10 ) {
+        if (street.isEmpty() || street.length() >= 10) {
             Toast.makeText(NewAdderActivity.this, "详细地址不能为空", Toast.LENGTH_LONG).show();
             return;
         }
@@ -214,7 +212,7 @@ public class NewAdderActivity extends Activity implements View.OnClickListener {
 
     private View dialogm() {
         View contentView = LayoutInflater.from(this).inflate(
-                R.layout.wheelcity_cities_layout, null);
+                R.layout.wheelcity_cities_layout, null,false);
         final WheelView country = (WheelView) contentView
                 .findViewById(R.id.wheelcity_country);
         country.setVisibleItems(3);
@@ -319,7 +317,7 @@ public class NewAdderActivity extends Activity implements View.OnClickListener {
      * Updates the city wheel
      */
     private void updateCities(WheelView city, String cities[][], int index) {
-        ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<String>(this,
+        ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<>(this,
                 cities[index]);
         adapter.setTextSize(18);
         city.setViewAdapter(adapter);
@@ -337,4 +335,5 @@ public class NewAdderActivity extends Activity implements View.OnClickListener {
         city.setViewAdapter(adapter);
         city.setCurrentItem(0);
     }
+
 }

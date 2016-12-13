@@ -2,7 +2,7 @@ package com.huashi.app.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,8 +14,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.huashi.app.R;
 import com.huashi.app.api.RequestUrlsConfig;
 import com.huashi.app.util.DataCleanManger;
@@ -25,6 +23,7 @@ import com.huashi.app.util.Utils;
 
 /**
  * Created by Administrator on 2016/5/20.
+ * 设置页
  */
 public class SetActivity extends Activity implements View.OnClickListener {
     private RelativeLayout ray_feedback, ray_empty, ray_versions, ray_about, ray_popwindow, ry_msgage;
@@ -66,14 +65,14 @@ public class SetActivity extends Activity implements View.OnClickListener {
     private void showPopWindon(View view) {
         View windon;
         LayoutInflater inflater = LayoutInflater.from(this);
-        windon = inflater.inflate(R.layout.popwindow_exit, null);
+        windon = inflater.inflate(R.layout.popwindow_exit, null,false);
         popupWindow = new PopupWindow(windon, ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT, true);
 
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(false);
         popupWindow.setAnimationStyle(android.R.style.Animation_InputMethod);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
         ray_popwindow = (RelativeLayout) windon.findViewById(R.id.ray_popwindow);
         btn_exit = (Button) windon.findViewById(R.id.btn_exit);
@@ -89,14 +88,14 @@ public class SetActivity extends Activity implements View.OnClickListener {
     public void showMessageWindon(View view) {
         View windon;
         LayoutInflater inflater = LayoutInflater.from(this);
-        windon = inflater.inflate(R.layout.popwindow_message, null);
+        windon = inflater.inflate(R.layout.popwindow_message, null,false);
         messageWindow = new PopupWindow(windon, ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT, true);
 
         messageWindow.setFocusable(true);
         messageWindow.setOutsideTouchable(false);
         messageWindow.setAnimationStyle(android.R.style.Animation_InputMethod);
-        messageWindow.setBackgroundDrawable(new BitmapDrawable());
+        messageWindow.setBackgroundDrawable(new ColorDrawable());
         messageWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
         btn_msgconfirm = (Button) windon.findViewById(R.id.btn_msgconfirm);
         btn_msgconfirm.setOnClickListener(this);
@@ -149,7 +148,7 @@ public class SetActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.btn_exit:
                 //退出当前账号
-                if (Httputil.isNetworkAvailable(this)){
+                if (Httputil.isNetworkAvailable(this)) {
                     utils.clearData();
                     Intent intent = new Intent(this, Login_Activity.class);
                     startActivity(intent);

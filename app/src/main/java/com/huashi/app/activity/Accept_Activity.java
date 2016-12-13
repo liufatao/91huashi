@@ -21,13 +21,14 @@ import com.huashi.app.util.Httputil;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class Accept_Activity extends AppCompatActivity {
     private ImageView imgBack;
     private TextView txtTime;
     private TextView txtReasons;
-    private SimpleDateFormat formatter = new SimpleDateFormat ("yyyy年MM月dd日 HH:mm:ss ");
+    private SimpleDateFormat formatter = new SimpleDateFormat ("yyyy年MM月dd日 HH:mm:ss ", Locale.getDefault());
     private String userId;
     private String orderId;
     private RefundModel refundModel;
@@ -63,10 +64,9 @@ public class Accept_Activity extends AppCompatActivity {
         StringRequest stringRequest=new StringRequest(Request.Method.POST, RequestUrlsConfig.GETREFUNDINFO, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("退款状态请求成功",s.toString());
                 refundModel=ExampleApplication.getInstance().getGson().fromJson(s,RefundModel.class);
-                txtReasons.setText("退款原因:"+refundModel.getOrderModel().getCancel_reason());
-                txtTime.setText("申请时间:"+formatter.format(refundModel.getOrderModel().getRefund_time()));
+                txtReasons.setText(String.format(getResources().getString(R.string.refundreason),refundModel.getOrderModel().getCancel_reason()));
+                txtTime.setText(String.format(getResources().getString(R.string.refundreason),formatter.format(refundModel.getOrderModel().getRefund_time())));
             }
         }, new Response.ErrorListener() {
             @Override
@@ -84,4 +84,5 @@ public class Accept_Activity extends AppCompatActivity {
         };
         ExampleApplication.getInstance().getRequestQueue().add(stringRequest);
     }
+
 }

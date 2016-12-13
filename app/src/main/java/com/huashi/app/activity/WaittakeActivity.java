@@ -160,7 +160,7 @@ public class WaittakeActivity extends Activity implements View.OnClickListener {
                         txt_orderhint.setVisibility(View.VISIBLE);
 
                     }
-                  
+
 
                 } else {
                     Toast.makeText(WaittakeActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
@@ -202,7 +202,7 @@ public class WaittakeActivity extends Activity implements View.OnClickListener {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.CONFIRMRECEIPT, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                if (!TextUtils.isEmpty(s)){
+                if (!TextUtils.isEmpty(s)) {
                     try {
                         JSONObject jsonObject = new JSONObject(s);
                         int status = jsonObject.getInt("status");
@@ -239,4 +239,5 @@ public class WaittakeActivity extends Activity implements View.OnClickListener {
         super.onRestart();
         getPayOrders();
     }
+
 }

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -55,7 +54,7 @@ import java.util.Map;
  * Created by Administrator on 2016/6/1.
  * 我的收藏
  */
-public class MyCollectionActivity extends Activity implements View.OnClickListener{
+public class MyCollectionActivity extends Activity implements View.OnClickListener {
     private ListView svl_collection;
     private ImageView img_back;
     private List<CollectionModel.CommoditysBean> list;
@@ -71,6 +70,7 @@ public class MyCollectionActivity extends Activity implements View.OnClickListen
     private Button btnCommentDelete;
     private RelativeLayout ryPowin;
     private TextView txt_commenttitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,27 +78,28 @@ public class MyCollectionActivity extends Activity implements View.OnClickListen
         intoView();
 
     }
-    private void intoView(){
-        dialog=new ProgressDialog(this);
+
+    private void intoView() {
+        dialog = new ProgressDialog(this);
         dialog.setTitle("提示");
         dialog.setMessage("玩命加载中...");
-        txt_commenttitle= (TextView) findViewById(R.id.txt_commenttitle);
-        svl_collection= (ListView) findViewById(R.id.slv_collection);
-        img_back= (ImageView) findViewById(R.id.img_back);
+        txt_commenttitle = (TextView) findViewById(R.id.txt_commenttitle);
+        svl_collection = (ListView) findViewById(R.id.slv_collection);
+        img_back = (ImageView) findViewById(R.id.img_back);
         img_back.setOnClickListener(this);
-        utils=new Utils(this);
-        userid=utils.getInfomation();
-        if (!TextUtils.isEmpty(userid)){
+        utils = new Utils(this);
+        userid = utils.getInfomation();
+        if (!TextUtils.isEmpty(userid)) {
             intoData();
-        }else {
-            Toast.makeText(this,"请先登录",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "请先登录", Toast.LENGTH_LONG).show();
         }
 
-        swipe_layout= (RefreshLayout)findViewById(R.id.swipe_layout);
+        swipe_layout = (RefreshLayout) findViewById(R.id.swipe_layout);
         swipe_layout.setProgressBackgroundColorSchemeResource(android.R.color.white);
         //设置刷新时动画的颜色
         swipe_layout.setColorSchemeResources(android.R.color.holo_blue_light,
-                android.R.color.holo_red_light,android.R.color.holo_orange_light,
+                android.R.color.holo_red_light, android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
 //        swipe_layout.setProgressViewOffset(false, 0, (int) TypedValue
 //                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
@@ -162,17 +163,16 @@ public class MyCollectionActivity extends Activity implements View.OnClickListen
     private void showPopWindon(View view) {
         View windon;
         LayoutInflater inflater = LayoutInflater.from(this);
-        windon = inflater.inflate(R.layout.popwindow_comment_delete, null);
+        windon = inflater.inflate(R.layout.popwindow_comment_delete, null,false);
         popupWindow = new PopupWindow(windon, ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT, true);
 
         popupWindow.setAnimationStyle(android.R.style.Animation_InputMethod);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setTouchable(true);
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-
 
 
         btnCommentDelete = (Button) windon.findViewById(R.id.btn_comment_delete);
@@ -183,14 +183,12 @@ public class MyCollectionActivity extends Activity implements View.OnClickListen
         ryPowin.setOnClickListener(this);
 
 
-
-
     }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.img_back:
                 finish();
                 break;
@@ -207,25 +205,25 @@ public class MyCollectionActivity extends Activity implements View.OnClickListen
 
     }
 
-    public void intoData(){
+    public void intoData() {
         dialog.show();
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, RequestUrlsConfig.QUERYUSERCOLLECTCOMMOSIRYS, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.QUERYUSERCOLLECTCOMMOSIRYS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                if (!s.isEmpty()){
-                    list=new ArrayList<>();
-                    collectionModel= ExampleApplication.getInstance().getGson().fromJson(s,CollectionModel.class);
-                    if (collectionModel.getStatus()==Constant.ONE && !collectionModel.getCommoditys().isEmpty()) {
-                            list = collectionModel.getCommoditys();
-                            adapter = new CollectionAdapter(MyCollectionActivity.this, list);
-                            svl_collection.setAdapter(adapter);
-                    }else {
+                if (!s.isEmpty()) {
+                    list = new ArrayList<>();
+                    collectionModel = ExampleApplication.getInstance().getGson().fromJson(s, CollectionModel.class);
+                    if (collectionModel.getStatus() == Constant.ONE && !collectionModel.getCommoditys().isEmpty()) {
+                        list = collectionModel.getCommoditys();
+                        adapter = new CollectionAdapter(MyCollectionActivity.this, list);
+                        svl_collection.setAdapter(adapter);
+                    } else {
                         txt_commenttitle.setVisibility(View.VISIBLE);
                         dialog.dismiss();
                     }
 
-                }else {
-                    Toast.makeText(MyCollectionActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(MyCollectionActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
                     dialog.dismiss();
 
                 }
@@ -235,13 +233,13 @@ public class MyCollectionActivity extends Activity implements View.OnClickListen
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 dialog.dismiss();
-                Toast.makeText(MyCollectionActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
+                Toast.makeText(MyCollectionActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map=new HashMap<>();
-                map.put("userId",userid);
+                Map<String, String> map = new HashMap<>();
+                map.put("userId", userid);
                 return map;
             }
         };
@@ -249,22 +247,22 @@ public class MyCollectionActivity extends Activity implements View.OnClickListen
         svl_collection.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MyCollectionActivity.this,""+list.get(position).getId(),Toast.LENGTH_LONG).show();
-                String commontity=String.valueOf(list.get(position).getId());
-                Intent intent=new Intent(MyCollectionActivity.this,ProductdetailsActivity.class);
-                intent.putExtra("commodityid",commontity);
+                Toast.makeText(MyCollectionActivity.this, "" + list.get(position).getId(), Toast.LENGTH_LONG).show();
+                String commontity = String.valueOf(list.get(position).getId());
+                Intent intent = new Intent(MyCollectionActivity.this, ProductdetailsActivity.class);
+                intent.putExtra("commodityid", commontity);
                 startActivity(intent);
             }
         });
         svl_collection.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                postion=position;
+                postion = position;
                 showPopWindon(svl_collection);
                 return true;
             }
         });
-        SwipeMenuCreator swipeMenuCreator=new SwipeMenuCreator() {
+        SwipeMenuCreator swipeMenuCreator = new SwipeMenuCreator() {
             @Override
             public void create(SwipeMenu menu) {
                 createMenu(menu);
@@ -291,31 +289,33 @@ public class MyCollectionActivity extends Activity implements View.OnClickListen
 //        });
 
     }
+
     //取消收藏
-    private void deleteCollection(){
+    private void deleteCollection() {
         dialog.show();
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, RequestUrlsConfig.CANCELCOLLECTCOMMODITY, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.CANCELCOLLECTCOMMODITY, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("取消收藏请求成功",s);
-                JSONObject jsonObject = null;
-                try {
-                    jsonObject = new JSONObject(s);
-                    int state = jsonObject.getInt("status");
-                    String message = jsonObject.getString("message");
-                    if (state== Constant.ONE){
-                        intoData();
-                        dialog.dismiss();
-                        popupWindow.dismiss();
-                        Toast.makeText(MyCollectionActivity.this,message,Toast.LENGTH_LONG).show();
-                    }else {
-                        dialog.dismiss();
-                        popupWindow.dismiss();
-                        Toast.makeText(MyCollectionActivity.this, message, Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+             if (!TextUtils.isEmpty(s)){
+                 JSONObject jsonObject ;
+                 try {
+                     jsonObject = new JSONObject(s);
+                     int state = jsonObject.getInt("status");
+                     String message = jsonObject.getString("message");
+                     if (state == Constant.ONE) {
+                         intoData();
+                         dialog.dismiss();
+                         popupWindow.dismiss();
+                         Toast.makeText(MyCollectionActivity.this, message, Toast.LENGTH_LONG).show();
+                     } else {
+                         dialog.dismiss();
+                         popupWindow.dismiss();
+                         Toast.makeText(MyCollectionActivity.this, message, Toast.LENGTH_LONG).show();
+                     }
+                 } catch (JSONException e) {
+                     e.printStackTrace();
+                 }
+             }
 
 
 
@@ -323,21 +323,22 @@ public class MyCollectionActivity extends Activity implements View.OnClickListen
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("取消收藏请求失败",volleyError.toString());
+                Log.e("取消收藏请求失败", volleyError.toString());
                 dialog.dismiss();
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map=new HashMap<>();
-                map.put("userId",userid);
-                map.put("commodityId",String.valueOf(list.get(postion).getId()));
+                Map<String, String> map = new HashMap<>();
+                map.put("userId", userid);
+                map.put("commodityId", String.valueOf(list.get(postion).getId()));
                 return map;
             }
         };
         ExampleApplication.getInstance().getRequestQueue().add(stringRequest);
     }
-//写入侧滑图片
+
+    //写入侧滑图片
     private void createMenu(SwipeMenu menu) {
 //        SwipeMenuItem item1 = new SwipeMenuItem(
 //                getApplicationContext());

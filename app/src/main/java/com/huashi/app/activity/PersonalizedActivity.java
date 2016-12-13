@@ -11,11 +11,9 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.huashi.app.R;
 import com.huashi.app.api.RequestUrlsConfig;
 import com.huashi.app.application.ExampleApplication;
@@ -28,34 +26,37 @@ import java.util.Map;
 
 /**
  * Created by Administrator on 2016/5/23.
+ * 个性签名
  */
-public class PersonalizedActivity extends Activity implements View.OnClickListener{
+public class PersonalizedActivity extends Activity implements View.OnClickListener {
     private TextView txt_over;
     private ImageView img_back;
     private EditText edt_personalized;
-    private String motto,updatamotto,userId;
+    private String motto, updatamotto, userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personalized);
-        motto=getIntent().getStringExtra("motto");
-        userId=getIntent().getStringExtra("userId");
+        motto = getIntent().getStringExtra("motto");
+        userId = getIntent().getStringExtra("userId");
         intoView();
     }
-    private void intoView(){
-        txt_over= (TextView) findViewById(R.id.txt_over);
+
+    private void intoView() {
+        txt_over = (TextView) findViewById(R.id.txt_over);
         txt_over.setOnClickListener(this);
-        img_back= (ImageView) findViewById(R.id.img_back);
+        img_back = (ImageView) findViewById(R.id.img_back);
         img_back.setOnClickListener(this);
-        edt_personalized= (EditText) findViewById(R.id.edt_personzlized);
-        if (motto!=null){
+        edt_personalized = (EditText) findViewById(R.id.edt_personzlized);
+        if (motto != null) {
             edt_personalized.setText(motto);
         }
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.img_back:
                 //返回
                 finish();
@@ -67,17 +68,18 @@ public class PersonalizedActivity extends Activity implements View.OnClickListen
                 break;
         }
     }
-    private void mSubmit(){
-        updatamotto=edt_personalized.getText().toString();
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, RequestUrlsConfig.UPDATEMOTTO, new Response.Listener<String>() {
+
+    private void mSubmit() {
+        updatamotto = edt_personalized.getText().toString();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.UPDATEMOTTO, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("请求成功",s);
+                Log.e("请求成功", s);
                 try {
-                    JSONObject jsonObject=new JSONObject(s);
-                    int status=jsonObject.getInt("status");
-                    String message=jsonObject.getString("message");
-                    Toast.makeText(PersonalizedActivity.this,message,Toast.LENGTH_LONG).show();
+                    JSONObject jsonObject = new JSONObject(s);
+                    int status = jsonObject.getInt("status");
+                    String message = jsonObject.getString("message");
+                    Toast.makeText(PersonalizedActivity.this, message, Toast.LENGTH_LONG).show();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -87,15 +89,15 @@ public class PersonalizedActivity extends Activity implements View.OnClickListen
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("请求失败",volleyError.toString());
+                Log.e("请求失败", volleyError.toString());
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map=new HashMap<>();
-                Log.e("个性签名",updatamotto);
-                map.put("motto",updatamotto);
-                map.put("userId",userId);
+                Map<String, String> map = new HashMap<>();
+                Log.e("个性签名", updatamotto);
+                map.put("motto", updatamotto);
+                map.put("userId", userId);
                 return map;
             }
         };

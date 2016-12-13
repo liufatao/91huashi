@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorgray"
+    android:background="@color/colorwite"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -31,8 +31,7 @@
             android:layout_marginTop="@dimen/fivedp"
             android:ellipsize="end"
             android:maxLength="10"
-            android:singleLine="true"
-            android:text="红玫瑰"
-            android:textSize="10sp" />
+            android:maxLines="1"
+            android:textSize="@dimen/twelve" />
     </RelativeLayout>
 </LinearLayout>

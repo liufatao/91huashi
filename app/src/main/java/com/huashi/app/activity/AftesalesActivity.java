@@ -3,7 +3,7 @@ package com.huashi.app.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -134,8 +134,7 @@ public class AftesalesActivity extends Activity implements View.OnClickListener{
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.QUERYTOPAYORDERS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("待付款请求成功", s);
-                if (s != null && s != " ") {
+                if (!TextUtils.isEmpty(s)) {
                     toPayOrders = ExampleApplication.getInstance().getGson().fromJson(s, ToPayOrders.class);
                     if (toPayOrders.getOrderModels().size() >= 1) {
                         orderModelsBeanList = toPayOrders.getOrderModels();
@@ -157,7 +156,6 @@ public class AftesalesActivity extends Activity implements View.OnClickListener{
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("待付款请求失败", volleyError.toString());
                 Toast.makeText(AftesalesActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
                 txt_orderhint.setVisibility(View.VISIBLE);
             }
@@ -180,4 +178,5 @@ public class AftesalesActivity extends Activity implements View.OnClickListener{
         });
         ExampleApplication.getInstance().getRequestQueue().add(stringRequest);
     }
+
 }

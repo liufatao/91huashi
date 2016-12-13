@@ -29,4 +29,17 @@
         <item name="android:windowBackground">@drawable/mydialog_shape</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+
+    <!--myDialog样式-->
+    <style name="MyDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>//是否显示标题
+        <item name="android:background">@android:color/transparent</item>dialog的背景
+        <item name="android:windowBackground">@android:color/transparent</item>//显示区域背景是否透明
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowIsFloating">true</item>//是否悬浮在activity上
+        <item name="android:windowFrame">@null</item>
+        <item name="android:backgroundDimEnabled">@bool/abc_config_actionMenuItemAllCaps</item>//显示区域是否用黑色半透明背景
+        <item name="android:backgroundDimAmount">0.5</item>
+    </style>
 </resources>

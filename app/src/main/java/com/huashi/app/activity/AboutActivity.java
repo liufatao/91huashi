@@ -9,6 +9,7 @@ import com.huashi.app.R;
 
 /**
  * Created by Administrator on 2016/8/19.
+ * 关于
  */
 public class AboutActivity extends Activity{
 
@@ -31,4 +32,5 @@ public class AboutActivity extends Activity{
         });
 
     }
+
 }

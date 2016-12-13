@@ -15,11 +15,9 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.huashi.app.Config.Constant;
 import com.huashi.app.R;
 import com.huashi.app.api.RequestUrlsConfig;
@@ -29,13 +27,15 @@ import com.huashi.app.util.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by Administrator on 2016/7/26.
+ * 找回密码
  */
-public class FindPasswordActivity extends Activity implements View.OnClickListener{
+public class FindPasswordActivity extends Activity implements View.OnClickListener {
     private ImageView mImgBack;
     private EditText mEdtPhnoenumber;
     private ImageView mImgMessage;
@@ -46,13 +46,15 @@ public class FindPasswordActivity extends Activity implements View.OnClickListen
     private boolean isSend = true;
     private String phonenumber;
     private String code;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_findpwd);
         intoView();
     }
-    private void intoView(){
+
+    private void intoView() {
 
         mImgBack = (ImageView) findViewById(R.id.img_back);
         mImgBack.setOnClickListener(this);
@@ -60,17 +62,17 @@ public class FindPasswordActivity extends Activity implements View.OnClickListen
         mTxtCode = (TextView) findViewById(R.id.txt_code);
         mTxtCode.setOnClickListener(this);
         mEdtCode = (EditText) findViewById(R.id.edt_code);
-        mBtnSubmit= (Button) findViewById(R.id.btn_submit);
+        mBtnSubmit = (Button) findViewById(R.id.btn_submit);
         mBtnSubmit.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-       case  R.id.img_back:
-           finish();
-            break;
+        switch (v.getId()) {
+            case R.id.img_back:
+                finish();
+                break;
             case R.id.txt_code:
                 //获取验证码
                 if (isSend) {
@@ -90,7 +92,7 @@ public class FindPasswordActivity extends Activity implements View.OnClickListen
      * 获得手机验证码
      */
     private void getVerifyCodeAction() {
-        phonenumber =mEdtPhnoenumber .getText().toString();
+        phonenumber = mEdtPhnoenumber.getText().toString();
 
         if (StringUtils.isNullOrEmpty(phonenumber)) {
             Toast.makeText(this, "手机号不能为空", Toast.LENGTH_LONG).show();
@@ -112,10 +114,10 @@ public class FindPasswordActivity extends Activity implements View.OnClickListen
                 if (s != null) {
                     try {
                         JSONObject jsonObject = new JSONObject(s);
-                        int  message = jsonObject.getInt("status");
+                        int message = jsonObject.getInt("status");
 
-                        Log.e("status",message+"");
-                        switch (message){
+                        Log.e("status", message + "");
+                        switch (message) {
                             case Constant.ONE:
                                 Toast.makeText(FindPasswordActivity.this, R.string.strcodewin, Toast.LENGTH_LONG).show();
                                 break;
@@ -125,7 +127,7 @@ public class FindPasswordActivity extends Activity implements View.OnClickListen
                             case Constant.TWO:
                                 Toast.makeText(FindPasswordActivity.this, R.string.strparametersabnormal, Toast.LENGTH_LONG).show();
                                 break;
-                            case  Constant.THREE:
+                            case Constant.THREE:
                                 Toast.makeText(FindPasswordActivity.this, R.string.strnull, Toast.LENGTH_LONG).show();
                                 break;
                             case Constant.FOUR:
@@ -167,40 +169,40 @@ public class FindPasswordActivity extends Activity implements View.OnClickListen
     /**
      * 提交数据
      */
-    private void mSubmit(){
-        code=mEdtCode.getText().toString();
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, RequestUrlsConfig.FINDPASSWORDCHECK_URL, new Response.Listener<String>() {
+    private void mSubmit() {
+        code = mEdtCode.getText().toString();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.FINDPASSWORDCHECK_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-            Log.e("找回密码","成功了"+s);
+                Log.e("找回密码", "成功了" + s);
                 try {
-                    JSONObject jsonObject=new JSONObject(s);
-                   int status=jsonObject.getInt("status");
-                   String message=jsonObject.getString("message");
-                    switch (status){
+                    JSONObject jsonObject = new JSONObject(s);
+                    int status = jsonObject.getInt("status");
+                    String message = jsonObject.getString("message");
+                    switch (status) {
                         case Constant.ONE:
-                            Toast.makeText(FindPasswordActivity.this,message,Toast.LENGTH_LONG).show();
-                            Intent findpwdintern=new Intent(FindPasswordActivity.this,FindPawdEndActivity.class);
-                            findpwdintern.putExtra("phone",phonenumber);
+                            Toast.makeText(FindPasswordActivity.this, message, Toast.LENGTH_LONG).show();
+                            Intent findpwdintern = new Intent(FindPasswordActivity.this, FindPawdEndActivity.class);
+                            findpwdintern.putExtra("phone", phonenumber);
                             startActivity(findpwdintern);
                             break;
                         case Constant.ABNORMAL:
-                            Toast.makeText(FindPasswordActivity.this,message,Toast.LENGTH_LONG).show();
+                            Toast.makeText(FindPasswordActivity.this, message, Toast.LENGTH_LONG).show();
                             break;
                         case Constant.TWO:
-                            Toast.makeText(FindPasswordActivity.this,message,Toast.LENGTH_LONG).show();
+                            Toast.makeText(FindPasswordActivity.this, message, Toast.LENGTH_LONG).show();
                             break;
                         case Constant.THREE:
-                            Toast.makeText(FindPasswordActivity.this,message,Toast.LENGTH_LONG).show();
+                            Toast.makeText(FindPasswordActivity.this, message, Toast.LENGTH_LONG).show();
                             break;
                         case Constant.FOUR:
-                            Toast.makeText(FindPasswordActivity.this,message,Toast.LENGTH_LONG).show();
+                            Toast.makeText(FindPasswordActivity.this, message, Toast.LENGTH_LONG).show();
                             break;
                         case Constant.FIVE:
-                            Toast.makeText(FindPasswordActivity.this,message,Toast.LENGTH_LONG).show();
+                            Toast.makeText(FindPasswordActivity.this, message, Toast.LENGTH_LONG).show();
                             break;
                         case Constant.SIX:
-                            Toast.makeText(FindPasswordActivity.this,message,Toast.LENGTH_LONG).show();
+                            Toast.makeText(FindPasswordActivity.this, message, Toast.LENGTH_LONG).show();
                             break;
                     }
                 } catch (JSONException e) {
@@ -211,14 +213,14 @@ public class FindPasswordActivity extends Activity implements View.OnClickListen
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("找回密码","失败"+volleyError);
+                Log.e("找回密码", "失败" + volleyError);
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
                 map.put("phone", phonenumber);
-                map.put("verifyCode",code);
+                map.put("verifyCode", code);
                 return map;
             }
         };
@@ -240,9 +242,9 @@ public class FindPasswordActivity extends Activity implements View.OnClickListen
             handler.sendMessage(messagetime);
         }
     };
-    Handler handler = new Handler() {
+    MyHandler handler = new MyHandler(this) {
         public void handleMessage(Message msg) {
-            mTxtCode.setText(time + "秒后重发");
+            mTxtCode.setText(String.format(getResources().getString(R.string.seconds),time));
             handler.postDelayed(runnable, 1000);
             if (time <= 0) {
                 handler.removeCallbacks(runnable);
@@ -252,4 +254,21 @@ public class FindPasswordActivity extends Activity implements View.OnClickListen
             }
         }
     };
+
+    static class MyHandler extends Handler {
+        private final WeakReference<Activity> mActivity;
+
+        public MyHandler(Activity activity) {
+            mActivity = new WeakReference<Activity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            Activity activity = mActivity.get();
+            if (activity != null) {
+                // ...
+            }
+        }
+    }
+
 }

@@ -16,12 +16,9 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 import com.huashi.app.Config.Constant;
 import com.huashi.app.R;
 import com.huashi.app.api.RequestUrlsConfig;
@@ -34,6 +31,7 @@ import java.util.Map;
 
 /**
  * Created by Administrator on 2016/5/23.
+ * 登录页面
  */
 public class Login_Activity extends Activity implements OnClickListener {
     private ImageView img_back, img_qq, img_weibo, img_alipay;
@@ -50,7 +48,6 @@ public class Login_Activity extends Activity implements OnClickListener {
     private String account;
     private String password;
     private ProgressDialog dialog;
-
 
 
     /**
@@ -83,12 +80,11 @@ public class Login_Activity extends Activity implements OnClickListener {
         txt_findpassword.setOnClickListener(this);
         btn_login = (Button) findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);
-        dialog=new ProgressDialog(this);
+        dialog = new ProgressDialog(this);
         dialog.setTitle("提示");
         dialog.setMessage("玩命加载中...");
 
     }
-
 
 
     public void intoResource() {
@@ -101,46 +97,46 @@ public class Login_Activity extends Activity implements OnClickListener {
             public void onResponse(String s) {
                 Log.e("login", "请求成功" + s);
                 user = ExampleApplication.getInstance().getGson().fromJson(s, User.class);
-                Log.e("用户id",user.getStatus()+"");
-                if (user.getStatus()==Constant.ONE) {
+                Log.e("用户id", user.getStatus() + "");
+                if (user.getStatus() == Constant.ONE) {
                     utils.clearData();
-                    utils.saveUserinfo(user.getUser().getId()+"");
+                    utils.saveUserinfo(user.getUser().getId() + "");
                     Intent intent = new Intent(Login_Activity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                     dialog.dismiss();
                 }
-                switch (user.getStatus()){
+                switch (user.getStatus()) {
                     case Constant.ONE:
-                        Toast.makeText(Login_Activity.this,user.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(Login_Activity.this, user.getMessage(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                         break;
                     case Constant.ABNORMAL:
-                        Toast.makeText(Login_Activity.this,user.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(Login_Activity.this, user.getMessage(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                         break;
                     case Constant.TWO:
-                        Toast.makeText(Login_Activity.this,user.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(Login_Activity.this, user.getMessage(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                         break;
                     case Constant.THREE:
-                        Toast.makeText(Login_Activity.this,user.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(Login_Activity.this, user.getMessage(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                         break;
                     case Constant.FOUR:
-                        Toast.makeText(Login_Activity.this,user.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(Login_Activity.this, user.getMessage(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                         break;
                     case Constant.FIVE:
-                        Toast.makeText(Login_Activity.this,user.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(Login_Activity.this, user.getMessage(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                         break;
                     case Constant.SIX:
-                        Toast.makeText(Login_Activity.this,user.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(Login_Activity.this, user.getMessage(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                         break;
                     case Constant.SEVEN:
-                        Toast.makeText(Login_Activity.this,user.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(Login_Activity.this, user.getMessage(), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                         break;
 
@@ -171,8 +167,6 @@ public class Login_Activity extends Activity implements OnClickListener {
 
     /**
      * 点击事件
-     *
-     * @param v
      */
     @Override
     public void onClick(View v) {
@@ -189,7 +183,7 @@ public class Login_Activity extends Activity implements OnClickListener {
                 intoResource();
                 break;
             case R.id.txt_findpassword:
-             Intent findpwdintent=new Intent(this,FindPasswordActivity.class);
+                Intent findpwdintent = new Intent(this, FindPasswordActivity.class);
                 startActivity(findpwdintent);
                 break;
         }

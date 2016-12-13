@@ -13,11 +13,11 @@ import android.view.animation.Animation;
 import android.widget.Toast;
 
 import com.huashi.app.R;
-import com.huashi.app.service.HuashiService;
 import com.huashi.app.util.Httputil;
 
 /**
  * Created by Administrator on 2016/5/9.
+ * 欢迎页
  */
 public class WelcomeActivity extends Activity {
     @Override
@@ -43,9 +43,7 @@ public class WelcomeActivity extends Activity {
     private void welcome(){
         final View view= View.inflate(this, R.layout.welcome_activity, null);
         setContentView(view);
-        if(Httputil.isNetworkAvailable(this)){
-//            Toast.makeText(this, "网络通畅", Toast.LENGTH_LONG).show();
-        }else {
+        if(!Httputil.isNetworkAvailable(this)){
             Toast.makeText(this,"网络连接不通畅",Toast.LENGTH_LONG).show();
         }
         //渐变背景图片
@@ -80,7 +78,8 @@ public class WelcomeActivity extends Activity {
     private void  toMainActivity(){
 
         Intent intent=new Intent(this, MainActivity.class);
-        startActivity(intent);
+        this.startActivity(intent);
+        this.overridePendingTransition(R.anim.activity_open,0);
         finish();
     }
     //跳转到引导页

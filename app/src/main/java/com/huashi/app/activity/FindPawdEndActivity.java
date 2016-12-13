@@ -12,11 +12,9 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.huashi.app.Config.Constant;
 import com.huashi.app.R;
 import com.huashi.app.api.RequestUrlsConfig;
@@ -30,6 +28,7 @@ import java.util.Map;
 
 /**
  * Created by Administrator on 2016/7/26.
+ * 重置密码
  */
 public class FindPawdEndActivity extends Activity implements View.OnClickListener {
     private ImageView mImgBack;
@@ -73,7 +72,6 @@ public class FindPawdEndActivity extends Activity implements View.OnClickListene
     private void mSubmit() {
         final String newPassword = mEdtPassword.getText().toString();
         final String oldPassword = mEdtConfirm.getText().toString();
-        mEdtConfirm.getText().toString();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.FINDPASSWORD_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {

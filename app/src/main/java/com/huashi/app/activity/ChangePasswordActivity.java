@@ -29,6 +29,7 @@ import java.util.Map;
 
 /**
  * Created by Administrator on 2016/5/23.
+ * 修改密码页
  */
 public class ChangePasswordActivity extends Activity implements View.OnClickListener {
     private ImageView img_back;
@@ -55,7 +56,7 @@ public class ChangePasswordActivity extends Activity implements View.OnClickList
         edt_newpassword = (EditText) findViewById(R.id.edt_newpassword);
         edt_nowpassword = (EditText) findViewById(R.id.edt_nowpassword);
         edt_verifypassword = (EditText) findViewById(R.id.edt_verifypassword);
-        utils=new Utils(this);
+        utils = new Utils(this);
     }
 
     @Override
@@ -76,25 +77,25 @@ public class ChangePasswordActivity extends Activity implements View.OnClickList
         newPassrord = edt_newpassword.getText().toString();
         oldPassword = edt_nowpassword.getText().toString();
         verifypassword = edt_verifypassword.getText().toString();
-        if (!newPassrord.isEmpty() && !oldPassword.isEmpty() && !verifypassword.isEmpty()){
-            Toast.makeText(ChangePasswordActivity.this,"密码不能为空",Toast.LENGTH_LONG).show();
+        if (!newPassrord.isEmpty() && !oldPassword.isEmpty() && !verifypassword.isEmpty()) {
+            Toast.makeText(ChangePasswordActivity.this, "密码不能为空", Toast.LENGTH_LONG).show();
             return;
         }
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.UPDDTEPASSWORD, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 Log.e("改密码", "post请求成功" + s);
-                if (!s.isEmpty()){
+                if (!s.isEmpty()) {
                     try {
-                        JSONObject jsonObject=new JSONObject(s);
-                        String message=jsonObject.getString("message");
-                        int status=jsonObject.getInt("status");
-                        if (status== Constant.ONE){
+                        JSONObject jsonObject = new JSONObject(s);
+                        String message = jsonObject.getString("message");
+                        int status = jsonObject.getInt("status");
+                        if (status == Constant.ONE) {
                             utils.clearData();
-                            Intent loginintent=new Intent(ChangePasswordActivity.this,Login_Activity.class);
+                            Intent loginintent = new Intent(ChangePasswordActivity.this, Login_Activity.class);
                             startActivity(loginintent);
                         }
-                        Toast.makeText(ChangePasswordActivity.this,message,Toast.LENGTH_LONG).show();
+                        Toast.makeText(ChangePasswordActivity.this, message, Toast.LENGTH_LONG).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -109,14 +110,15 @@ public class ChangePasswordActivity extends Activity implements View.OnClickList
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map=new HashMap<>();
-                map.put("currentPassword",oldPassword);
-                map.put("firstPassword",newPassrord);
-                map.put("secondPassword",verifypassword);
-                map.put("userId",userId);
+                Map<String, String> map = new HashMap<>();
+                map.put("currentPassword", oldPassword);
+                map.put("firstPassword", newPassrord);
+                map.put("secondPassword", verifypassword);
+                map.put("userId", userId);
                 return map;
             }
         };
         ExampleApplication.getInstance().getRequestQueue().add(stringRequest);
     }
+
 }

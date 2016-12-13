@@ -33,4 +33,5 @@ public class Failure_Activity extends Activity {
             }
         });
     }
+
 }

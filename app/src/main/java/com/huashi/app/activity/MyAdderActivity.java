@@ -63,8 +63,9 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
     private Button btnMsgcancel;
     private TextView txt_delete, txt_compile;
     private String addid;
-    private  int addposition;
+    private int addposition;
     private MyDialog mydialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,12 +91,12 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
         lv_adder = (ListView) findViewById(R.id.lv_adder);
         dialog = new ProgressDialog(this);
         dialog.setMessage("数据提交中....");
-        View view = LayoutInflater.from(this).inflate(R.layout.item_adder, null,false);
+        View view = LayoutInflater.from(this).inflate(R.layout.item_adder, null, false);
         txt_delete = (TextView) view.findViewById(R.id.txt_delete);
         txt_delete.setOnClickListener(this);
         txt_compile = (TextView) view.findViewById(R.id.txt_compile);
         txt_compile.setOnClickListener(this);
-       mydialog=new MyDialog(this);
+        mydialog = new MyDialog(this);
         mydialog.setTitle(R.string.pull_to_refresh_footer_refreshing_label);
 
     }
@@ -104,7 +105,7 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
     private void showdelectaddwindow(View v) {
         View widow;
         LayoutInflater inflater = LayoutInflater.from(this);
-        widow = inflater.inflate(R.layout.popwindow_deleteadder, null,false);
+        widow = inflater.inflate(R.layout.popwindow_deleteadder, null, false);
         delectwindow = new PopupWindow(widow, ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT, true);
 
@@ -139,16 +140,16 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
             case R.id.txt_compile:
                 if (tag != null && tag instanceof Integer) {
                     int position = (Integer) tag;
-                    addid=String.valueOf(list.get(position).getId());
+                    addid = String.valueOf(list.get(position).getId());
                     Intent intentadd = new Intent(MyAdderActivity.this, CompileAdderActivity.class);
-                    intentadd.putExtra("addid",addid);
+                    intentadd.putExtra("addid", addid);
                     startActivity(intentadd);
 
                 }
                 break;
             case R.id.txt_delete:
                 if (tag != null && tag instanceof Integer) {
-                   addposition = (Integer) tag;
+                    addposition = (Integer) tag;
                     showdelectaddwindow(txt_delete);
                     addid = String.valueOf(list.get(addposition).getId());
                 }
@@ -157,7 +158,7 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
                 if (tag != null && tag instanceof Integer) {
                     int position = (Integer) tag;
                     id = list.get(position).getId();
-                    Log.e("地址id", id + ""+addposition);
+                    Log.e("地址id", id + "" + addposition);
                     updateStatus = 1;
                     intoData();
                     dialog.dismiss();
@@ -184,7 +185,7 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
             public void onResponse(String s) {
                 if (!s.isEmpty()) {
                     userAddress = ExampleApplication.getInstance().getGson().fromJson(s, UserAddress.class);
-                    if (userAddress.getStatus()==Constant.ONE && !userAddress.getUserAddresses().isEmpty()){
+                    if (userAddress.getStatus() == Constant.ONE && !userAddress.getUserAddresses().isEmpty()) {
                         list = new ArrayList<>();
                         list = userAddress.getUserAddresses();
                         adderAdapter = new AdderAdapter(MyAdderActivity.this, list);
@@ -192,30 +193,30 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
                         adderAdapter.setOnDelete(MyAdderActivity.this);
                         adderAdapter.setOnEdit(MyAdderActivity.this);
                         lv_adder.setAdapter(adderAdapter);
-                        if (mydialog.isShowing()){
+                        if (mydialog.isShowing()) {
                             mydialog.dismiss();
                         }
-                    }else {
-                        if (mydialog.isShowing()){
+                    } else {
+                        if (mydialog.isShowing()) {
                             mydialog.dismiss();
                         }
                         Toast.makeText(MyAdderActivity.this, userAddress.getMessage(), Toast.LENGTH_LONG).show();
                     }
 
-                }else {
-                    if (mydialog.isShowing()){
+                } else {
+                    if (mydialog.isShowing()) {
                         mydialog.dismiss();
                     }
-                    Toast.makeText(MyAdderActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
+                    Toast.makeText(MyAdderActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                if (mydialog.isShowing()){
+                if (mydialog.isShowing()) {
                     mydialog.dismiss();
                 }
-                Toast.makeText(MyAdderActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
+                Toast.makeText(MyAdderActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
@@ -239,21 +240,21 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
             public void onResponse(String s) {
                 Log.e("删除地址成功", s);
                 try {
-                    JSONObject jsonObject=new JSONObject(s);
-                    int status=jsonObject.getInt("status");
-                    String message=jsonObject.getString("message");
-                    if (status== Constant.ONE){
-                        Toast.makeText(MyAdderActivity.this,message,Toast.LENGTH_LONG).show();
+                    JSONObject jsonObject = new JSONObject(s);
+                    int status = jsonObject.getInt("status");
+                    String message = jsonObject.getString("message");
+                    if (status == Constant.ONE) {
+                        Toast.makeText(MyAdderActivity.this, message, Toast.LENGTH_LONG).show();
                         list.remove(addposition);
                         adderAdapter.notifyDataSetChanged();
-                        if (mydialog.isShowing()){
+                        if (mydialog.isShowing()) {
                             mydialog.dismiss();
                         }
 
 
-                    }else {
-                        Toast.makeText(MyAdderActivity.this,message,Toast.LENGTH_LONG).show();
-                        if (mydialog.isShowing()){
+                    } else {
+                        Toast.makeText(MyAdderActivity.this, message, Toast.LENGTH_LONG).show();
+                        if (mydialog.isShowing()) {
                             mydialog.dismiss();
                         }
                     }
@@ -265,7 +266,7 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                if (mydialog.isShowing()){
+                if (mydialog.isShowing()) {
                     mydialog.dismiss();
                 }
             }
@@ -274,7 +275,7 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
                 map.put("id", addid);
-                map.put("userId",userId);
+                map.put("userId", userId);
                 return map;
             }
         };
@@ -286,4 +287,5 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
         super.onResume();
         intoData();
     }
+
 }

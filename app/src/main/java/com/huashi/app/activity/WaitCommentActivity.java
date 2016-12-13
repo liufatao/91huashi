@@ -44,41 +44,43 @@ public class WaitCommentActivity extends Activity implements View.OnClickListene
     private TextView txt_orderhint;
     private List<ToPayOrders.OrderModelsBean> orderModelsBeanList;
     private ProgressDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_waitcomment);
         intoView();
         if (Httputil.isNetworkAvailable(this)) {
-            if (!TextUtils.isEmpty(userId)){
+            if (!TextUtils.isEmpty(userId)) {
                 getPayOrders();
-            }else {
-                Toast.makeText(this,"请先登录",Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "请先登录", Toast.LENGTH_LONG).show();
             }
 
-        }else {
-            Toast.makeText(this,"网络不通畅",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "网络不通畅", Toast.LENGTH_LONG).show();
         }
     }
-    private void intoView(){
+
+    private void intoView() {
         utils = new Utils(this);
         userId = utils.getInfomation();
-        dialog=new ProgressDialog(this);
+        dialog = new ProgressDialog(this);
         dialog.setMessage("数据提交中");
         imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
         lvWaitcomment = (ListView) findViewById(R.id.lv_waitcomment);
-        txt_orderhint= (TextView) findViewById(R.id.txt_orderhint);
+        txt_orderhint = (TextView) findViewById(R.id.txt_orderhint);
 
     }
 
     @Override
     public void onClick(View v) {
         Object tag = v.getTag();
-        switch (v.getId()){
-           case  R.id.img_back:
-               finish();
-               break;
+        switch (v.getId()) {
+            case R.id.img_back:
+                finish();
+                break;
             case R.id.btn_logistics:
                 if (tag != null && tag instanceof Integer) {
                     int position = (Integer) tag;
@@ -99,8 +101,8 @@ public class WaitCommentActivity extends Activity implements View.OnClickListene
                             break;
                         case 8:
                             Toast.makeText(WaitCommentActivity.this, "评价" + position, Toast.LENGTH_LONG).show();
-                            Intent intent=new Intent(WaitCommentActivity.this,CommentFocusActivity.class);
-                            intent.putExtra("orderId",orderModelsBeanList.get(position).getOrderId()+"");
+                            Intent intent = new Intent(WaitCommentActivity.this, CommentFocusActivity.class);
+                            intent.putExtra("orderId", orderModelsBeanList.get(position).getOrderId() + "");
                             startActivity(intent);
                             break;
                         case 9:
@@ -132,8 +134,8 @@ public class WaitCommentActivity extends Activity implements View.OnClickListene
                         case 7:
                             break;
                         case 8:
-                            Intent intent=new Intent(WaitCommentActivity.this,LogisticsDetailActivity.class);
-                            intent.putExtra("orderId",orderModelsBeanList.get(position).getOrderId()+"");
+                            Intent intent = new Intent(WaitCommentActivity.this, LogisticsDetailActivity.class);
+                            intent.putExtra("orderId", orderModelsBeanList.get(position).getOrderId() + "");
                             startActivity(intent);
                             break;
                         case 9:
@@ -185,20 +187,20 @@ public class WaitCommentActivity extends Activity implements View.OnClickListene
                 Log.e("待付款请求成功", s);
                 if (!s.isEmpty()) {
                     toPayOrders = ExampleApplication.getInstance().getGson().fromJson(s, ToPayOrders.class);
-                    if (toPayOrders.getOrderModels().size()>=1) {
+                    if (toPayOrders.getOrderModels().size() >= 1) {
                         orderModelsBeanList = toPayOrders.getOrderModels();
                         payOrdersAdapter = new ToPayOrdersAdapter(WaitCommentActivity.this, orderModelsBeanList);
                         payOrdersAdapter.setBtnone(WaitCommentActivity.this);
                         payOrdersAdapter.setBtntwo(WaitCommentActivity.this);
                         payOrdersAdapter.setBtnthree(WaitCommentActivity.this);
                         lvWaitcomment.setAdapter(payOrdersAdapter);
-                    }else {
+                    } else {
                         txt_orderhint.setVisibility(View.VISIBLE);
                     }
 
 
-                }else {
-                    Toast.makeText(WaitCommentActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG);
+                } else {
+                    Toast.makeText(WaitCommentActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
                     txt_orderhint.setVisibility(View.VISIBLE);
                 }
             }
@@ -206,7 +208,7 @@ public class WaitCommentActivity extends Activity implements View.OnClickListene
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Log.e("待付款请求失败", volleyError.toString());
-                Toast.makeText(WaitCommentActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG);
+                Toast.makeText(WaitCommentActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
                 txt_orderhint.setVisibility(View.VISIBLE);
             }
         }) {
@@ -221,8 +223,8 @@ public class WaitCommentActivity extends Activity implements View.OnClickListene
         lvWaitcomment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(WaitCommentActivity.this,OrderDetailsActivity.class);
-                intent.putExtra("orderId",orderModelsBeanList.get(position).getOrderId()+"");
+                Intent intent = new Intent(WaitCommentActivity.this, OrderDetailsActivity.class);
+                intent.putExtra("orderId", orderModelsBeanList.get(position).getOrderId() + "");
                 startActivity(intent);
             }
         });
@@ -234,4 +236,5 @@ public class WaitCommentActivity extends Activity implements View.OnClickListene
         super.onRestart();
         getPayOrders();
     }
+
 }

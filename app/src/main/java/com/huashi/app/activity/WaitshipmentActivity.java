@@ -13,12 +13,9 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 import com.huashi.app.R;
 import com.huashi.app.adapter.ToPayOrdersAdapter;
 import com.huashi.app.api.RequestUrlsConfig;
@@ -118,7 +115,7 @@ public class WaitshipmentActivity extends Activity implements View.OnClickListen
                 Log.e("待发货请求成功", s);
                 if (!s.isEmpty()) {
                     toPayOrders = ExampleApplication.getInstance().getGson().fromJson(s, ToPayOrders.class);
-                    Log.e("集合大小",toPayOrders.getOrderModels().size()+"");
+                    Log.e("集合大小", toPayOrders.getOrderModels().size() + "");
 
                     if (toPayOrders.getOrderModels().size() >= 1) {
                         orderModelsBeanList = toPayOrders.getOrderModels();
