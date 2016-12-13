@@ -19,7 +19,7 @@
         android:text="@string/pull_to_refresh_footer_refreshing_label"
         android:layout_marginTop="@dimen/fivedp"
         android:layout_below="@id/pb_dialog"
-        android:textColor="@color/colorwite"
+        android:textColor="@color/colorsmoke"
         android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
