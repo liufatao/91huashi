@@ -46,18 +46,7 @@
     <string name="recommendtoyou">为你推荐</string>
     <string name="tobottorm">已经到最底部了</string>
     <string name="confirmname">确定</string>
-    <string name="theconsignee">收件人:</string>
-    <string name="phonename">电话:</string>
-    <string name="address">地址:</string>
-    <string name="orderstatus">订单状态:</string>
-    <string name="orderno">订单编号:</string>
-    <string name="ordertime">下单时间:</string>
-    <string name="deliverytime">发货时间:</string>
-    <string name="logisticscompany">物流公司:</string>
-    <string name="waybillnumber">运单编号:</string>
-    <!--<string name="confirmorder">确认订单</string>-->
-    <!--<string name="leavemessage">买家留言:</string>-->
-    <!--<string name="dealovertitle">交易成功</string>-->
+
     <!--支付-->
     <string name="pay">支付</string>
     <string name="payfailure">支付失败</string>
@@ -127,8 +116,30 @@
     <!--价格-->
     <string name="currentprice">￥%1$s</string>
     <string name="originalprice">原价:￥%1$s</string>
+    <string name="modelsize">x%1$d</string>
+    <string name="allprice">合计:￥%1$s</string>
+    <string name="allnum">共件%1$d商品</string>
+    <string name="weixinprice">￥%1$d</string>
+    
     <!--个人中心-->
     <string name="signature">个性说明:%1$s</string>
+    <string name="seconds">%1$d秒后重发</string>
+    <string name="refundreason">退款原因:%1$s</string>
+    <string name="applicationtime">申请时间:%1$s</string>
+    <string name="delteadder">确定要删除该地址吗？</string>
+    <!--物流-->
+    <string name="theconsignee">收件人:</string>
+    <string name="phonename">电话:</string>
+    <string name="address">地址:</string>
+    <string name="orderstatus">订单状态:</string>
+    <string name="orderno">订单编号:</string>
+    <string name="ordertime">下单时间:</string>
+    <string name="deliverytime">发货时间:</string>
+    <string name="logisticscompany">物流公司:%1$s</string>
+    <string name="waybillnumber">运单编号:%1$d</string>
+    <!--<string name="confirmorder">确认订单</string>-->
+    <!--<string name="leavemessage">买家留言:</string>-->
+    <!--<string name="dealovertitle">交易成功</string>-->
     <!--下拉刷新，上拉加载-->
     <string name="pull_to_refresh_pull_label">下拉刷新</string>
     <string name="pull_to_refresh_release_label">松开后刷新</string>
