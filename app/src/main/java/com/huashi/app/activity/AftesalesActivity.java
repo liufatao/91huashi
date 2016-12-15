@@ -23,6 +23,7 @@ import com.huashi.app.application.ExampleApplication;
 import com.huashi.app.model.ToPayOrders;
 import com.huashi.app.util.Httputil;
 import com.huashi.app.util.Utils;
+import com.huashi.app.view.MyDialog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +42,7 @@ public class AftesalesActivity extends Activity implements View.OnClickListener{
     private String userId;
     private TextView txt_orderhint;
     private List<ToPayOrders.OrderModelsBean> orderModelsBeanList;
+    private MyDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +61,8 @@ public class AftesalesActivity extends Activity implements View.OnClickListener{
         imgBack.setOnClickListener(this);
         lvAftesales = (ListView) findViewById(R.id.lv_aftesales);
         txt_orderhint= (TextView) findViewById(R.id.txt_orderhint);
+        dialog=new MyDialog(this);
+        dialog.setTitle(R.string.pull_to_refresh_footer_refreshing_label);
     }
 
     @Override
@@ -131,6 +135,7 @@ public class AftesalesActivity extends Activity implements View.OnClickListener{
     }
 
     private void getPayOrders() {
+        dialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.QUERYTOPAYORDERS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -143,12 +148,21 @@ public class AftesalesActivity extends Activity implements View.OnClickListener{
                         payOrdersAdapter.setBtntwo(AftesalesActivity.this);
                         payOrdersAdapter.setBtnthree(AftesalesActivity.this);
                         lvAftesales.setAdapter(payOrdersAdapter);
+                        if(dialog.isShowing()){
+                            dialog.dismiss();
+                        }
                     } else {
                         txt_orderhint.setVisibility(View.VISIBLE);
+                        if(dialog.isShowing()){
+                            dialog.dismiss();
+                        }
                     }
 
 
                 }else {
+                    if(dialog.isShowing()){
+                        dialog.dismiss();
+                    }
                     Toast.makeText(AftesalesActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
                     txt_orderhint.setVisibility(View.VISIBLE);
                 }
@@ -156,6 +170,9 @@ public class AftesalesActivity extends Activity implements View.OnClickListener{
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                if(dialog.isShowing()){
+                    dialog.dismiss();
+                }
                 Toast.makeText(AftesalesActivity.this,R.string.strsystemexception,Toast.LENGTH_LONG).show();
                 txt_orderhint.setVisibility(View.VISIBLE);
             }

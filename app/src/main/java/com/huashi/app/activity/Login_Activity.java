@@ -1,11 +1,8 @@
 package com.huashi.app.activity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -25,6 +22,7 @@ import com.huashi.app.api.RequestUrlsConfig;
 import com.huashi.app.application.ExampleApplication;
 import com.huashi.app.model.User;
 import com.huashi.app.util.Utils;
+import com.huashi.app.view.MyDialog;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,32 +36,20 @@ public class Login_Activity extends Activity implements OnClickListener {
     private TextView txt_registered, txt_over, txt_findpassword;
     private Button btn_login;
     private EditText edt_account, edt_password;
-    private String APP_ID = Constant.TencentApp_ID;
-    private String Scope = "all";
-    private String TAG = "Login_Activity";
-    private String nicknameString;
-    private String openidString;
     private Utils utils;
     private User user;
     private String account;
     private String password;
-    private ProgressDialog dialog;
+    private MyDialog dialog;
 
 
-    /**
-     * 注意：SsoHandler 仅当 SDK 支持 SSO 时有效
-     */
-    Bitmap bitmap;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Tencent类是SDK的主要实现类，开发者可通过Tencent类访问腾讯开放的OpenAPI。
-        // 其中APP_ID是分配给第三方应用的appid，类型为String。
         setContentView(R.layout.activity_login);
         utils = new Utils(this);
-
         intoView();
 
     }
@@ -80,9 +66,8 @@ public class Login_Activity extends Activity implements OnClickListener {
         txt_findpassword.setOnClickListener(this);
         btn_login = (Button) findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);
-        dialog = new ProgressDialog(this);
-        dialog.setTitle("提示");
-        dialog.setMessage("玩命加载中...");
+        dialog = new MyDialog(this);
+
 
     }
 
@@ -95,16 +80,16 @@ public class Login_Activity extends Activity implements OnClickListener {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.LOGO_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("login", "请求成功" + s);
                 user = ExampleApplication.getInstance().getGson().fromJson(s, User.class);
-                Log.e("用户id", user.getStatus() + "");
                 if (user.getStatus() == Constant.ONE) {
                     utils.clearData();
                     utils.saveUserinfo(user.getUser().getId() + "");
                     Intent intent = new Intent(Login_Activity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-                    dialog.dismiss();
+                    if (dialog.isShowing()){
+                        dialog.dismiss();
+                    }
                 }
                 switch (user.getStatus()) {
                     case Constant.ONE:
@@ -148,7 +133,9 @@ public class Login_Activity extends Activity implements OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("login", "请求失败" + volleyError);
+                if (dialog.isShowing()){
+                    dialog.dismiss();
+                }
             }
         }) {
             @Override

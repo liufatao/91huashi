@@ -23,6 +23,7 @@ import com.huashi.app.application.ExampleApplication;
 import com.huashi.app.model.ToPayOrders;
 import com.huashi.app.util.Httputil;
 import com.huashi.app.util.Utils;
+import com.huashi.app.view.MyDialog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +42,7 @@ public class WaitshipmentActivity extends Activity implements View.OnClickListen
     private Utils utils;
     private String userId;
     private List<ToPayOrders.OrderModelsBean> orderModelsBeanList;
+    private MyDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,9 @@ public class WaitshipmentActivity extends Activity implements View.OnClickListen
         imgBack.setOnClickListener(this);
         lvWaitshipment = (ListView) findViewById(R.id.lv_waitshipment);
         txt_orderhint = (TextView) findViewById(R.id.txt_orderhint);
+        dialog=new MyDialog(this);
+        dialog.setTitle(R.string.pull_to_refresh_footer_refreshing_label);
+
     }
 
     @Override
@@ -76,10 +81,8 @@ public class WaitshipmentActivity extends Activity implements View.OnClickListen
                     switch (orderModelsBeanList.get(position).getStatus()) {
 
                         case 1:
-//                            Toast.makeText(WaitshipmentActivity.this, "没有奸情" + position, Toast.LENGTH_LONG).show();
                             break;
                         case 2:
-//                            Toast.makeText(WaitshipmentActivity.this, "退款" + position, Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(WaitshipmentActivity.this, Refund_Activity.class);
                             intent.putExtra("allpic", Double.valueOf(orderModelsBeanList.get(position).getTotalCount() + ""));
                             intent.putExtra("orderId", orderModelsBeanList.get(position).getOrderId() + "");
@@ -109,14 +112,12 @@ public class WaitshipmentActivity extends Activity implements View.OnClickListen
     }
 
     private void getPayOrders() {
+        dialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.QUERYTOPAYORDERS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("待发货请求成功", s);
                 if (!s.isEmpty()) {
                     toPayOrders = ExampleApplication.getInstance().getGson().fromJson(s, ToPayOrders.class);
-                    Log.e("集合大小", toPayOrders.getOrderModels().size() + "");
-
                     if (toPayOrders.getOrderModels().size() >= 1) {
                         orderModelsBeanList = toPayOrders.getOrderModels();
                         payOrdersAdapter = new ToPayOrdersAdapter(WaitshipmentActivity.this, orderModelsBeanList);
@@ -124,11 +125,20 @@ public class WaitshipmentActivity extends Activity implements View.OnClickListen
                         payOrdersAdapter.setBtntwo(WaitshipmentActivity.this);
                         payOrdersAdapter.setBtnthree(WaitshipmentActivity.this);
                         lvWaitshipment.setAdapter(payOrdersAdapter);
+                        if (dialog.isShowing()){
+                            dialog.dismiss();
+                        }
                     } else {
                         txt_orderhint.setVisibility(View.VISIBLE);
+                        if (dialog.isShowing()){
+                            dialog.dismiss();
+                        }
                     }
 
                 } else {
+                    if (dialog.isShowing()){
+                        dialog.dismiss();
+                    }
                     Toast.makeText(WaitshipmentActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
                     txt_orderhint.setVisibility(View.VISIBLE);
                 }
@@ -136,7 +146,9 @@ public class WaitshipmentActivity extends Activity implements View.OnClickListen
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("待付款请求失败", volleyError.toString());
+                if (dialog.isShowing()){
+                    dialog.dismiss();
+                }
                 txt_orderhint.setVisibility(View.VISIBLE);
                 Toast.makeText(WaitshipmentActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
             }

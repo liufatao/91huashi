@@ -1,11 +1,9 @@
 package com.huashi.app.activity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -25,6 +23,7 @@ import com.huashi.app.application.ExampleApplication;
 import com.huashi.app.model.ToPayOrders;
 import com.huashi.app.util.Httputil;
 import com.huashi.app.util.Utils;
+import com.huashi.app.view.MyDialog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +42,7 @@ public class WaitCommentActivity extends Activity implements View.OnClickListene
     private String userId;
     private TextView txt_orderhint;
     private List<ToPayOrders.OrderModelsBean> orderModelsBeanList;
-    private ProgressDialog dialog;
+    private MyDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +64,8 @@ public class WaitCommentActivity extends Activity implements View.OnClickListene
     private void intoView() {
         utils = new Utils(this);
         userId = utils.getInfomation();
-        dialog = new ProgressDialog(this);
-        dialog.setMessage("数据提交中");
+        dialog = new MyDialog(this);
+        dialog.setTitle(R.string.pull_to_refresh_footer_refreshing_label);
         imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
         lvWaitcomment = (ListView) findViewById(R.id.lv_waitcomment);
@@ -181,10 +180,10 @@ public class WaitCommentActivity extends Activity implements View.OnClickListene
     }
 
     private void getPayOrders() {
+        dialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.QUERYTOPAYORDERS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("待付款请求成功", s);
                 if (!s.isEmpty()) {
                     toPayOrders = ExampleApplication.getInstance().getGson().fromJson(s, ToPayOrders.class);
                     if (toPayOrders.getOrderModels().size() >= 1) {
@@ -194,12 +193,21 @@ public class WaitCommentActivity extends Activity implements View.OnClickListene
                         payOrdersAdapter.setBtntwo(WaitCommentActivity.this);
                         payOrdersAdapter.setBtnthree(WaitCommentActivity.this);
                         lvWaitcomment.setAdapter(payOrdersAdapter);
+                        if (dialog.isShowing()){
+                            dialog.dismiss();
+                        }
                     } else {
                         txt_orderhint.setVisibility(View.VISIBLE);
+                        if (dialog.isShowing()){
+                            dialog.dismiss();
+                        }
                     }
 
 
                 } else {
+                    if (dialog.isShowing()){
+                        dialog.dismiss();
+                    }
                     Toast.makeText(WaitCommentActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
                     txt_orderhint.setVisibility(View.VISIBLE);
                 }
@@ -207,7 +215,9 @@ public class WaitCommentActivity extends Activity implements View.OnClickListene
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("待付款请求失败", volleyError.toString());
+                if (dialog.isShowing()){
+                    dialog.dismiss();
+                }
                 Toast.makeText(WaitCommentActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
                 txt_orderhint.setVisibility(View.VISIBLE);
             }

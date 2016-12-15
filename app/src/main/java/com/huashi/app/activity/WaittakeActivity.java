@@ -25,6 +25,7 @@ import com.huashi.app.application.ExampleApplication;
 import com.huashi.app.model.ToPayOrders;
 import com.huashi.app.util.Httputil;
 import com.huashi.app.util.Utils;
+import com.huashi.app.view.MyDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,7 +47,7 @@ public class WaittakeActivity extends Activity implements View.OnClickListener {
     private String userId;
     private TextView txt_orderhint;
     private List<ToPayOrders.OrderModelsBean> orderModelsBeanList;
-
+    private MyDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +67,8 @@ public class WaittakeActivity extends Activity implements View.OnClickListener {
         imgBack.setOnClickListener(this);
         lvWaittake = (ListView) findViewById(R.id.lv_waittake);
         txt_orderhint = (TextView) findViewById(R.id.txt_orderhint);
-
+        dialog=new MyDialog(this);
+        dialog.setTitle(R.string.pull_to_refresh_footer_refreshing_label);
     }
 
     @Override
@@ -143,10 +145,10 @@ public class WaittakeActivity extends Activity implements View.OnClickListener {
     }
 
     private void getPayOrders() {
+        dialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.QUERYTOPAYORDERS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("待付款请求成功", s);
                 if (!TextUtils.isEmpty(s)) {
                     toPayOrders = ExampleApplication.getInstance().getGson().fromJson(s, ToPayOrders.class);
                     if (toPayOrders.getOrderModels().size() >= 1) {
@@ -156,21 +158,32 @@ public class WaittakeActivity extends Activity implements View.OnClickListener {
                         payOrdersAdapter.setBtntwo(WaittakeActivity.this);
                         payOrdersAdapter.setBtnthree(WaittakeActivity.this);
                         lvWaittake.setAdapter(payOrdersAdapter);
+                        if (dialog.isShowing()){
+                            dialog.dismiss();
+                        }
                     } else {
                         txt_orderhint.setVisibility(View.VISIBLE);
-
+                        if (dialog.isShowing()){
+                            dialog.dismiss();
+                        }
                     }
 
 
                 } else {
-                    Toast.makeText(WaittakeActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
+                    if (dialog.isShowing()){
+                        dialog.dismiss();
+                    }
                     txt_orderhint.setVisibility(View.VISIBLE);
+                    Toast.makeText(WaittakeActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
+
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("待付款请求失败", volleyError.toString());
+                if (dialog.isShowing()){
+                    dialog.dismiss();
+                }
                 txt_orderhint.setVisibility(View.VISIBLE);
                 Toast.makeText(WaittakeActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
             }

@@ -1,7 +1,6 @@
 package com.huashi.app.activity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -26,6 +25,7 @@ import com.huashi.app.application.ExampleApplication;
 import com.huashi.app.model.ToPayOrders;
 import com.huashi.app.util.Httputil;
 import com.huashi.app.util.Utils;
+import com.huashi.app.view.MyDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +48,7 @@ public class WaitpaymentActivity extends Activity implements View.OnClickListene
     private double totalcount;
     private TextView txt_orderhint;
     private List<ToPayOrders.OrderModelsBean> orderModelsBeanList;
-    private ProgressDialog dialog;
+    private MyDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +68,8 @@ public class WaitpaymentActivity extends Activity implements View.OnClickListene
         imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
         lvWaitpayment = (ListView) findViewById(R.id.lv_waitpayment);
-        dialog = new ProgressDialog(this);
-        dialog.setMessage("数据提交中");
+        dialog = new MyDialog(this);
+        dialog.setTitle(R.string.pull_to_refresh_footer_refreshing_label);
         txt_orderhint = (TextView) findViewById(R.id.txt_orderhint);
 
     }
@@ -190,6 +190,7 @@ public class WaitpaymentActivity extends Activity implements View.OnClickListene
     }
 
     private void getPayOrders() {
+        dialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.QUERYTOPAYORDERS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -202,11 +203,20 @@ public class WaitpaymentActivity extends Activity implements View.OnClickListene
                         payOrdersAdapter.setBtntwo(WaitpaymentActivity.this);
                         payOrdersAdapter.setBtnthree(WaitpaymentActivity.this);
                         lvWaitpayment.setAdapter(payOrdersAdapter);
+                        if (dialog.isShowing()){
+                            dialog.dismiss();
+                        }
                     } else {
                         txt_orderhint.setVisibility(View.VISIBLE);
+                        if (dialog.isShowing()){
+                            dialog.dismiss();
+                        }
                     }
 
                 } else {
+                    if (dialog.isShowing()){
+                        dialog.dismiss();
+                    }
                     Toast.makeText(WaitpaymentActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
                     txt_orderhint.setVisibility(View.VISIBLE);
                 }
@@ -214,6 +224,9 @@ public class WaitpaymentActivity extends Activity implements View.OnClickListene
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                if (dialog.isShowing()){
+                    dialog.dismiss();
+                }
                 Toast.makeText(WaitpaymentActivity.this, R.string.strsystemexception, Toast.LENGTH_LONG).show();
                 txt_orderhint.setVisibility(View.VISIBLE);
             }

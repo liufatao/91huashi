@@ -91,9 +91,6 @@
                 android:textColor="@color/colordarkgrey" />
 
 
-
-
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -177,6 +174,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:orientation="vertical">
+
             <RadioButton
                 android:id="@+id/rb_pay"
                 android:layout_width="wrap_content"
@@ -185,8 +183,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/tendp"
                 android:layout_marginTop="@dimen/thirtydp"
-                android:checked="true"
-                android:button="@drawable/checkbox_selector" />
+                android:button="@drawable/checkbox_selector"
+                android:checked="true" />
 
             <RadioButton
                 android:id="@+id/rb_weixinpay"
@@ -194,8 +192,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="@dimen/thirtydp"
                 android:layout_marginRight="@dimen/tendp"
+                android:layout_marginTop="@dimen/thirtydp"
                 android:button="@drawable/checkbox_selector" />
 
             <RadioButton
@@ -204,24 +202,23 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="@dimen/thirtydp"
                 android:layout_marginRight="@dimen/tendp"
+                android:layout_marginTop="@dimen/thirtydp"
                 android:button="@drawable/checkbox_selector" />
         </RadioGroup>
 
 
-
     </RelativeLayout>
 
-   <Button
-       android:id="@+id/btn_ok"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="@dimen/fortydp"
-       android:layout_marginRight="@dimen/tendp"
-       android:layout_marginLeft="@dimen/tendp"
-       android:textColor="@color/colorwite"
-       android:background="@color/colormainren"
-       android:text="确认支付"/>
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/tendp"
+        android:layout_marginRight="@dimen/tendp"
+        android:layout_marginTop="@dimen/fortydp"
+        android:background="@color/colormainren"
+        android:text="确认支付"
+        android:textColor="@color/colorwite" />
 
 </LinearLayout>
