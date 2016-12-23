@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/colorwite"
     android:orientation="vertical">
-
     <RelativeLayout
         android:id="@+id/ray_mainhand"
         android:layout_width="match_parent"
@@ -34,7 +33,8 @@
         android:visibility="gone"
         android:orientation="vertical">
 
-        <ScrollView
+        <com.huashi.app.view.MyScrollview
+            android:id="@+id/my_scrollview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
@@ -159,7 +159,7 @@
                     android:scrollbars="none"></com.huashi.app.view.HomeGridview>
 
             </RelativeLayout>
-        </ScrollView>
+        </com.huashi.app.view.MyScrollview>
 
 
     </com.huashi.app.view.PullDownScrollview>

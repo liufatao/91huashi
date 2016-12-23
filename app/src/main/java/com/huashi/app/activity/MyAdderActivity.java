@@ -71,12 +71,7 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myadder);
         intoView();
-        if (userId != null) {
-            intoData();
-        } else {
-            Intent intentlogo = new Intent(this, Login_Activity.class);
-            startActivity(intentlogo);
-        }
+
 
     }
 
@@ -98,7 +93,12 @@ public class MyAdderActivity extends Activity implements View.OnClickListener {
         txt_compile.setOnClickListener(this);
         mydialog = new MyDialog(this);
         mydialog.setTitle(R.string.pull_to_refresh_footer_refreshing_label);
-
+        if (userId != null) {
+            intoData();
+        } else {
+            Intent intentlogo = new Intent(this, Login_Activity.class);
+            startActivity(intentlogo);
+        }
     }
 
     //删除地址

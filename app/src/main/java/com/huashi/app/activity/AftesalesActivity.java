@@ -48,11 +48,7 @@ public class AftesalesActivity extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aftesales);
         intoView();
-        if (Httputil.isNetworkAvailable(this)) {
-           getPayOrders();
-        }else {
-            Toast.makeText(this,"网络不通畅",Toast.LENGTH_LONG).show();
-        }
+
     }
     private void intoView(){
         utils = new Utils(this);
@@ -63,6 +59,9 @@ public class AftesalesActivity extends Activity implements View.OnClickListener{
         txt_orderhint= (TextView) findViewById(R.id.txt_orderhint);
         dialog=new MyDialog(this);
         dialog.setTitle(R.string.pull_to_refresh_footer_refreshing_label);
+        if (Httputil.isNetworkAvailable(this) && !TextUtils.isEmpty(userId)) {
+            getPayOrders();
+        }
     }
 
     @Override

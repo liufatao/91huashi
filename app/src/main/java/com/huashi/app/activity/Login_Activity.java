@@ -91,42 +91,14 @@ public class Login_Activity extends Activity implements OnClickListener {
                         dialog.dismiss();
                     }
                 }
-                switch (user.getStatus()) {
-                    case Constant.ONE:
-                        Toast.makeText(Login_Activity.this, user.getMessage(), Toast.LENGTH_LONG).show();
-                        dialog.dismiss();
-                        break;
-                    case Constant.ABNORMAL:
-                        Toast.makeText(Login_Activity.this, user.getMessage(), Toast.LENGTH_LONG).show();
-                        dialog.dismiss();
-                        break;
-                    case Constant.TWO:
-                        Toast.makeText(Login_Activity.this, user.getMessage(), Toast.LENGTH_LONG).show();
-                        dialog.dismiss();
-                        break;
-                    case Constant.THREE:
-                        Toast.makeText(Login_Activity.this, user.getMessage(), Toast.LENGTH_LONG).show();
-                        dialog.dismiss();
-                        break;
-                    case Constant.FOUR:
-                        Toast.makeText(Login_Activity.this, user.getMessage(), Toast.LENGTH_LONG).show();
-                        dialog.dismiss();
-                        break;
-                    case Constant.FIVE:
-                        Toast.makeText(Login_Activity.this, user.getMessage(), Toast.LENGTH_LONG).show();
-                        dialog.dismiss();
-                        break;
-                    case Constant.SIX:
-                        Toast.makeText(Login_Activity.this, user.getMessage(), Toast.LENGTH_LONG).show();
-                        dialog.dismiss();
-                        break;
-                    case Constant.SEVEN:
-                        Toast.makeText(Login_Activity.this, user.getMessage(), Toast.LENGTH_LONG).show();
-                        dialog.dismiss();
-                        break;
-
-
+                if (user.getStatus()==Constant.ONE) {
+                    Toast.makeText(Login_Activity.this, user.getMessage(), Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+                }else {
+                    Toast.makeText(Login_Activity.this, user.getMessage(), Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
                 }
+
 
             }
 

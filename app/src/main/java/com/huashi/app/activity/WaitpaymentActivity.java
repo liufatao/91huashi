@@ -55,11 +55,7 @@ public class WaitpaymentActivity extends Activity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_waitpayment);
         intoView();
-        if (Httputil.isNetworkAvailable(this)) {
-            getPayOrders();
-        } else {
-            Toast.makeText(this, "网络不通畅", Toast.LENGTH_LONG).show();
-        }
+
     }
 
     private void intoView() {
@@ -71,7 +67,10 @@ public class WaitpaymentActivity extends Activity implements View.OnClickListene
         dialog = new MyDialog(this);
         dialog.setTitle(R.string.pull_to_refresh_footer_refreshing_label);
         txt_orderhint = (TextView) findViewById(R.id.txt_orderhint);
+        if (Httputil.isNetworkAvailable(this) && !TextUtils.isEmpty(userId)) {
 
+            getPayOrders();
+        }
     }
 
     @Override

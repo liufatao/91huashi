@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 import com.huashi.app.Config.Constant;
 import com.huashi.app.R;
 import com.huashi.app.api.RequestUrlsConfig;
@@ -282,6 +283,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
     @Override
     protected void onDestroy() {
+        Glide.get(this).clearMemory();
         super.onDestroy();
     }
 
@@ -290,5 +292,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
         super.finish();
         this.overridePendingTransition(R.anim.activity_close,0);
     }
+
 
 }

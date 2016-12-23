@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+
+    >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorblack"
         android:alpha="0.6"
-        android:id="@+id/rl_message"/>
+        android:id="@+id/rl_message"
+        />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,6 +37,7 @@
             android:layout_marginTop="@dimen/thirtydp"
             android:layout_marginBottom="@dimen/fifteendp"
             android:orientation="horizontal">
+
             <Button
                 style="?android:attr/buttonBarStyle"
                 android:id="@+id/btn_msgconfirm"

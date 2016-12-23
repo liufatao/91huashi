@@ -3,7 +3,7 @@ package com.huashi.app.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -49,11 +49,7 @@ public class WaitshipmentActivity extends Activity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_waitshipments);
         intoView();
-        if (Httputil.isNetworkAvailable(this)) {
-            getPayOrders();
-        } else {
-            Toast.makeText(this, "网络不通畅", Toast.LENGTH_LONG).show();
-        }
+
     }
 
     private void intoView() {
@@ -65,7 +61,9 @@ public class WaitshipmentActivity extends Activity implements View.OnClickListen
         txt_orderhint = (TextView) findViewById(R.id.txt_orderhint);
         dialog=new MyDialog(this);
         dialog.setTitle(R.string.pull_to_refresh_footer_refreshing_label);
-
+        if (Httputil.isNetworkAvailable(this) && !TextUtils.isEmpty(userId)) {
+            getPayOrders();
+        }
     }
 
     @Override

@@ -37,6 +37,7 @@ import com.huashi.app.model.IndustryModel;
 import com.huashi.app.model.SmartIndustryModel;
 import com.huashi.app.util.Httputil;
 import com.huashi.app.view.MyDialog;
+import com.huashi.app.view.UnusualDialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,6 +65,7 @@ public class Classify_Fragment extends Fragment {
     private ImageView imgbtn_search;
     private SwipeRefreshLayout swipe_layout;
     private MyDialog dialog;
+    private UnusualDialog unusualDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -98,7 +100,14 @@ public class Classify_Fragment extends Fragment {
         });
         dialog=new MyDialog(activity);
         dialog.setTitle(R.string.pull_to_refresh_footer_refreshing_label);
-
+        unusualDialog=new UnusualDialog(activity, new UnusualDialog.UnusualDialogListener() {
+            @Override
+            public void onClick(View view) {
+                if (list.isEmpty()) {
+                    intoData();
+                }
+            }
+        });
         swipe_layout = (SwipeRefreshLayout) class_view.findViewById(R.id.swipe_layout);
         swipe_layout.setProgressBackgroundColorSchemeResource(android.R.color.white);
         swipe_layout.isRefreshing();
@@ -172,6 +181,9 @@ public class Classify_Fragment extends Fragment {
     }
 
     private void intoData() {
+        if (unusualDialog.isShowing()){
+            unusualDialog.dismiss();
+        }
           dialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.INDUSTRYQUERY, new Response.Listener<String>() {
             @Override
@@ -207,7 +219,7 @@ public class Classify_Fragment extends Fragment {
                     }
 
                 } else {
-                    Toast.makeText(activity, R.string.strsystemexception, Toast.LENGTH_LONG).show();
+                    unusualDialog.show();
                     if (swipe_layout.isRefreshing()) {
                         swipe_layout.setRefreshing(false);
                     }
@@ -217,7 +229,7 @@ public class Classify_Fragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(activity,R.string.strsystemexception,Toast.LENGTH_LONG).show();
+                unusualDialog.show();
                 if (swipe_layout.isRefreshing()) {
                     swipe_layout.setRefreshing(false);
                 }
@@ -234,6 +246,7 @@ public class Classify_Fragment extends Fragment {
     }
 
     private void setData(final int id) {
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RequestUrlsConfig.INDUSTRYCIASAIYQUERY, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -248,7 +261,9 @@ public class Classify_Fragment extends Fragment {
                     }
                     commodityAdapater = new ClassCommodityAdapater(activity, smartIndustryModelList);
                     gv_classitem.setAdapter(commodityAdapater);
-
+                    if (dialog.isShowing()){
+                        dialog.dismiss();
+                    }
                     //判断集合大小是否为空，是否显示提示
                     if (smartIndustryModel.getSmartIndustrys().isEmpty()) {
                         txt_load.setVisibility(VISIBLE);
@@ -264,6 +279,7 @@ public class Classify_Fragment extends Fragment {
                         }
                     });
                 } else {
+
                     Toast.makeText(activity, R.string.strsystemexception, Toast.LENGTH_LONG).show();
                 }
             }
@@ -283,6 +299,5 @@ public class Classify_Fragment extends Fragment {
         };
         ExampleApplication.getInstance().getRequestQueue().add(stringRequest);
     }
-
 
 }
