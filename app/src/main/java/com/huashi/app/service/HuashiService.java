@@ -2,10 +2,10 @@ package com.huashi.app.service;
 
 import android.app.Service;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
+
+import cn.jpush.android.service.PushService;
 
 
 /**
@@ -26,19 +26,19 @@ public class HuashiService extends Service {
         MessageThread thread = new MessageThread();
         thread.isRunning = true;
         thread.start();
-        return START_STICKY_COMPATIBILITY;
+        return START_STICKY;
     }
 
     @Override
     public void onStart(Intent intent, int startId) {
         // 再次动态注册广播
-
-        IntentFilter localIntentFilter = new IntentFilter("android.intent.action.USER_PRESENT");
-        localIntentFilter.setPriority(Integer.MAX_VALUE);// 整形最大值
-        MyService searchReceiver = new MyService();
-        registerReceiver(searchReceiver, localIntentFilter);
-        Intent intents = new  Intent();
-        sendBroadcast(intent);
+        this.startService(new Intent(this, PushService.class));
+//        IntentFilter localIntentFilter = new IntentFilter("android.intent.action.USER_PRESENT");
+//        localIntentFilter.setPriority(Integer.MAX_VALUE);// 整形最大值
+//        MyService searchReceiver = new MyService();
+//        registerReceiver(searchReceiver, localIntentFilter);
+//        Intent intents = new  Intent();
+//        sendBroadcast(intent);
         super.onStart(intent, startId);
     }
 
@@ -47,6 +47,9 @@ public class HuashiService extends Service {
         Intent localIntent = new Intent();
         localIntent.setClass(this, HuashiService.class); // 销毁时重新启动Service
         this.startService(localIntent);
+        Intent intent = new Intent("com.huashi.app.service.HuashiBroadcastReceiver");
+        sendBroadcast(intent);
+        stopForeground(true);
         super.onDestroy();
 
     }
@@ -67,7 +70,7 @@ public class HuashiService extends Service {
                     Thread.sleep(1000);
                     if(getServerMessage().equals("yes")){
                         //设置消息内容和标题
-                        Log.e("花市服务","执行了"+messageNotificationID);
+//                        Log.e("花市服务","执行了"+messageNotificationID);
 
                     }
                 } catch (Exception e) {

@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import java.util.Iterator;
 
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.service.PushService;
 
 /**
  * Created by Administrator on 2016/11/30 0030.
@@ -24,7 +25,7 @@ public class MyService extends BroadcastReceiver {
     private static final String TAG="广播通知";
     @Override
     public void onReceive(Context context, Intent intent) {
-        context.startService(new Intent(context, HuashiService.class));
+
         Log.e(TAG,"广播被执行了");
         Bundle bundle = intent.getExtras();
         Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));

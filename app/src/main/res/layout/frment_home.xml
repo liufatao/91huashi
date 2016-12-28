@@ -4,22 +4,22 @@
     android:layout_height="match_parent"
     android:background="@color/colorwite"
     android:orientation="vertical">
+
     <RelativeLayout
         android:id="@+id/ray_mainhand"
         android:layout_width="match_parent"
         android:layout_height="@dimen/fiftydp"
-        android:background="@color/colormainren"
-        >
+        android:background="@color/colormainren">
 
 
         <ImageView
             android:id="@+id/imgbtn_search"
             android:layout_width="match_parent"
             android:layout_height="@dimen/fortydp"
-            android:contentDescription="搜索框图标"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/tendp"
             android:layout_marginRight="@dimen/tendp"
+            android:contentDescription="搜索框图标"
             android:src="@mipmap/class_search" />
 
     </RelativeLayout>
@@ -30,7 +30,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/ray_mainhand"
-        android:visibility="gone"
         android:orientation="vertical">
 
         <com.huashi.app.view.MyScrollview
@@ -50,9 +49,10 @@
                     android:id="@+id/sidview"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    >
+                    android:background="@mipmap/load">
 
                 </com.huashi.app.view.SlideShowView>
+
                 <LinearLayout
                     android:id="@+id/ly_recomend"
                     android:layout_width="match_parent"
@@ -60,23 +60,24 @@
                     android:layout_below="@id/sidview"
                     android:background="@color/colorgray"
                     android:orientation="vertical">
-                <ImageView
-                    android:id="@+id/img_imgrecomend"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/fivedp"
-                    android:contentDescription="推荐商品图标"
-                    android:src="@mipmap/ico_recomend" />
+
+                    <ImageView
+                        android:id="@+id/img_imgrecomend"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:contentDescription="推荐商品图标"
+                        android:padding="@dimen/fivedp"
+                        android:src="@mipmap/ico_recomend" />
                 </LinearLayout>
-          <android.support.v7.widget.RecyclerView
-              android:layout_below="@id/ly_recomend"
-              android:layout_width="match_parent"
-              android:id="@+id/hzl_recomend"
-              android:layout_height="130dp">
 
-          </android.support.v7.widget.RecyclerView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/hzl_recomend"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_below="@id/ly_recomend">
 
+                </android.support.v7.widget.RecyclerView>
 
 
                 <LinearLayout
@@ -96,12 +97,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:padding="@dimen/fivedp"
                             android:contentDescription="我的宝贝模块图标"
+                            android:padding="@dimen/fivedp"
                             android:src="@mipmap/ico_heart" />
                     </LinearLayout>
 
-                    <include  layout="@layout/cargo__include"></include>
+                    <include layout="@layout/cargo__include"></include>
                 </LinearLayout>
 
 
@@ -122,8 +123,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:padding="@dimen/fivedp"
                             android:contentDescription="集团采购模块"
+                            android:padding="@dimen/fivedp"
                             android:src="@mipmap/ico_purchase" />
                     </LinearLayout>
 
@@ -142,11 +143,10 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                       android:layout_gravity="center_horizontal"
+                        android:layout_gravity="center_horizontal"
                         android:contentDescription="猜你喜欢模块图标"
                         android:padding="@dimen/fivedp"
-                        android:src="@mipmap/ico_like"
-                        />
+                        android:src="@mipmap/ico_like" />
                 </LinearLayout>
 
 

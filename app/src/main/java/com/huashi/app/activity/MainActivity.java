@@ -3,6 +3,7 @@ package com.huashi.app.activity;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,6 +27,7 @@ import com.huashi.app.fragment.Frament_Shopcar;
 import com.huashi.app.fragment.Home_Fragment;
 import com.huashi.app.fragment.Personage_Fragment;
 import com.huashi.app.model.AndroidAppModel;
+import com.huashi.app.service.HuashiService;
 import com.huashi.app.util.UpdateChecker;
 import com.huashi.app.util.Utils;
 import com.huashi.app.view.DragPointView;
@@ -283,6 +285,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
     @Override
     protected void onDestroy() {
+        Intent localIntent = new Intent();
+        localIntent.setClass(this, HuashiService.class);
         Glide.get(this).clearMemory();
         super.onDestroy();
     }

@@ -223,7 +223,9 @@ public class Classify_Fragment extends Fragment {
                     if (swipe_layout.isRefreshing()) {
                         swipe_layout.setRefreshing(false);
                     }
-                    dialog.dismiss();
+                    if (dialog.isShowing()){
+                        dialog.dismiss();
+                    }
                 }
             }
         }, new Response.ErrorListener() {
@@ -233,7 +235,10 @@ public class Classify_Fragment extends Fragment {
                 if (swipe_layout.isRefreshing()) {
                     swipe_layout.setRefreshing(false);
                 }
-                dialog.dismiss();
+
+                if (dialog.isShowing()){
+                    dialog.dismiss();
+                }
             }
         }) {
             @Override

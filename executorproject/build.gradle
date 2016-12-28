@@ -1,56 +1,20 @@
 buildscript {
     repositories {
         mavenCentral()
-        flatDir {
-            dirs 'libs'
-        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
     }
 }
-
-apply plugin: 'com.android.application'
-repositories {
-	mavenCentral()
-    flatDir {
-        dirs 'libs'
-    }
-}
-
-dependencies {
-    androidTestCompile fileTree(dir: 'libs', include: '*.jar')
-    androidTestCompile(name:'ExecutorLibrary', ext:'aar')
-}
+apply plugin: 'android'
 
 android {
     compileSdkVersion 'android-15'
-    buildToolsVersion '20'
+    buildToolsVersion '24.0.3'
 
-    signingConfigs {
-       debug {
-            storeFile file("E:\\91huashi\\app\\src\\main\\debug.keystore")
-       }
-    }
-    android {
-        defaultConfig {
-            minSdkVersion 15
-        }
-
-        lintOptions {
-            abortOnError false
-        }
-        sourceSets
-                {
-                    androidTest
-                            {
-                                res.srcDirs = ['res']
-                                assets.srcDirs = ['assets']
-                            }
-                }
-    }
     buildTypes {
         release {
+            runProguard false
             proguardFile getDefaultProguardFile('proguard-android.txt')
         }
     }

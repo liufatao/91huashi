@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorwite"
-    android:orientation="vertical">
+    android:background="@color/colorwite">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/onedp"
-        android:layout_marginRight="@dimen/onedp"
-        android:layout_marginTop="@dimen/onedp"
-        android:layout_gravity="center"
-        android:background="@color/colorwite">
+
 
         <ImageView
             android:id="@+id/img_classitem"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="@dimen/fivedp"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_marginLeft="@dimen/onedp"
+            android:layout_marginRight="@dimen/onedp"
+            android:layout_marginTop="@dimen/onedp"
             android:layout_centerHorizontal="true"
             />
 
@@ -28,10 +22,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/img_classitem"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/fivedp"
+            android:layout_marginTop="@dimen/onedp"
             android:ellipsize="end"
             android:maxLength="10"
             android:maxLines="1"
             android:textSize="@dimen/twelve" />
-    </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

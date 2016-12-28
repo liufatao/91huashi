@@ -4,10 +4,13 @@
     android:versionCode="1"
     android:versionName="1.10">
 
-    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="21" />
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="21" />
     <permission
         android:name="com.huashi.app.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -20,7 +23,8 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="org.simalliance.openmobileapi.SMARTCARD" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-feature android:name="android.hardware.nfc.hce"/>
+
+    <uses-feature android:name="android.hardware.nfc.hce" />
     <!-- Required  一些系统要求的权限，如访问网络等-->
     <uses-permission android:name="com.huashi.app.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
@@ -44,14 +48,16 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
+        android:name=".application.ExampleApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:persistent="true"
         android:label="@string/app_name"
+        android:persistent="true"
         android:supportsRtl="true"
-        android:name=".application.ExampleApplication"
         android:theme="@style/AppTheme">
-        <uses-library android:name="org.simalliance.openmobileapi" android:required="false"/>
+        <uses-library
+            android:name="org.simalliance.openmobileapi"
+            android:required="false" />
         <activity
             android:name=".activity.WelcomeActivity"
             android:screenOrientation="portrait">
@@ -66,9 +72,9 @@
             </intent-filter>
 
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="wx94fafab682f0fe08"/>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="wx94fafab682f0fe08" />
             </intent-filter>
         </activity>
         <!-- 版本更新注册广播 -->
@@ -79,6 +85,7 @@
         </receiver>
         <!-- 安装注册 -->
         <service android:name=".service.InstallationService" />
+
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
@@ -93,22 +100,20 @@
         <activity
             android:name=".weixinpay.WXPayEntryActivity"
             android:exported="true"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop" />
 
 
         <!--银联相关-->
         <activity
             android:name="com.unionpay.uppay.PayActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
 
         <activity
             android:name="com.unionpay.UPPayWapActivity"
             android:configChanges="orientation|keyboardHidden|fontScale"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" >
-        </activity>
+            android:windowSoftInputMode="adjustResize"></activity>
         <!-- 引导页 -->
         <activity
             android:name=".activity.GuideActivity"
@@ -282,25 +287,26 @@
             android:name=".activity.EvaluateActivity"
             android:screenOrientation="portrait" />
         <!--物流详情-->
-        <activity android:name=".activity.LogisticsDetailActivity"
+        <activity
+            android:name=".activity.LogisticsDetailActivity"
             android:screenOrientation="portrait"></activity>
 
 
         <!-- Rich push 核心功能 since 2.0.6极光推送部分-->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
-            android:theme="@style/MyDialogStyle"
-            android:exported="false">
-        </activity>
+            android:exported="false"
+            android:theme="@style/MyDialogStyle"></activity>
 
         <!-- Required SDK核心功能-->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.huashi.app" />
             </intent-filter>
@@ -309,8 +315,7 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
 
 
         <!-- Required SDK 核心功能-->
@@ -357,26 +362,32 @@
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
 
         </receiver>
 
         <!-- Required SDK核心功能-->
-        <receiver android:name="cn.jpush.android.service.AlarmReceiver" android:exported="false"/>
-        <service android:name=".service.HuashiService"
-              android:process=":message">
-            <intent-filter android:priority = "1000">
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.USER_PRESENT"/>
+        <receiver
+            android:name="cn.jpush.android.service.AlarmReceiver"
+            android:exported="false" />
+        <service
+            android:name=".service.HuashiService"
+            android:process=":push">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.PACKAGE_RESTARTED" />
+
             </intent-filter>
         </service>
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <receiver
             android:name=".service.MyService"
-            android:exported="false"
-            android:enabled="true">
-            <intent-filter  android:priority="1000">
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter android:priority="1000">
                 <action android:name="android.media.RINGER_MODE_CHANGED" />
                 <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
@@ -389,9 +400,22 @@
         </receiver>
 
         <!-- Required  . Enable it you can get statistics data with channel -->
-        <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
-        <meta-data android:name="JPUSH_APPKEY" android:value="d2c2d3130cd2b1449c966287" /> <!--  </>值来自开发者平台取得的AppKey-->
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default" />
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="d2c2d3130cd2b1449c966287" /> <!--  </>值来自开发者平台取得的AppKey-->
+        <receiver
+            android:name=".service.HuashiBroadcastReceiver"
+            android:process=":push">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.PACKAGE_RESTARTED" />
 
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -44,7 +44,7 @@ public class WelcomeActivity extends Activity {
         final View view= View.inflate(this, R.layout.welcome_activity, null);
         setContentView(view);
         if(!Httputil.isNetworkAvailable(this)){
-            Toast.makeText(this,"网络连接不通畅",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,R.string.networkexception,Toast.LENGTH_LONG).show();
         }
         //渐变背景图片
         AlphaAnimation animation=new AlphaAnimation(0.3f,1f);
