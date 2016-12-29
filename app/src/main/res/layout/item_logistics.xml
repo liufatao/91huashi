@@ -1,27 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/img_lable"
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/tendp"
-        />
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/tendp">
+        <View
+            android:layout_width="3dp"
+            android:layout_height="20dp"
+            android:background="#CBCBCB" />
+        <ImageView
+            android:id="@+id/img_lable"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/time_cycle"
+            />
+        <View
+            android:layout_width="3dp"
+            android:layout_height="40dp"
+            android:background="#CBCBCB" />
+    </LinearLayout>
+
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/tendp"
+    android:orientation="vertical"
+    >
     <TextView
         android:id="@+id/txt_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/tendp"
-        android:layout_toRightOf="@id/img_lable"
         android:text="【到件】快件到达【重庆江北公司】,上一站是【】,扫描员是【重庆江北公司1】"/>
     <TextView
         android:id="@+id/txt_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txt_name"
         android:layout_marginTop="@dimen/tendp"
-        android:layout_toRightOf="@id/img_lable"
         android:text="2016-08-13 05:31:19"/>
 
-</RelativeLayout>
+</LinearLayout>
+
+
+
+</LinearLayout>

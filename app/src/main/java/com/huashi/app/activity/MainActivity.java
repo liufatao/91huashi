@@ -6,7 +6,6 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -129,7 +128,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-            Log.e("查询购物车数据失败"+userId,volleyError.toString());
                 dp_shop.setVisibility(View.GONE);
             }
         }){

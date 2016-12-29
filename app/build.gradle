@@ -13,18 +13,14 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             //Zipalign优化
-            zipAlignEnabled true
+           // zipAlignEnabled true
             // 移除无用的resource文件
-            shrinkResources true
+           // shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            //签名
-//            signingConfig signingConfigs.release
         }
-        debug {
-            minifyEnabled true
-        }
+
     }
 
     android {
@@ -42,8 +38,23 @@ android {
 android {
     useLibrary 'org.apache.http.legacy'
 }
+
+android{
+    productFlavors {
+        yingyongbao {}
+        xiaomi {}
+        qh360 {}
+        baidu {}
+        wandoujia {}
+    }
+
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+}
+
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.android.support:recyclerview-v7:23.0.1'

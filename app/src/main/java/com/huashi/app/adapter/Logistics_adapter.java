@@ -57,6 +57,7 @@ public class Logistics_adapter extends BaseAdapter {
         if (position==0){
             viewHolder.txtName.setTextColor(ContextCompat.getColor(context,R.color.colormainren));
             viewHolder.txtTime.setTextColor(ContextCompat.getColor(context,R.color.colormainren));
+            viewHolder.imgLable.setBackgroundResource(R.drawable.time_cycle_red);
         }
         viewHolder.txtName.setText(list.get(position).getAcceptstation());
         viewHolder.txtTime.setText(list.get(position).getAccepttime());

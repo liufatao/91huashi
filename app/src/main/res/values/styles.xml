@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colormainren</item>
-        <item name="colorAccent">@color/colorsmoke</item>
+        <item name="colorPrimary">@color/colorPrimary</item>//标题栏颜色
+        <item name="colorPrimaryDark">@color/colormainren</item>//状态栏颜色
+        <item name="colorAccent">@color/colorsmoke</item>//diog风格
     </style>
     <!-- 自定义仿IOS的AlertDialog的样式 -->
     <style name="AlertDialogStyle" parent="@android:style/Theme.Dialog">

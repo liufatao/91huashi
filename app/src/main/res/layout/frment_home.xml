@@ -25,19 +25,17 @@
     </RelativeLayout>
 
 
-    <com.huashi.app.view.PullDownScrollview
+    <com.huashi.app.view.PullToRefreshView
         android:id="@+id/refresh_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/ray_mainhand"
         android:orientation="vertical">
-
         <com.huashi.app.view.MyScrollview
             android:id="@+id/my_scrollview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
-
             >
 
 
@@ -162,6 +160,6 @@
         </com.huashi.app.view.MyScrollview>
 
 
-    </com.huashi.app.view.PullDownScrollview>
+    </com.huashi.app.view.PullToRefreshView>
 
 </RelativeLayout>

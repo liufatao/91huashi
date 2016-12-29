@@ -24,7 +24,6 @@ public class WelcomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         //透明状态栏
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getWindow();
@@ -33,10 +32,10 @@ public class WelcomeActivity extends Activity {
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-        //透明状态栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        //透明导航栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+//        //透明状态栏
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        //透明导航栏
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         firstRun();
     }
     //欢迎页面
@@ -48,7 +47,7 @@ public class WelcomeActivity extends Activity {
         }
         //渐变背景图片
         AlphaAnimation animation=new AlphaAnimation(0.3f,1f);
-        animation.setDuration(2000);//设置持续时间
+        animation.setDuration(1000);//设置持续时间
         view.startAnimation(animation);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override

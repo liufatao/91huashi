@@ -1,17 +1,13 @@
 package com.huashi.app.view;
 
-import java.util.Date;
-
-
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +16,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.huashi.app.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class PullToRefreshView extends LinearLayout {
 	private static final String TAG = "PullToRefreshView";
@@ -32,6 +31,7 @@ public class PullToRefreshView extends LinearLayout {
 	private static final int PULL_DOWN_STATE = 1;
 	private boolean enablePullTorefresh = true;
 	private boolean enablePullLoadMoreDataStatus = true;
+	private SimpleDateFormat dateFormat;
 	/**
 	 * last y
 	 */
@@ -88,10 +88,7 @@ public class PullToRefreshView extends LinearLayout {
 	 * footer refresh time
 	 */
 	// private TextView mFooterUpdateTextView;
-	/**
-	 * header progress bar
-	 */
-	private ProgressBar mHeaderProgressBar;
+
 	/**
 	 * footer progress bar
 	 */
@@ -113,13 +110,9 @@ public class PullToRefreshView extends LinearLayout {
 	 */
 	private int mPullState;
 	/**
-	 * 变为向下的箭头,改变箭头方向
+	 * 播放图片动画
 	 */
-	private RotateAnimation mFlipAnimation;
-	/**
-	 * 变为逆向的箭头,旋转
-	 */
-	private RotateAnimation mReverseFlipAnimation;
+	private AnimationDrawable mAnimation;
 	/**
 	 * footer refresh listener
 	 */
@@ -152,19 +145,10 @@ public class PullToRefreshView extends LinearLayout {
 	 *
 	 */
 	private void init() {
-		// Load all of the animations we need in code rather than through XML
-		mFlipAnimation = new RotateAnimation(0, -180, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-		mFlipAnimation.setInterpolator(new LinearInterpolator());
-		mFlipAnimation.setDuration(250);
-		mFlipAnimation.setFillAfter(true);
-		mReverseFlipAnimation = new RotateAnimation(-180, 0, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-		mReverseFlipAnimation.setInterpolator(new LinearInterpolator());
-		mReverseFlipAnimation.setDuration(250);
-		mReverseFlipAnimation.setFillAfter(true);
-
 		mInflater = LayoutInflater.from(getContext());
 		// header view 在此添加,保证是第一个添加到linearlayout的最上端
 		addHeaderView();
+		dateFormat = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss", Locale.getDefault());
 	}
 
 	private void addHeaderView() {
@@ -174,7 +158,6 @@ public class PullToRefreshView extends LinearLayout {
 		mHeaderImageView = (ImageView) mHeaderView.findViewById(R.id.pull_to_refresh_image);
 		mHeaderTextView = (TextView) mHeaderView.findViewById(R.id.pull_to_refresh_text);
 		mHeaderUpdateTextView = (TextView) mHeaderView.findViewById(R.id.pull_to_refresh_updated_at);
-		mHeaderProgressBar = (ProgressBar) mHeaderView.findViewById(R.id.pull_to_refresh_progress);
 		// header layout
 		measureView(mHeaderView);
 		mHeaderViewHeight = mHeaderView.getMeasuredHeight();
@@ -412,11 +395,9 @@ public class PullToRefreshView extends LinearLayout {
 			mHeaderTextView.setText(R.string.pull_to_refresh_release_label);
 			mHeaderUpdateTextView.setVisibility(View.VISIBLE);
 			mHeaderImageView.clearAnimation();
-			mHeaderImageView.startAnimation(mFlipAnimation);
 			mHeaderState = RELEASE_TO_REFRESH;
 		} else if (newTopMargin < 0 && newTopMargin > -mHeaderViewHeight) {// 拖动时没有释放
 			mHeaderImageView.clearAnimation();
-			mHeaderImageView.startAnimation(mFlipAnimation);
 			// mHeaderImageView.
 			mHeaderTextView.setText(R.string.pull_to_refresh_pull_label);
 			mHeaderState = PULL_TO_REFRESH;
@@ -437,11 +418,9 @@ public class PullToRefreshView extends LinearLayout {
 		if (Math.abs(newTopMargin) >= (mHeaderViewHeight + mFooterViewHeight) && mFooterState != RELEASE_TO_REFRESH) {
 			mFooterTextView.setText(R.string.pull_to_refresh_footer_release_label);
 			mFooterImageView.clearAnimation();
-			mFooterImageView.startAnimation(mFlipAnimation);
 			mFooterState = RELEASE_TO_REFRESH;
 		} else if (Math.abs(newTopMargin) < (mHeaderViewHeight + mFooterViewHeight)) {
 			mFooterImageView.clearAnimation();
-			mFooterImageView.startAnimation(mFlipAnimation);
 			mFooterTextView.setText(R.string.pull_to_refresh_footer_pull_label);
 			mFooterState = PULL_TO_REFRESH;
 		}
@@ -480,16 +459,28 @@ public class PullToRefreshView extends LinearLayout {
 	public void headerRefreshing() {
 		mHeaderState = REFRESHING;
 		setHeaderTopMargin(0);
-		mHeaderImageView.setVisibility(View.GONE);
-		mHeaderImageView.clearAnimation();
-		mHeaderImageView.setImageDrawable(null);
-		mHeaderProgressBar.setVisibility(View.VISIBLE);
 		mHeaderTextView.setText(R.string.pull_to_refresh_refreshing_label);
 		if (mOnHeaderRefreshListener != null) {
 			mOnHeaderRefreshListener.onHeaderRefresh(this);
 		}
+		headerData();
 	}
+	/**
+	 * 头部帧动画
+	 */
+	private void headerData() {
 
+		// 通过ImageView对象拿到背景显示的AnimationDrawable
+		mAnimation = (AnimationDrawable) mHeaderImageView.getBackground();
+		// 为了防止在onCreate方法中只显示第一帧的解决方案之一
+		mHeaderImageView.post(new Runnable() {
+			@Override
+			public void run() {
+				mAnimation.start();
+			}
+		});
+
+	}
 	/**
 	 * footer refreshing
 	 * 
@@ -532,11 +523,11 @@ public class PullToRefreshView extends LinearLayout {
 	public void onHeaderRefreshComplete() {
 		setHeaderTopMargin(-mHeaderViewHeight);
 		mHeaderImageView.setVisibility(View.VISIBLE);
-		mHeaderImageView.setImageResource(R.mipmap.ic_pulltorefresh_arrow);
 		mHeaderTextView.setText(R.string.pull_to_refresh_pull_label);
-		mHeaderProgressBar.setVisibility(View.GONE);
 		mHeaderState = PULL_TO_REFRESH;
-		setLastUpdated("最近更新:" + new Date().toLocaleString());
+		long time = System.currentTimeMillis();
+		final String date = dateFormat.format(time);
+		setLastUpdated("最近更新:" +date);
 	}
 
 	/**
@@ -556,7 +547,6 @@ public class PullToRefreshView extends LinearLayout {
 	public void onFooterRefreshComplete() {
 		setHeaderTopMargin(-mHeaderViewHeight);
 		mFooterImageView.setVisibility(View.VISIBLE);
-		mFooterImageView.setImageResource(R.mipmap.ic_pulltorefresh_arrow_up);
 		mFooterTextView.setText(R.string.pull_to_refresh_footer_pull_label);
 		mFooterProgressBar.setVisibility(View.GONE);
 		// mHeaderUpdateTextView.setText("");
@@ -574,7 +564,6 @@ public class PullToRefreshView extends LinearLayout {
 		}
 		setHeaderTopMargin(-mHeaderViewHeight);
 		mFooterImageView.setVisibility(View.VISIBLE);
-		mFooterImageView.setImageResource(R.mipmap.ic_pulltorefresh_arrow_up);
 		mFooterTextView.setText(R.string.pull_to_refresh_footer_pull_label);
 		mFooterProgressBar.setVisibility(View.GONE);
 		// mHeaderUpdateTextView.setText("");

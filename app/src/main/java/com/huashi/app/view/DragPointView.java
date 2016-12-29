@@ -30,6 +30,10 @@ import android.widget.TextView;
 
 //com.example.gragredpointdemo.lib.DragPointView
 
+/***
+ * 小红点
+ */
+
 public class DragPointView extends TextView {
 	private boolean initBgFlag;
 	private OnDragListencer dragListencer;
